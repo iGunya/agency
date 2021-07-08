@@ -54,7 +54,7 @@
                 <!-- Контент -->
                 <div class="row">
                     <form th:action="@{/managers/objects/add}"
-                          th:object="${obgect}" method="post">
+                          th:object="${obgect}" method="post" enctype="multipart/form-data">
                         <table class="table table-hover">
                             <thead>
                             <tr>
@@ -127,6 +127,15 @@
                                             <option th:each="tm : ${typeMove}" th:value="${tm.typeMove}" th:text="${tm.typeMove}">
                                             </option>
                                         </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><p>Добавить фото</p></td>
+                                <td>
+                                    <div class="mb-3">
+                                        <label class="form-label">Добавить фото</label>
+                                        <input class="form-control" type="file" name="fileName" multiple>
                                     </div>
                                 </td>
                             </tr>

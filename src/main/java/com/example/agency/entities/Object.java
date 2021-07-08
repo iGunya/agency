@@ -4,6 +4,7 @@ import com.example.agency.dto.InputObjectDto;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -34,6 +35,9 @@ public class Object {
     @ManyToOne
     @JoinColumn(name="id_type_move")
     private TypeMove typeMove;
+
+    @OneToMany(mappedBy = "objects",fetch= FetchType.LAZY)
+    private List<Photo> photos;
 
     private Integer idContract;
 

@@ -2,6 +2,7 @@ package com.example.agency.services;
 
 import com.example.agency.dto.InputObjectDto;
 import com.example.agency.entities.Object;
+import com.example.agency.entities.Photo;
 import com.example.agency.entities.TypeMove;
 import com.example.agency.entities.TypeObject;
 import com.example.agency.repositories.ObjectRepository;
@@ -22,12 +23,15 @@ public class ObjectService {
         return objectRepository.findAll();
     }
 
-    public  void createObject(InputObjectDto objectDto){
+    public  void createObject(InputObjectDto objectDto,String savePhotoName){
        Object object = new Object(objectDto);
 
         TypeObject daTypeObject = typeObjectRepository.findByTypeObject(objectDto.getTypeObject());
 
         object.setTypeObject(daTypeObject);
+        Photo  photo= new Photo();
+        photo.setURL_photo(savePhotoName);
+        object.getPhotos().add(photo);
         object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
         objectRepository.save(object);
     }
