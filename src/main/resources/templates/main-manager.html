@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>UI Design</title>
+
+    <!-- Styles -->
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font awesome CSS -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+
+
+    <!-- Main CSS -->
+    <link th:href="@{/css/style-304.css}" rel="stylesheet">
+
+</head>
+
+<body>
+
+
+<!-- Resume Starts -->
+<div class="resume">
+    <!-- Sidebar -->
+    <div class="r-sidebar">
+        <div class="r-sidebar-item">
+            <!-- Sidebar Image -->
+            <!-- Name -->
+            <div class="name">
+                <a href="ui-304.html#"><h3>Login</h3></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Detail -->
+        <div class="r-detail">
+            <div class="col-md-3 col-sm-4 col-padd">
+                <!-- UI Item -->
+                <div class="ui-item">
+                    <!-- Unordered list -->
+                    <ul class="list-unstyled">
+                        <li><a href="ui-85.html#">Объекты</a></li>
+                        <li><a href="ui-85.html#">Продавцы</a></li>
+                        <li><a href="ui-85.html#">Покупатели</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Social -->
+    </div>
+    <!-- Main -->
+    <div class="main-block bg-white">
+        <div class="objective">
+            <h3>Объекты</h3>
+            <div class="objective-content">
+                <!-- Контент -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><a href="/managers/objects/add">
+                        <div class="card">
+                            <div class="row no-gutters">
+                                <div class="col-md-6">
+                                    <img src="/image/add.png" class="card-img" alt="...">
+                                </div>
+                            </div>
+                        </div>
+                        </a></p>
+                    </div>
+                    <div th:each="obgect, iterStatus : ${objects}">
+                        <div class="col-sm-6">
+                            <p><a href="sample.html">
+                            <div class="card">
+                                <div class="row no-gutters">
+                                    <div class="col-md-6">
+                                        <img src="/image/city.jpg" class="card-img" alt="...">
+                                        <h5 class="card-title" th:text="${obgect.adress}"></h5>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-body">
+                                            <p class="card-text"th:text="${obgect.square}"></p>
+                                            <p class="card-text"th:text="${obgect.countRoom}"></p>
+                                            <p class="card-text">цена:<br th:text="${obgect.price}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Clearfix -->
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+        <!-- Resume Ends -->
+
+        <!-- Javascript files -->
+        <!-- jQuery -->
+
+</body>
+</html>

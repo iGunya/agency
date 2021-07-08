@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>UI Design</title>
+
+    <!-- Styles -->
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+
+    <!-- Main CSS -->
+    <link href="css/style-304.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        /* Style to reverse the caret icon from pointing downwards to upwards */
+        .caret.caret-up {
+            border-top-width: 0;
+            border-bottom: 4px solid #fff;
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="ui-304.html#">
+</head>
+
+<body>
+
+
+<!-- Resume Starts -->
+<div class="resume">
+    <!-- Sidebar -->
+    <div class="r-sidebar">
+        <div class="r-sidebar-item">
+            <!-- Sidebar Image -->
+            <!-- Name -->
+            <div class="name">
+                <a href="ui-304.html#"><h3>Login</h3></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Detail -->
+
+        <!-- Social -->
+    </div>
+    <!-- Main -->
+    <div class="main-block bg-white">
+        <div class="objective">
+            <h3>Добавление объекта</h3>
+            <div class="objective-content">
+                <!-- Контент -->
+                <div class="row">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Login</th>
+                            <th>Role</th>
+                            <th>Подтвердить</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users}">
+                            <form th:action="@{/only_for_admins}"
+                                  th:object="${userReturn}" method="post" class="form-horizontal">
+                                <td th:text="${user.id_user}" th:value="${user.id_user}" th:field="*{id_user}"/>
+                                <td th:text="${user.login}"  />
+                                <td>
+                                    <select class="row form-control" th:with="str=${#strings.trim(user.role)}">
+                                        <option  th:value="'ROLE_ADMIN'"  th:selected="${str eq 'ROLE_ADMIN'}" >ROLE_ADMIN</option>
+                                        <option  th:value="'ROLE_MANAGER'" th:selected="${str eq 'ROLE_MANAGER'}" >ROLE_MANAGER</option>
+                                        <option  th:value="'ROLE_USER'"   th:selected="${str eq 'ROLE_USER'}" >ROLE_USER</option>
+                                    </select>
+                                </td>
+                                <td><button type="submit" class="btn btn-primary">Подтвердить</button></td>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Clearfix -->
+    <div class="clearfix"></div>
+</div>
+<!-- Resume Ends -->
+
+<!-- Javascript files -->
+<!-- jQuery -->
+
+</body>
+</html>

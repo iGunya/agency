@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>UI Design</title>
+
+    <!-- Styles -->
+    <!-- Bootstrap CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font awesome CSS -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+
+
+    <!-- Main CSS -->
+    <link th:href="@{/css/style-304.css}" rel="stylesheet">
+</head>
+
+<body>
+
+
+<!-- Resume Starts -->
+<div class="resume">
+    <!-- Sidebar -->
+    <div class="r-sidebar">
+        <div class="r-sidebar-item">
+            <!-- Sidebar Image -->
+            <!-- Name -->
+            <div class="name">
+                <a href="ui-304.html#"><h3>Login</h3></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Detail -->
+        <div class="r-detail">
+            <div class="col-md-3 col-sm-4 col-padd">
+                <!-- UI Item -->
+                <div class="ui-item">
+                    <!-- Unordered list -->
+                    <ul class="list-unstyled">
+                        <li><a href="ui-85.html#">Объекты</a></li>
+                        <li><a href="ui-85.html#">Продавцы</a></li>
+                        <li><a href="ui-85.html#">Покупатели</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Social -->
+    </div>
+    <!-- Main -->
+    <div class="main-block bg-white">
+        <div class="objective">
+            <h3>Добавление объекта</h3>
+            <div class="objective-content">
+                <!-- Контент -->
+                <div class="row">
+                    <form th:action="@{/managers/objects/add}"
+                          th:object="${obgect}" method="post">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Описание</th>
+                                <th>Поле ввода</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td scope="row"><p> Тип объекта </p></td>
+                                <td>
+                                    <div class="form-group col-md-4">
+                                        <select th:field="*{typeObject}"   class="form-control">
+                                            <option th:each="to : ${typeObject}"
+                                                    th:value="${to.typeObject}" th:text="${to.typeObject}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Адрес </p></td>
+                                <td>
+                                    <input th:field="*{adress}" placeholder="Адрес" class="form-control" type="text" name="price"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Площадь </p></td>
+                                <td>
+                                    <input th:field="*{square}" placeholder="Площадь" class="form-control" type="text" name="price"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Количество этажей </p></td>
+                                <td>
+                                    <input th:field="*{countFloor}" placeholder="Количество этажей" class="form-control" type="text"
+                                           name="price"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Количество комнат </p></td>
+                                <td>
+                                    <input th:field="*{countRoom}" placeholder="Количество комнат" class="form-control" type="text"
+                                           name="price"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Цена продажи </p></td>
+                                <td>
+                                    <input th:field="*{price}" placeholder="Цена продажи" class="form-control" type="text" name="price"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Цена продавца </p></td>
+                                <td>
+                                    <input th:field="*{realPrice}" placeholder="Цена продавца" class="form-control" type="text" name="price"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Описание </p></td>
+                                <td>
+                                    <textarea th:field="*{description}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Тип продажи </p></td>
+                                <td>
+                                    <div class="form-group col-md-4">
+                                        <select th:field="*{typeMove}"  class="form-control">
+                                            <option th:each="tm : ${typeMove}" th:value="${tm.typeMove}" th:text="${tm.typeMove}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Clearfix -->
+    <div class="clearfix"></div>
+</div>
+
+</body>
+</html>
