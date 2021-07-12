@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class AuthenticationController {
     @Autowired
@@ -20,6 +22,17 @@ public class AuthenticationController {
         return "registration";
     }
 
+    @GetMapping("/after_login")
+    public String afterLogin(HttpServletRequest request){
+        if(request.isUserInRole("ROLE_ADMIN")){
+            return "redirect:/only_for_admins";
+        }
+        if(request.isUserInRole("ROLE_USER")){
+            return "successful-registration";
+        }
+        return "redirect:/managers/objects";
+    }
+
     @PostMapping("/registration")
     public String registrarionUser(@ModelAttribute("user") User user, Model model){
         User exists = userService.findByLogin(user.getLogin());
@@ -28,6 +41,7 @@ public class AuthenticationController {
             return "registration";
         }
         userService.save(user);
-        return "redirect:/";
+        model.addAttribute("error","Вы успешно зарегистрированны");
+        return "login";
     }
 }

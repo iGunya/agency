@@ -2,7 +2,6 @@ package com.example.agency.entities;
 
 
 import lombok.Data;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 

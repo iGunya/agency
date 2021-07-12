@@ -23,7 +23,11 @@ public class AWSS3Config {
         final BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(accessKeyId, secretAccessKey);
         return AmazonS3ClientBuilder
                 .standard()
-                .withRegion(Regions.fromName(region))
+                .withEndpointConfiguration(
+                        new AmazonS3ClientBuilder.EndpointConfiguration(
+                                "storage.yandexcloud.net","ru-central1"
+                        )
+                )
                 .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
                 .build();
     }

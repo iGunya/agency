@@ -6,6 +6,7 @@ import com.example.agency.entities.Photo;
 import com.example.agency.entities.TypeMove;
 import com.example.agency.entities.TypeObject;
 import com.example.agency.repositories.ObjectRepository;
+import com.example.agency.repositories.PhotoRepository;
 import com.example.agency.repositories.TypeMoveRepository;
 import com.example.agency.repositories.TypeObjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class ObjectService {
     ObjectRepository objectRepository;
     TypeMoveRepository typeMoveRepository;
     TypeObjectRepository typeObjectRepository;
+    PhotoRepository photoRepository;
 
     public List<Object> getAllObject(){
         return objectRepository.findAll();
@@ -31,9 +33,10 @@ public class ObjectService {
         object.setTypeObject(daTypeObject);
         Photo  photo= new Photo();
         photo.setURL_photo(savePhotoName);
-        object.getPhotos().add(photo);
         object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
-        objectRepository.save(object);
+        Object object1 = objectRepository.save(object);
+        photo.setObjects(object1);
+        photoRepository.save(photo);
     }
 
     public List<TypeMove> allTypeMove(){
@@ -45,11 +48,14 @@ public class ObjectService {
     }
 
     @Autowired
+
     public ObjectService(ObjectRepository objectRepository,
                          TypeMoveRepository typeMoveRepository,
-                         TypeObjectRepository typeObjectRepository) {
+                         TypeObjectRepository typeObjectRepository,
+                         PhotoRepository photoRepository) {
         this.objectRepository = objectRepository;
         this.typeMoveRepository = typeMoveRepository;
         this.typeObjectRepository = typeObjectRepository;
+        this.photoRepository = photoRepository;
     }
 }

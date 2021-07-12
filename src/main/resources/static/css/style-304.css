@@ -514,6 +514,7 @@ hr {
 	font-weight:400;
 	position:relative;
 	top:6px;
+	color: #337ab7;
 }
 .resume .r-sidebar .name small{
 	font-size:13px;
@@ -544,11 +545,13 @@ hr {
 	}
 	.resume .r-sidebar .name{
 		margin-left:90px;
+		color: #337ab7;
 	}
 	.resume .r-sidebar .name h3{
 		font-size:14px;
 		line-height:22px;
 		font-weight:600;
+		color: #337ab7;
 	}
 }
 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>UI Design</title>
+
+    <!-- Styles -->
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font awesome CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+
+    <!-- Main CSS -->
+    <link href="css/style-304.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        /* Style to reverse the caret icon from pointing downwards to upwards */
+        .caret.caret-up {
+            border-top-width: 0;
+            border-bottom: 4px solid #fff;
+        }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="ui-304.html#">
+</head>
+
+<body>
+
+
+<!-- Resume Starts -->
+<div class="resume">
+    <!-- Sidebar -->
+    <div class="r-sidebar">
+        <div class="r-sidebar-item">
+            <!-- Name -->
+            <div class="name">
+                <h3 th:text="${#request.userPrincipal.name}"></h3>
+                <br>
+                <a th:href="@{/logout}">выйти</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Detail -->
+
+        <!-- Social -->
+    </div>
+    <!-- Main -->
+    <div class="main-block bg-white">
+        <div class="objective">
+            <h3></h3>
+            <div class="objective-content">
+                <!-- Контент -->
+                <h3>Вы успешно вошли. Дальнейшие действия возможны в мобильном приложении, либо после наделения Вас правами администратором</h3>
+            </div>
+        </div>
+    </div>
+    <!-- Clearfix -->
+    <div class="clearfix"></div>
+</div>
+
+
+</body>
+</html>

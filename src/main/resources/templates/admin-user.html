@@ -37,10 +37,11 @@
     <!-- Sidebar -->
     <div class="r-sidebar">
         <div class="r-sidebar-item">
-            <!-- Sidebar Image -->
             <!-- Name -->
             <div class="name">
-                <a href="ui-304.html#"><h3>Login</h3></a>
+                <h3 th:text="${#request.userPrincipal.name}"></h3>
+                <br>
+                <a th:href="@{/logout}">выйти</a>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -51,7 +52,7 @@
     <!-- Main -->
     <div class="main-block bg-white">
         <div class="objective">
-            <h3>Добавление объекта</h3>
+            <h3>Позьзователи системы</h3>
             <div class="objective-content">
                 <!-- Контент -->
                 <div class="row">

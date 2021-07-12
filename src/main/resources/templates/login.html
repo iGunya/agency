@@ -10,6 +10,9 @@
 <div class="container">
     <form class="form-signin" method="post" action="/login">
         <h2 class="form-signin-heading">Вход</h2>
+        <th:block th:if="${not #strings.isEmpty(error)}"
+                  th:text="${error}"></th:block>
+        <th:block th:if="${param.error}">Неверное логин и/или пароль</th:block>
         <p>
             <label for="username" class="sr-only">Логин</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>

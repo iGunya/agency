@@ -36,10 +36,12 @@ public class AgencySecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                 .and()
                     .formLogin().loginPage("/login")
-                    .defaultSuccessUrl("/")
+                    .defaultSuccessUrl("/after_login")
+                    .failureUrl("/login?error=true")
                     .permitAll()
                 .and()
-                    .logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+                    .logout()
+                    .logoutSuccessUrl("/login");
     }
 
     //преобразует пароль в бкрипт хэш
