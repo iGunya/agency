@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateRole(User user){
-        userRepository.updateRole(user.getRole(), user.getId_user());
+        userRepository.updateRole(user.getRole(), user.getLogin(), user.getId_user());
     }
 
     public List<User> findAlluser(){

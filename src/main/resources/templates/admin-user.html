@@ -69,13 +69,15 @@
                         <tr th:each="user : ${users}">
                             <form th:action="@{/only_for_admins}"
                                   th:object="${userReturn}" method="post" class="form-horizontal">
-                                <td th:text="${user.id_user}" th:value="${user.id_user}" th:field="*{id_user}"/>
-                                <td th:text="${user.login}"  />
+                                <td><span class="td row"  th:text="${user.id_user}"></span></td>
+                                <input type="hidden" name="id_user" value="" th:value="${user.id_user}"/>
+                                <td> <input class="td row" name="login" th:value="${#strings.trim(user.login)}"/></td>
                                 <td>
-                                    <select class="row form-control" th:with="str=${#strings.trim(user.role)}">
-                                        <option  th:value="'ROLE_ADMIN'"  th:selected="${str eq 'ROLE_ADMIN'}" >ROLE_ADMIN</option>
-                                        <option  th:value="'ROLE_MANAGER'" th:selected="${str eq 'ROLE_MANAGER'}" >ROLE_MANAGER</option>
-                                        <option  th:value="'ROLE_USER'"   th:selected="${str eq 'ROLE_USER'}" >ROLE_USER</option>
+                                    <select class="row form-control" id="role" name="role"
+                                            th:with="str=${#strings.trim(user.role)}">
+                                        <option  th:value="'ROLE_ADMIN'" th:selected="${str eq 'ROLE_ADMIN'}">ROLE_ADMIN</option>
+                                        <option  th:value="'ROLE_MANAGER'" th:selected="${str eq 'ROLE_MANAGER'}">ROLE_MANAGER</option>
+                                        <option  th:value="'ROLE_USER'" th:selected="${str eq 'ROLE_USER'}">ROLE_USER</option>
                                     </select>
                                 </td>
                                 <td><button type="submit" class="btn btn-primary">Подтвердить</button></td>
