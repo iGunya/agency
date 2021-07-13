@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TypeObjectRepository extends JpaRepository<TypeObject,Long> {
-    List<TypeObject> findAllBy ();
     TypeObject findByTypeObject(String s);
 }

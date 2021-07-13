@@ -26,15 +26,14 @@ public class ObjectService {
     }
 
     public  void createObject(InputObjectDto objectDto,String savePhotoName){
-       Object object = new Object(objectDto);
+        Object object = new Object(objectDto);
 
-        TypeObject daTypeObject = typeObjectRepository.findByTypeObject(objectDto.getTypeObject());
-
-        object.setTypeObject(daTypeObject);
-        Photo  photo= new Photo();
-        photo.setURL_photo(savePhotoName);
+        object.setTypeObject(typeObjectRepository.findByTypeObject(objectDto.getTypeObject()));
         object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
         Object object1 = objectRepository.save(object);
+
+        Photo  photo= new Photo();
+        photo.setURL_photo(savePhotoName);
         photo.setObjects(object1);
         photoRepository.save(photo);
     }
@@ -48,7 +47,6 @@ public class ObjectService {
     }
 
     @Autowired
-
     public ObjectService(ObjectRepository objectRepository,
                          TypeMoveRepository typeMoveRepository,
                          TypeObjectRepository typeObjectRepository,

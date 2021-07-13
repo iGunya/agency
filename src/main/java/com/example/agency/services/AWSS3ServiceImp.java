@@ -72,8 +72,8 @@ public class AWSS3ServiceImp implements AWSS3Service {
     private String uploadFileToS3Bucket(String bucketName,File file){
         final String uniqueFileName = LocalDateTime.now()+"_"+file.getName();
         LOGGER.info("Уникальное имя фото : "+ uniqueFileName);
-//        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,uniqueFileName,file);
-//        amazonS3.putObject(putObjectRequest);
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,uniqueFileName,file);
+        amazonS3.putObject(putObjectRequest);
         return uniqueFileName;
     }
 

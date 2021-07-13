@@ -1,4 +1,4 @@
-package com.example.agency.controllers;
+package com.example.agency.controller;
 
 import com.example.agency.dto.InputObjectDto;
 import com.example.agency.entities.Object;

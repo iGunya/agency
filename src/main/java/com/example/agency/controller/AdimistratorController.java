@@ -1,14 +1,11 @@
-package com.example.agency.controllers;
+package com.example.agency.controller;
 
-import com.example.agency.dto.InputObjectDto;
 import com.example.agency.entities.User;
 import com.example.agency.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/only_for_admins")
@@ -17,7 +14,7 @@ public class AdimistratorController {
 
     @GetMapping
     public String getAllUser(Model model){
-        model.addAttribute("users",userService.findAlluser());
+        model.addAttribute("users",userService.findAllUser());
         model.addAttribute("userReturn",new User());
         return "admin-user";
     }

@@ -21,8 +21,8 @@ public class UserService implements UserDetailsService {
 
     //по имени пользователя вернуть самого пользователя для аунтификации
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = findByLogin(s);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = userRepository.findByLogin(login);
         if (user == null){
             throw new UsernameNotFoundException("Пльзователь с таким именем не найден");
         }
@@ -40,7 +40,15 @@ public class UserService implements UserDetailsService {
         userRepository.updateRole(user.getRole(), user.getLogin(), user.getId_user());
     }
 
-    public List<User> findAlluser(){
+    public User findUserByUsername(String login) throws UsernameNotFoundException {
+        User user = userRepository.findByLogin(login);
+        if (user == null){
+            throw new UsernameNotFoundException("Пльзователь с таким именем не найден");
+        }
+        return user;
+    }
+
+    public List<User> findAllUser(){
         return userRepository.findAll();
     }
 

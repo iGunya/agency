@@ -1,11 +1,10 @@
-package com.example.agency.controllers;
+package com.example.agency.controller;
 
 import com.example.agency.entities.User;
 import com.example.agency.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
