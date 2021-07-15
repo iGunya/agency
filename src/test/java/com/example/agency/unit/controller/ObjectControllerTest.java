@@ -1,5 +1,6 @@
-package com.example.agency.controller;
+package com.example.agency.unit.controller;
 
+import com.example.agency.controllers.ObjectController;
 import com.example.agency.dto.InputObjectDto;
 import com.example.agency.services.AWSS3ServiceImp;
 import com.example.agency.services.ObjectService;
@@ -15,7 +16,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.web.multipart.MultipartFile;
 
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;

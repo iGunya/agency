@@ -1,4 +1,4 @@
-package com.example.agency.repository;
+package com.example.agency.unit.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

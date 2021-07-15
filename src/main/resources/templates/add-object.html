@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>UI Design</title>
 
     <!-- Styles -->
     <!-- Bootstrap CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <!-- Font awesome CSS -->
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
 
 
     <!-- Main CSS -->
-    <link th:href="@{/css/style-304.css}" rel="stylesheet">
+    <link th:href="@{/css/style-304.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
             <!-- Name -->
             <div class="name">
                 <h3 th:text="${#request.userPrincipal.name}"></h3>
-                <br>
+                <br></br>
                 <a th:href="@{/logout}">выйти</a>
             </div>
             <div class="clearfix"></div>
@@ -137,7 +137,7 @@
                                 <td>
                                     <div class="mb-3">
                                         <label class="form-label">Добавить фото</label>
-                                        <input class="form-control" type="file" name="fileName" multiple>
+                                        <input class="form-control" type="file" name="fileName" multiple="multiple"/>
                                     </div>
                                 </td>
                             </tr>

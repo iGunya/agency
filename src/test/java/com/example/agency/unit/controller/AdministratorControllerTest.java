@@ -1,5 +1,6 @@
-package com.example.agency.controller;
+package com.example.agency.unit.controller;
 
+import com.example.agency.controllers.AdimistratorController;
 import com.example.agency.entities.User;
 import com.example.agency.services.UserService;
 import org.junit.jupiter.api.Test;

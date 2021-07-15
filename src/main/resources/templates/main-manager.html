@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>UI Design</title>
 
     <!-- Styles -->
     <!-- Bootstrap CSS -->
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <!-- Font awesome CSS -->
-    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
 
 
     <!-- Main CSS -->
-    <link th:href="@{/css/style-304.css}" rel="stylesheet">
+    <link th:href="@{/css/style-304.css}" rel="stylesheet"/>
 
 </head>
 
@@ -28,7 +28,7 @@
             <!-- Name -->
             <div class="name">
                 <h3 th:text="${#request.userPrincipal.name}"></h3>
-                <br>
+                <br></br>
                 <a th:href="@{/logout}">выйти</a>
             </div>
             <div class="clearfix"></div>
@@ -61,7 +61,7 @@
                         <div class="card">
                             <div class="row no-gutters">
                                 <div class="col-md-6">
-                                    <img src="/image/add.png" class="card-img" alt="...">
+                                    <img src="/image/add.png" class="card-img" alt="..."/>
                                 </div>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                             <div class="card">
                                 <div class="row no-gutters">
                                     <div class="col-md-6">
-                                        <img src="/image/city.jpg" class="card-img" alt="...">
+                                        <img src="/image/city.jpg" class="card-img" alt="..."/>
                                         <h5 class="card-title" th:text="${obgect.adress}"></h5>
                                     </div>
                                     <div class="col-md-2">

@@ -1,4 +1,4 @@
-package com.example.agency.controller;
+package com.example.agency.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

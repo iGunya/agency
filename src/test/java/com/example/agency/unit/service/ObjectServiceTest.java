@@ -1,11 +1,10 @@
-package com.example.agency.service;
+package com.example.agency.unit.service;
 
 import com.example.agency.dto.InputObjectDto;
 import com.example.agency.entities.Object;
 import com.example.agency.entities.Photo;
 import com.example.agency.repositories.*;
 import com.example.agency.services.ObjectService;
-import com.example.agency.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

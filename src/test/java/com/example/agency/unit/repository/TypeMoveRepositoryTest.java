@@ -1,4 +1,4 @@
-package com.example.agency.repository;
+package com.example.agency.unit.repository;
 
 import com.example.agency.entities.TypeMove;
 import com.example.agency.repositories.TypeMoveRepository;

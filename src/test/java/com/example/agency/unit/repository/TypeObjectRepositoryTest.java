@@ -1,4 +1,4 @@
-package com.example.agency.repository;
+package com.example.agency.unit.repository;
 
 import com.example.agency.entities.TypeObject;
 import com.example.agency.repositories.TypeObjectRepository;
@@ -23,8 +23,6 @@ public class TypeObjectRepositoryTest {
 
     @Test
     public void testFindByTypeObject() {
-        List<TypeObject> objects = typeObjectRepository.findAll();
-
         TypeObject typeObject = typeObjectRepository.findByTypeObject("Квартира");
 
         assertThat(typeObject.getIdTypeObject()).isEqualTo(2);

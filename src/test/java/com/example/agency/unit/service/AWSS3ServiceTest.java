@@ -1,7 +1,6 @@
-package com.example.agency.service;
+package com.example.agency.unit.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.agency.services.AWSS3ServiceImp;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,12 +9,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 @RunWith(MockitoJUnitRunner.class)

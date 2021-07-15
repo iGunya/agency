@@ -1,4 +1,4 @@
-package com.example.agency.controller;
+package com.example.agency.controllers;
 
 import com.example.agency.entities.User;
 import com.example.agency.services.UserService;

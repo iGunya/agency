@@ -55,6 +55,8 @@
             <h3>Позьзователи системы</h3>
             <div class="objective-content">
                 <!-- Контент -->
+                <th:block th:if="${not #strings.isEmpty(error)}"
+                          th:text="${error}"></th:block>
                 <div class="row">
                     <table class="table table-hover">
                         <thead>
