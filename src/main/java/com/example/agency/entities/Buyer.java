@@ -3,6 +3,8 @@ package com.example.agency.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,4 +19,8 @@ public class Buyer {
     private String passport;
 
     private String description;
+
+    @OneToMany(mappedBy = "buyer")
+    private List<Contract> contracts = new ArrayList<>();
+
 }

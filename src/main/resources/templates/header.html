@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>UI Design</title>
+</head>
+
+<body>
+<!-- Resume Starts -->
+    <!-- Sidebar -->
+    <div class="r-sidebar" th:fragment="header">
+        <div class="r-sidebar-item">
+            <!-- Sidebar Image -->
+            <!-- Name -->
+            <div class="name">
+                <h3 th:text="${#request.userPrincipal.name}"></h3>
+                <br></br>
+                <a th:href="@{/logout}">выйти</a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- Detail -->
+        <div class="r-detail">
+            <div class="col-md-3 col-sm-4 col-padd">
+                <!-- UI Item -->
+                <div class="ui-item">
+                    <!-- Unordered list -->
+                    <ul class="list-unstyled">
+                        <li><a href="/managers/objects">Объекты</a></li>
+                        <li><a href="/managers/clients/sellers">Продавцы</a></li>
+                        <li><a href="/managers/clients/buyers">Покупатели</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Social -->
+    </div>
+</body>
+</html>

@@ -10,7 +10,9 @@
     <!-- Font awesome CSS -->
     <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
 
-
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">-->
+<!--    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>-->
     <!-- Main CSS -->
     <link th:href="@{/css/style-304.css}" rel="stylesheet"/>
 
@@ -22,33 +24,7 @@
 <!-- Resume Starts -->
 <div class="resume">
     <!-- Sidebar -->
-    <div class="r-sidebar">
-        <div class="r-sidebar-item">
-            <!-- Sidebar Image -->
-            <!-- Name -->
-            <div class="name">
-                <h3 th:text="${#request.userPrincipal.name}"></h3>
-                <br></br>
-                <a th:href="@{/logout}">выйти</a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <!-- Detail -->
-        <div class="r-detail">
-            <div class="col-md-3 col-sm-4 col-padd">
-                <!-- UI Item -->
-                <div class="ui-item">
-                    <!-- Unordered list -->
-                    <ul class="list-unstyled">
-                        <li><a href="/managers/objects">Объекты</a></li>
-                        <li><a href="/managers/clients/sellers">Продавцы</a></li>
-                        <li><a href="">Покупатели</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- Social -->
-    </div>
+    <div th:replace="header :: header"></div>
     <!-- Main -->
     <div class="main-block bg-white">
         <div class="objective">

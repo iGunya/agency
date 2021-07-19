@@ -18,7 +18,7 @@ public class Contract {
     private String dateBuyer;
     private String urlContract;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="id_buyer")
     private Buyer buyer;
 

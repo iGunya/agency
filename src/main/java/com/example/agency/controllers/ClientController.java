@@ -1,6 +1,6 @@
 package com.example.agency.controllers;
 
-import com.example.agency.dto.InputObjectDto;
+import com.example.agency.entities.Buyer;
 import com.example.agency.entities.Seller;
 import com.example.agency.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,10 @@ public class ClientController {
     }
 
     @GetMapping("/buyers")
-    public void getAllBuyers(){
+    public String getAllBuyers(Model model){
+        List<Buyer> buyers = buyerService.getAllBuyer();
+        model.addAttribute("buyers", buyers);
+        return "all-buyer";
     }
 
     @GetMapping("/sellers/add")
@@ -38,22 +41,31 @@ public class ClientController {
     }
 
     @GetMapping("/buyers/add")
-    public void addFormBayer(){
-
+    public String addFormBayer(Model model){
+        model.addAttribute("buyer",new Buyer());
+        return "add-buyer";
     }
     @PostMapping("/sellers/add")
     public String saveSeller(@ModelAttribute(value = "seller") Seller seller,
                            @RequestPart(value= "fileName") final MultipartFile multipartFile){
-        String newName = awss3Service.uploadFile(multipartFile);
-//        String newName =
-//                "2021-07-16T17:32:57.892523300_test.docx";
+//        String newName = awss3Service.uploadFile(multipartFile);
+        String newName =
+                "2021-07-16T17:32:57.892523300_test.docx";
         sellerService.saveContractAndSeller(seller,newName);
         return "redirect:/managers/clients/sellers";
     }
-    @PostMapping("/buyers/add")
-    public void saveBuyer(){
 
+    @PostMapping("/buyers/add")
+    public String saveBuyer(@ModelAttribute(value = "buyer") Buyer buyer,
+                            @RequestPart(value = "fileName") MultipartFile multipartFile){
+        //        String newName = awss3Service.uploadFile(multipartFile);
+        String newName =
+                "2021-07-16T17:32:57.892523300_test.docx";
+        if(buyer.getPassport() == null) buyer = buyerService.getBuyerById(buyer.getId_buyer());
+        buyerService.saveContractAndBuyer(buyer,newName);
+        return "redirect:/managers/clients/buyers";
     }
+
     @GetMapping("/sellers/contracts")
     public void getAllContractSellers(){
 

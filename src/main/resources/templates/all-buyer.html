@@ -3,12 +3,6 @@
 <head>
     <meta charset="utf-8">
     <title>UI Design</title>
-    <!-- Description, Keywords and Author -->
-
-    <!-- Styles -->
-    <!-- Bootstrap CSS -->
-
-    <!-- Main CSS -->
 
     <link th:href="@{/css/style-304.css}" rel="stylesheet"/>
 
@@ -30,22 +24,29 @@
             <h3>Продавцы</h3>
             <div class="objective-content">
                 <!-- Контент -->
-                <a href="/managers/clients/sellers/add" class="btn btn-lg btn-primary btn-block" role="button" aria-pressed="true">Добавить продавца</a>
+                <a href="/managers/clients/buyers/add" class="btn btn-lg btn-primary btn-block" role="button" aria-pressed="true">Добавить продавца</a>
                 <div class="bs-example" >
                     <div class="accordion" id="accordionExample">
-                        <div class="card" th:each="seller,iterator : ${sellers}" th:with="backet='okm3agency'">
+                        <div class="card" th:each="buyer,iterator : ${buyers}" th:with="backet='okm3agency'">
                             <div class="card-header" th:id="'heading'+${iterator.index}">
-                                <h2 class="mb-0">
-                                    <button type="button" class="btn btn-link" th:text="${seller.getFio()}"
+                                <div class="row justify-content-md-center">
+                                    <button type="button" class="btn btn-link col-7 col col-lg-6" th:text="${buyer.getFio()}"
                                             data-toggle="collapse" th:data-target="'#collapse'+${iterator.index}">
                                     </button>
-                                    <form>
-                                </h2>
+                                        <form th:action="@{/managers/clients/buyers/add}" class="form-inline col"
+                                              th:object="${buyer}" method="post" enctype="multipart/form-data">
+                                            <div class="row">
+                                            <input class="form-control col" type="file" name="fileName" multiple="multiple"/>
+                                            <input type="hidden" name="id_buyer" value="" th:value="${buyer.getId_buyer()}"/>
+                                            <button class="btn btn-primary col col-lg-4" type="submit">Сохранить</button>
+                                            </div>
+                                        </form>
+                                </div>
                             </div>
                             <div th:id="'collapse'+${iterator.index}" class="collapse" th:aria-labelledby="'heading'+${iterator.index}" data-parent="#accordionExample">
-                                <div class="card-body" th:each="document : ${seller.contractsSeller}">
+                                <div class="card-body" th:each="document : ${buyer.contracts}">
                                     <a th:href="'https://storage.yandexcloud.net/okm3agency/'+${document.urlContract}"
-                                    th:text="${document.urlContract}"/>
+                                       th:text="${document.urlContract}"/>
                                 </div>
                             </div>
                         </div>
