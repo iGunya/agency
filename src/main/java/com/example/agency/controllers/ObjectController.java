@@ -32,18 +32,35 @@ public class ObjectController {
         model.addAttribute("obgect",new InputObjectDto());
         model.addAttribute("typeObject", objectService.allTypeObject());
         model.addAttribute("typeMove", objectService.allTypeMove());
+        model.addAttribute("updateObject", new Object());
+        model.addAttribute("type", "Добавление");
         return "add-object";
     }
     @PostMapping("/add")
     public String saveObject(@ModelAttribute(value = "object") InputObjectDto objectDto,
                              @RequestPart(value= "fileName") final MultipartFile multipartFile){
         String saveFileName = awsService.uploadFile(multipartFile);
+//        String saveFileName =
+//                "2021-07-08T19:53:54.557538700_35129.jpg";
         objectService.createObject(objectDto,saveFileName);
         return "redirect:/managers/objects";
     }
 
-    @GetMapping("/delete")
-    public void deleteObject(){
+    @GetMapping("/update/{id}")
+    public String addObject(@PathVariable Long id,
+                            Model model){
+        Object updateObject = objectService.getObjectById(id);
 
+        model.addAttribute("obgect",new InputObjectDto());
+        model.addAttribute("typeObject", objectService.allTypeObject());
+        model.addAttribute("typeMove", objectService.allTypeMove());
+        model.addAttribute("updateObject", updateObject);
+        model.addAttribute("type", "Обновление");
+        return "add-object";
+    }
+
+    @GetMapping("/delete/{id}")
+    public void deleteObject(@PathVariable Long id){
+        objectService.delete(id);
     }
 }

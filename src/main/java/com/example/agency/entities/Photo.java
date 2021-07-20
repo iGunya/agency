@@ -14,7 +14,7 @@ public class Photo {
 
     private String URL_photo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_object")
     private Object objects;
 }

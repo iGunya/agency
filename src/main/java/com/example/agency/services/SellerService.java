@@ -30,6 +30,10 @@ public class SellerService {
         contractRepository.save(contract);
     }
 
+    public Seller findById(Long id){
+        return sellerRepository.getById(id);
+    }
+
     private String getCurrentDate(){
         return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }

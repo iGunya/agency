@@ -37,11 +37,13 @@ public class ObjectServiceTest {
         object.setTypeObject("Квартира");
         object.setTypeMove("Продажа");
 
-        Object saveObgect =new Object(object);
+        Object saveObgect =new Object();
+        saveObgect.setObjectDto(object);
 
         String NAME_PHOTO="5872472.jpg";
         Photo savePhoto = new Photo();
         savePhoto.setURL_photo(NAME_PHOTO);
+        saveObgect.getPhotos().add(savePhoto);
 
         objectService.createObject(object,NAME_PHOTO);
 
@@ -51,7 +53,5 @@ public class ObjectServiceTest {
                 Mockito.times(1)).findByTypeMove(object.getTypeMove());
         Mockito.verify(objectRepository,
                 Mockito.times(1)).save(saveObgect);
-        Mockito.verify(photoRepository,
-                Mockito.times(1)).save(savePhoto);
     }
 }

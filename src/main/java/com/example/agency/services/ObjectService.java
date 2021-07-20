@@ -26,16 +26,38 @@ public class ObjectService {
     }
 
     public  void createObject(InputObjectDto objectDto,String savePhotoName){
-        Object object = new Object(objectDto);
+        if(objectDto.getIdObject()!=null){
+            Object object = objectRepository.getById(objectDto.getIdObject());
+            object.setObjectDto(objectDto);
+            object.setTypeObject(typeObjectRepository.findByTypeObject(objectDto.getTypeObject()));
+            object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
 
+            Photo photo = new Photo();
+            photo.setURL_photo(savePhotoName);
+            object.getPhotos().add(photo);
+
+            objectRepository.save(object);
+            return;
+        }
+
+        Object object = new Object();
+        object.setObjectDto(objectDto);
         object.setTypeObject(typeObjectRepository.findByTypeObject(objectDto.getTypeObject()));
         object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
-        Object object1 = objectRepository.save(object);
 
-        Photo  photo= new Photo();
+        Photo photo= new Photo();
         photo.setURL_photo(savePhotoName);
-        photo.setObjects(object1);
-        photoRepository.save(photo);
+        object.getPhotos().add(photo);
+
+        objectRepository.save(object);
+    }
+
+    public void delete(Long id){
+        objectRepository.deleteById(id);
+    }
+
+    public Object getObjectById(Long id){
+        return objectRepository.getById(id);
     }
 
     public List<TypeMove> allTypeMove(){

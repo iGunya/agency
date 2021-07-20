@@ -6,7 +6,7 @@
 
     <link th:href="@{/css/style-304.css}" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -21,10 +21,10 @@
     <!-- Main -->
     <div class="main-block bg-white">
         <div class="objective">
-            <h3>Добавление объекта</h3>
+            <h3 th:text="${type}+' объекта'"></h3>
             <div class="objective-content">
                 <!-- Контент -->
-                <div class="row">
+                <div>
                     <form th:action="@{/managers/objects/add}"
                           th:object="${obgect}" method="post" enctype="multipart/form-data">
                         <table class="table table-hover">
@@ -39,10 +39,18 @@
                                 <td scope="row"><p> Тип объекта </p></td>
                                 <td>
                                     <div class="form-group col-md-4">
-                                        <select th:field="*{typeObject}"   class="form-control">
-                                            <option th:each="to : ${typeObject}"
-                                                    th:value="${to.typeObject}" th:text="${to.typeObject}">
-                                            </option>
+                                        <select id="typeObject" name="typeObject" class="form-control">
+                                            <th:block th:if="${not #strings.isEmpty(updateObject.typeObject)}">
+                                                <option th:each="to : ${typeObject}"
+                                                        th:value="${to.typeObject}" th:text="${to.typeObject}"
+                                                        th:selected="${updateObject.typeObject.typeObject.contains(to.typeObject)}">
+                                                </option>
+                                            </th:block>
+                                            <th:block th:unless="${not #strings.isEmpty(updateObject.typeObject)}">
+                                                <option th:each="to : ${typeObject}"
+                                                        th:value="${to.typeObject}" th:text="${to.typeObject}">
+                                                </option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </td>
@@ -50,45 +58,48 @@
                             <tr>
                                 <td scope="row"><p> Адрес </p></td>
                                 <td>
-                                    <input th:field="*{adress}" placeholder="Адрес" class="form-control" type="text" name="price"/>
+                                    <input name="adress" th:value="${not #strings.isEmpty(updateObject.adress)}?${#strings.trim(updateObject.adress)}" placeholder="Адрес" class="form-control" type="text"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Площадь </p></td>
                                 <td>
-                                    <input th:field="*{square}" placeholder="Площадь" class="form-control" type="text" name="price"/>
+                                    <input name="square" th:value="${not #strings.isEmpty(updateObject.square)}?${#strings.trim(updateObject.square)}" placeholder="Площадь" class="form-control" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Количество этажей </p></td>
                                 <td>
-                                    <input th:field="*{countFloor}" placeholder="Количество этажей" class="form-control" type="text"
-                                           name="price"/>
+                                    <input name="countFloor" th:value="${not #strings.isEmpty(updateObject.countFloor)}?${#strings.trim(updateObject.countFloor)}" placeholder="Количество этажей" class="form-control" type="text"
+                                           />
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Количество комнат </p></td>
                                 <td>
-                                    <input th:field="*{countRoom}" placeholder="Количество комнат" class="form-control" type="text"
-                                           name="price"/>
+                                    <input name="countRoom" th:value="${not #strings.isEmpty(updateObject.countRoom)}?${#strings.trim(updateObject.countRoom)}" placeholder="Количество комнат" class="form-control" type="text"
+                                           />
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Цена продажи </p></td>
                                 <td>
-                                    <input th:field="*{price}" placeholder="Цена продажи" class="form-control" type="text" name="price"/>
+                                    <input name="price" th:value="${not #strings.isEmpty(updateObject.price)}?${#strings.trim(updateObject.price)}" placeholder="Цена продажи" class="form-control" type="text"/>
                                 </td>
                             </tr>
+                            <th:block th:if="${updateObject!=null}">
+                                <input type="hidden" name="idObject" th:value="${updateObject.getIdObject()}"/>
+                            </th:block>
                             <tr>
                                 <td scope="row"><p> Цена продавца </p></td>
                                 <td>
-                                    <input th:field="*{realPrice}" placeholder="Цена продавца" class="form-control" type="text" name="price"/>
+                                    <input name="realPrice" th:value="${not #strings.isEmpty(updateObject.realPrice)}?${#strings.trim(updateObject.realPrice)}" placeholder="Цена продавца" class="form-control" type="text" />
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Описание </p></td>
                                 <td>
-                                    <textarea th:field="*{description}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <textarea name="description" th:field="${updateObject.description}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -96,8 +107,17 @@
                                 <td>
                                     <div class="form-group col-md-4">
                                         <select th:field="*{typeMove}"  class="form-control">
-                                            <option th:each="tm : ${typeMove}" th:value="${tm.typeMove}" th:text="${tm.typeMove}">
-                                            </option>
+                                            <th:block th:if="${not #strings.isEmpty(updateObject.typeMove)}">
+                                                <option th:each="tm : ${typeMove}"
+                                                        th:value="${tm.typeMove}" th:text="${tm.typeMove}"
+                                                        th:selected="${updateObject.typeMove.typeMove.contains(tm.typeMove)}">
+                                                </option>
+                                            </th:block>
+                                            <th:block th:unless="${not #strings.isEmpty(updateObject.typeMove)}">
+                                                <option th:each="tm : ${typeMove}"
+                                                        th:value="${tm.typeMove}" th:text="${tm.typeMove}">
+                                                </option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </td>

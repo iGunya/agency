@@ -589,6 +589,10 @@ hr {
 	padding-bottom:10px;
 	margin-bottom:10px;
 }
+
+.row {
+	padding: 1rem;
+}
 @media (max-width:767px){
 	.resume .main-block  h3{
 		font-size:20px;
@@ -601,7 +605,7 @@ hr {
 }
 .resume .main-block .objective-content p{
 	color:#000;
-	line-height:20px;
+	line-height:10px;
 	font-size:13px;
 	font-weight:300;
 }
@@ -611,6 +615,23 @@ hr {
 }
 .resume .main-block .objective-content .card-body{
 	padding-top: 50px;
+}
+
+.resume .main-block .objective-content .close{
+	width: 48px;
+	height:48px;
+	display: none;
+}
+
+.resume .main-block .objective-content .my_card :hover .close{
+	display: block;
+}
+
+.resume .main-block .objective-content .my_card .desc{
+	height: 65px;
+	overflow: hidden;
+	font-size: 16px;
+	line-height: 16px;
 }
 
 .resume .main-block .objective-content img{

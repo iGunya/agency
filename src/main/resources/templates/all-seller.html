@@ -12,7 +12,7 @@
 
     <link th:href="@{/css/style-304.css}" rel="stylesheet"/>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"/>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -35,12 +35,19 @@
                     <div class="accordion" id="accordionExample">
                         <div class="card" th:each="seller,iterator : ${sellers}" th:with="backet='okm3agency'">
                             <div class="card-header" th:id="'heading'+${iterator.index}">
-                                <h2 class="mb-0">
-                                    <button type="button" class="btn btn-link" th:text="${seller.getFio()}"
+                                <div class="row justify-content-md-center">
+                                    <button type="button" class="btn btn-link col-7 col col-lg-6" th:text="${seller.getFio()}"
                                             data-toggle="collapse" th:data-target="'#collapse'+${iterator.index}">
                                     </button>
-                                    <form>
-                                </h2>
+                                    <form th:action="@{/managers/clients/sellers/add}" class="form-inline col"
+                                          th:object="${seller}" method="post" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <input class="form-control col" type="file" name="fileName" multiple="multiple"/>
+                                            <input type="hidden" name="id_buyer" value="" th:value="${seller.getId_seller()}"/>
+                                            <button class="btn btn-primary col col-lg-4" type="submit">Сохранить</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                             <div th:id="'collapse'+${iterator.index}" class="collapse" th:aria-labelledby="'heading'+${iterator.index}" data-parent="#accordionExample">
                                 <div class="card-body" th:each="document : ${seller.contractsSeller}">

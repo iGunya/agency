@@ -38,7 +38,7 @@ public class ObjectIntegrityTest {
                 .andExpect(status().isOk())
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
                 .string("manager"))
-                .andExpect(xpath("/html/body/div/div[2]/div/div[1]/div/div")
+                .andExpect(xpath("/html/body/div/div[2]/div/div/div")
                         .nodeCount(3));
 
     }

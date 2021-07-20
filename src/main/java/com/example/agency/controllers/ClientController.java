@@ -51,6 +51,7 @@ public class ClientController {
 //        String newName = awss3Service.uploadFile(multipartFile);
         String newName =
                 "2021-07-16T17:32:57.892523300_test.docx";
+        if(seller.getPassport() == null) seller = sellerService.findById(seller.getId_seller());
         sellerService.saveContractAndSeller(seller,newName);
         return "redirect:/managers/clients/sellers";
     }
@@ -64,14 +65,6 @@ public class ClientController {
         if(buyer.getPassport() == null) buyer = buyerService.getBuyerById(buyer.getId_buyer());
         buyerService.saveContractAndBuyer(buyer,newName);
         return "redirect:/managers/clients/buyers";
-    }
-
-    @GetMapping("/sellers/contracts")
-    public void getAllContractSellers(){
-
-    }
-    @GetMapping("/buyers/contracts")
-    public void getAllContractBuyers(){
     }
 
     @Autowired

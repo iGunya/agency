@@ -4,6 +4,7 @@ import com.example.agency.dto.InputObjectDto;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,14 +37,14 @@ public class Object {
     @JoinColumn(name="id_type_move")
     private TypeMove typeMove;
 
-    @OneToMany(mappedBy = "objects",fetch= FetchType.EAGER)
-    private List<Photo> photos;
+    @OneToMany(mappedBy = "objects",fetch= FetchType.EAGER,cascade = CascadeType.ALL)
+    private List<Photo> photos = new ArrayList<>();
 
     private Integer idContract;
 
     public Object(){}
 
-    public Object(InputObjectDto objectDto) {
+    public void setObjectDto(InputObjectDto objectDto){
         this.adress = objectDto.getAdress();
         this.square = objectDto.getSquare();
         this.countFloor = objectDto.getCountFloor();
