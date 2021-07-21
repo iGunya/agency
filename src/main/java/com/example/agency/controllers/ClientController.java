@@ -2,8 +2,11 @@ package com.example.agency.controllers;
 
 import com.example.agency.entities.Buyer;
 import com.example.agency.entities.Seller;
+import com.example.agency.repositories.specification.BuyerSpecification;
+import com.example.agency.repositories.specification.SellerSpecification;
 import com.example.agency.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,15 +24,26 @@ public class ClientController {
     private AWSS3ServiceImp awss3Service;
 
     @GetMapping("/sellers")
-    public String getAllSellers(Model model){
-        List<Seller> sellers=sellerService.getAllSeller();
+    public String getAllSellers(Model model,
+                                @RequestParam(value = "search",required = false) String search){
+
+        Specification<Seller> filter = Specification.where(null);
+        if (search !=null)
+            filter = filter.and(SellerSpecification.fioContains(search));
+
+        List<Seller> sellers=sellerService.getSellerWithPaginationAndFilter(filter);
         model.addAttribute("sellers",sellers);
         return "all-seller";
     }
 
     @GetMapping("/buyers")
-    public String getAllBuyers(Model model){
-        List<Buyer> buyers = buyerService.getAllBuyer();
+    public String getAllBuyers(Model model,
+                               @RequestParam(value = "search",required = false) String search){
+        Specification<Buyer> filter = Specification.where(null);
+        if (search != null)
+            filter = filter.and(BuyerSpecification.fioContains(search));
+
+        List<Buyer> buyers = buyerService.getBuyerWithPaginationAndFilter(filter);
         model.addAttribute("buyers", buyers);
         return "all-buyer";
     }

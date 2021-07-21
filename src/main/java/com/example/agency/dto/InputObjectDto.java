@@ -1,10 +1,6 @@
 package com.example.agency.dto;
 
-import com.example.agency.entities.TypeMove;
-import com.example.agency.entities.TypeObject;
 import lombok.Data;
-
-import javax.persistence.*;
 
 @Data
 public class InputObjectDto {

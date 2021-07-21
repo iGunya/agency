@@ -24,6 +24,31 @@
         <div class="objective">
             <h3>Объекты</h3>
             <div class="objective-content">
+                <form th:action="@{/managers/objects}" id="filter"
+                      method="get" >
+                    <div class="form-inline justify-content-around">
+                        <input name="countRoom" placeholder="Количество комнат" class="col col-lg-2 form-control"  type="text"/>
+                        <input name="maxPrice" placeholder="Минимальная цена" class="col col-lg-2 form-control" type="text"/>
+                        <input name="minPrice" placeholder="Максимальная цена" class="col col-lg-2 form-control"  type="text"/>
+                        <select id="typeObject" name="typeObject" class="col col-lg-2 form-control">
+                            <option>Любой объект</option>
+                            <option th:each="to : ${typeObject}"
+                                    th:value="${to.typeObject}" th:text="${to.typeObject}">
+                            </option>
+                        </select>
+                        <select id="typeMove" name="typeMove" class="col col-lg-2 form-control">
+                            <option>Любой тип</option>
+                            <option th:each="tm : ${typeMove}"
+                                    th:value="${tm.typeMove.trim()}" th:text="${tm.typeMove.trim()}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-inline justify-content-center" style="padding-top: 1rem">
+                        <a class="btn btn-danger" id="clean" style="margin-right: 1rem ">Сбросить</a>
+                        <button class="btn btn-primary" type="submit">Фильтровать</button>
+                    </div>
+                </form>
+                <h3></h3>
                 <a href="/managers/objects/add" class="btn btn-lg btn-primary btn-block" role="button" aria-pressed="true">Добавить объект</a>
                 <!-- Контент -->
                 <div th:each="obgect : ${objects}">
@@ -48,6 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="desc">
+<!--                                th:text="${obgect.description}">-->
                                     очнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много
                                 </div>
                             </div>
@@ -60,5 +86,6 @@
         </div>
     </div>
 </div>
+<script th:src="@{/js/clear.js}"></script>
 </body>
 </html>

@@ -45,7 +45,7 @@ public class ObjectControllerTest {
                 .andExpect(status().isOk());
 
         Mockito.verify(objectService,
-                Mockito.times(1)).getAllObject();
+                Mockito.times(1)).getObjectWithPaginationAndFilter(Mockito.any());
     }
 
     @Test

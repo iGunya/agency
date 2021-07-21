@@ -106,7 +106,7 @@
                                 <td scope="row"><p> Тип продажи </p></td>
                                 <td>
                                     <div class="form-group col-md-4">
-                                        <select th:field="*{typeMove}"  class="form-control">
+                                        <select id="typeMove" name="typeMove"  class="form-control">
                                             <th:block th:if="${not #strings.isEmpty(updateObject.typeMove)}">
                                                 <option th:each="tm : ${typeMove}"
                                                         th:value="${tm.typeMove}" th:text="${tm.typeMove}"
