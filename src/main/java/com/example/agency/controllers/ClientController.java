@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -60,8 +62,12 @@ public class ClientController {
         return "add-buyer";
     }
     @PostMapping("/sellers/add")
-    public String saveSeller(@ModelAttribute(value = "seller") Seller seller,
+    public String saveSeller(@ModelAttribute(value = "seller") @Valid Seller seller,
+                           BindingResult bindingResult,
                            @RequestPart(value= "fileName") final MultipartFile multipartFile){
+        if(bindingResult.hasErrors()){
+            return "add-seller";
+        }
 //        String newName = awss3Service.uploadFile(multipartFile);
         String newName =
                 "2021-07-16T17:32:57.892523300_test.docx";
@@ -72,7 +78,11 @@ public class ClientController {
 
     @PostMapping("/buyers/add")
     public String saveBuyer(@ModelAttribute(value = "buyer") Buyer buyer,
+                            BindingResult bindingResult,
                             @RequestPart(value = "fileName") MultipartFile multipartFile){
+        if(bindingResult.hasErrors()){
+            return "add-buyer";
+        }
         //        String newName = awss3Service.uploadFile(multipartFile);
         String newName =
                 "2021-07-16T17:32:57.892523300_test.docx";

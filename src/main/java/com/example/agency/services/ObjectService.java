@@ -40,9 +40,11 @@ public class ObjectService {
         object.setTypeObject(typeObjectRepository.findByTypeObject(objectDto.getTypeObject()));
         object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
 
-        Photo photo= new Photo();
-        photo.setURL_photo(savePhotoName);
-        object.getPhotos().add(photo);
+        if(savePhotoName != null) {
+            Photo photo = new Photo();
+            photo.setURL_photo(savePhotoName);
+            object.getPhotos().add(photo);
+        }
 
         objectRepository.save(object);
     }

@@ -38,13 +38,22 @@
                             <tr>
                                 <td scope="row"><p> ФИО </p></td>
                                 <td>
-                                    <input th:field="*{fio}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" name="price"/>
+                                    <input id="fio" th:value="${buyer.getFio()!=null}?${#strings.trim(buyer.getPhone())}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" name="price"/>
+                                    <div style="color:red" th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Номер и серия паспорта </p></td>
                                 <td>
-                                    <input th:field="*{passport}" placeholder="Данные паспорта" class="form-control" type="text" name="price"/>
+                                    <input id="passport" th:value="${buyer.getPassport()!=null}?${#strings.trim(buyer.getPassport())}" placeholder="Данные паспорта" class="form-control" type="text" name="price"/>
+                                    <div style="color:red" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td scope="row"><p> Телефон </p></td>
+                                <td>
+                                    <input id="phone" th:value="${buyer.getPhone()!=null}?${#strings.trim(buyer.getPhone())}" placeholder="Номер телефона" class="form-control" type="text" name="price"/>
+                                    <div style="color:red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
                                 </td>
                             </tr>
                             <tr>
