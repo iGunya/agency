@@ -51,14 +51,53 @@
                 <h3></h3>
                 <a href="/managers/objects/add" class="btn btn-lg btn-primary btn-block" role="button" aria-pressed="true">Добавить объект</a>
                 <!-- Контент -->
-                <div th:each="obgect : ${objects}">
+                <div th:each="obgect,it : ${objects}">
                     <a th:href="'/managers/objects/update/'+ ${obgect.getIdObject()}">
                         <div class = "row my_card" >
                             <div class="col-4">
-                                <img src="/image/city.jpg" class="card-img" alt="..."/>
-                                <a th:href="'/managers/objects/delete/'+ ${obgect.getIdObject()}" onclick="return confirm('Вы действительно хотите удалить объект?')">
-                                    <img src="/image/delete.png" class="close" alt="удоли"/>
-                                </a>
+                                <div class="row">
+<!--                                    <div th:id="'sliderBigImages'+${it.index}" class="carousel slide" data-ride="carousel" style="width: 270px">-->
+<!--                                        <div class="carousel-inner">-->
+<!--                                            <div th:each="photo, iterator : ${obgect.getPhotos()}">-->
+<!--                                                <div class="carousel-item active" th:if="${iterator.index == 0}">-->
+<!--                                                    <img th:src="'https://storage.yandexcloud.net/okm3agency/'+${photo.getURL_photo()}" class="d-block w-100" alt="...">-->
+<!--                                                </div>-->
+<!--                                                <div class="carousel-item" th:unless="${iterator.index == 0}">-->
+<!--                                                    <img th:src="'https://storage.yandexcloud.net/okm3agency/'+${photo.getURL_photo()}" class="d-block w-100" alt="...">-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <a class="carousel-control-prev" th:href="'#sliderBigImages'+${it.index}" role="button" data-slide="prev">-->
+<!--                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                                            <span class="sr-only">Previous</span>-->
+<!--                                        </a>-->
+<!--                                        <a class="carousel-control-next" th:href="'#sliderBigImages'+${it.index}" role="button" data-slide="next">-->
+<!--                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                                            <span class="sr-only">Next</span>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+                                    <div th:id="'sliderBigImages'+${it.index}" class="carousel slide" data-ride="carousel" style="width: 270px">
+                                        <div class="carousel-inner">
+<!--                                            <div class="carousel-item active">-->
+<!--                                                <img src="/image/city.jpg" class="d-block w-100" alt="Природа">-->
+<!--                                            </div>-->
+                                            <div th:each="photo, iterator : ${obgect.getPhotos()}" th:class="'carousel-item '+ (${iterator.index!=0}? '' :'active')">
+                                                <img th:src="'https://storage.yandexcloud.net/okm3agency/'+${photo.getURL_photo()}" class="d-block w-100" alt="Природа">
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" th:href="'#sliderBigImages'+${it.index}" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" th:href="'#sliderBigImages'+${it.index}" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                    <a th:href="'/managers/objects/delete/'+ ${obgect.getIdObject()}" onclick="return confirm('Вы действительно хотите удалить объект?')">
+                                        <img src="/image/delete.png" class="close" alt="удоли"/>
+                                    </a>
+                                </div>
                             </div>
                             <div class = "col-8">
                                 <div class="row">

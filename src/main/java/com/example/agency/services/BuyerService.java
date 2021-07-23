@@ -32,7 +32,7 @@ public class BuyerService {
     }
 
     public Buyer getBuyerById(Long id){
-        return buyerRepository.findById(id).get();
+        return buyerRepository.findById(id).orElse(null);
     }
 
     private String getCurrentDate(){

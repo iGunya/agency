@@ -7,12 +7,14 @@ import com.example.agency.services.ObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -48,10 +50,11 @@ public class ObjectController {
         model.addAttribute("type", "Добавление");
         return "add-object";
     }
+
     @PostMapping("/add")
     public String saveObject(@ModelAttribute(value = "object") @Valid InputObjectDto object,
                              BindingResult bindingResult,
-                             @RequestPart(value= "fileName") final MultipartFile multipartFile,
+                             @RequestPart(value= "fileName") final MultipartFile[] multipartFile,
                              Model model){
         if(bindingResult.hasErrors()) {
             model.addAttribute("typeObject", objectService.allTypeObject());
@@ -59,10 +62,13 @@ public class ObjectController {
             model.addAttribute("type", object.getIdObject() == null ? "Добавление" : "Обновление");
             return "add-object";
         }
-        String saveFileName = null;
-        if (multipartFile.getName().equals("")) saveFileName = awsService.uploadFile(multipartFile);
-//        String saveFileName =
-//                "2021-07-08T19:53:54.557538700_35129.jpg";
+        List<String> saveFileName = new ArrayList<>();
+        if (multipartFile[0].getName().equals("")) {
+            saveFileName = awsService.uploadFile(multipartFile);
+        }else{
+            saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");
+            saveFileName.add("2021-07-23T10:41:23.659260200_test.jpg");
+        }
         objectService.createObject(object,saveFileName);
         return "redirect:/managers/objects";
     }
@@ -81,7 +87,8 @@ public class ObjectController {
     }
 
     @GetMapping("/delete/{id}")
-    public void deleteObject(@PathVariable Long id){
+    public String deleteObject(@PathVariable Long id){
         objectService.delete(id);
+        return "redirect:/managers/objects";
     }
 }

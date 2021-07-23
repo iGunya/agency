@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.util.Arrays;
+
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -89,7 +91,7 @@ public class ObjectControllerTest {
                 .andExpect(redirectedUrl("/managers/objects"));
 
         Mockito.verify(awsService,
-                Mockito.times(1)).uploadFile(file);
+                Mockito.times(1)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(objectService,
                 Mockito.times(1)).createObject(Mockito.any(),Mockito.any());
     }

@@ -37,7 +37,8 @@ public class Object {
     @JoinColumn(name="id_type_move")
     private TypeMove typeMove;
 
-    @OneToMany(mappedBy = "objects",fetch= FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_object")
     private List<Photo> photos = new ArrayList<>();
 
     private Integer idContract;

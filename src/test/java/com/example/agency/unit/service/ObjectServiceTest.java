@@ -12,6 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RunWith(MockitoJUnitRunner.class)
 public class ObjectServiceTest {
     @InjectMocks
@@ -40,9 +43,10 @@ public class ObjectServiceTest {
         Object saveObgect =new Object();
         saveObgect.setObjectDto(object);
 
-        String NAME_PHOTO="5872472.jpg";
+        List<String> NAME_PHOTO= new ArrayList<>();
+        NAME_PHOTO.add("5872472.jpg");
         Photo savePhoto = new Photo();
-        savePhoto.setURL_photo(NAME_PHOTO);
+        savePhoto.setURL_photo(NAME_PHOTO.get(0));
         saveObgect.getPhotos().add(savePhoto);
 
         objectService.createObject(object,NAME_PHOTO);

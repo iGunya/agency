@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
@@ -16,6 +17,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AWSS3ServiceImp implements AWSS3Service {
@@ -29,19 +32,23 @@ public class AWSS3ServiceImp implements AWSS3Service {
 
     @Override
     @Async
-    public String uploadFile(MultipartFile multipartFile) {
-        LOGGER.info("Файл в процессе загрузки");
-        String saveFileName=null;
-        try {
-            File file = convertMultiPartFile(multipartFile);
-            saveFileName = uploadFileToS3Bucket(bucketName, file);
-            LOGGER.info("Файл отправлен");
-            file.delete();
-        }catch (AmazonServiceException e){
-            LOGGER.info("Неудалось загрузить файл");
-            LOGGER.error(e.getErrorMessage());
+    public List<String> uploadFile(MultipartFile[] multipartFileArr) {
+        List<String> newName= new ArrayList<>();
+        for(MultipartFile multipartFile:multipartFileArr) {
+            LOGGER.info("Файл в процессе загрузки");
+            String saveFileName = null;
+            try {
+                File file = convertMultiPartFile(multipartFile);
+                saveFileName = uploadFileToS3Bucket(bucketName, file);
+                LOGGER.info("Файл отправлен");
+                file.delete();
+            } catch (AmazonServiceException e) {
+                LOGGER.info("Неудалось загрузить файл");
+                LOGGER.error(e.getErrorMessage());
+            }
+            newName.add(saveFileName);
         }
-        return saveFileName;
+        return newName;
     }
     //переводим в изображение
     private File convertMultiPartFile(final MultipartFile multipartFile){

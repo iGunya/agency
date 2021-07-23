@@ -27,7 +27,7 @@ public class ObjectService {
         return objectRepository.findAll(specification);
     }
 
-    public  void createObject(InputObjectDto objectDto,String savePhotoName){
+    public  void createObject(InputObjectDto objectDto,List<String> savePhotoName){
         Object object;
 
         if(objectDto.getIdObject()!=null){
@@ -41,9 +41,11 @@ public class ObjectService {
         object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
 
         if(savePhotoName != null) {
-            Photo photo = new Photo();
-            photo.setURL_photo(savePhotoName);
-            object.getPhotos().add(photo);
+            for(String namePhoto : savePhotoName) {
+                Photo photo = new Photo();
+                photo.setURL_photo(namePhoto);
+                object.getPhotos().add(photo);
+            }
         }
 
         objectRepository.save(object);

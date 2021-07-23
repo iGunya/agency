@@ -14,7 +14,7 @@ public class Photo {
 
     private String URL_photo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_object")
-    private Object objects;
+//    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+//    @JoinColumn(name = "id_object")
+//    private Object objects;
 }

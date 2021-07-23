@@ -38,21 +38,21 @@
                             <tr>
                                 <td scope="row"><p> ФИО </p></td>
                                 <td>
-                                    <input id="fio" th:value="${buyer.getFio()!=null}?${#strings.trim(buyer.getPhone())}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" name="price"/>
+                                    <input id="fio" name="fio" th:value="${buyer.getFio()!=null}?${#strings.trim(buyer.getPhone())}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" />
                                     <div style="color:red" th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Номер и серия паспорта </p></td>
                                 <td>
-                                    <input id="passport" th:value="${buyer.getPassport()!=null}?${#strings.trim(buyer.getPassport())}" placeholder="Данные паспорта" class="form-control" type="text" name="price"/>
+                                    <input id="passport" name="passport" th:value="${buyer.getPassport()!=null}?${#strings.trim(buyer.getPassport())}" placeholder="Данные паспорта" class="form-control" type="text" />
                                     <div style="color:red" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"></div>
                                 </td>
                             </tr>
                             <tr>
                                 <td scope="row"><p> Телефон </p></td>
                                 <td>
-                                    <input id="phone" th:value="${buyer.getPhone()!=null}?${#strings.trim(buyer.getPhone())}" placeholder="Номер телефона" class="form-control" type="text" name="price"/>
+                                    <input id="phone" name="phone" th:value="${buyer.getPhone()!=null}?${#strings.trim(buyer.getPhone())}" placeholder="Номер телефона" class="form-control" type="text" />
                                     <div style="color:red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
                                 </td>
                             </tr>

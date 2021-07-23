@@ -13,6 +13,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AWSS3ServiceTest {
@@ -29,7 +30,7 @@ public class AWSS3ServiceTest {
         Mockito.when(multipartFile.getBytes()).thenReturn("".getBytes());
         Mockito.when(multipartFile.getOriginalFilename()).thenReturn("test");
 
-        String newName = awss3ServiceImp.uploadFile(multipartFile);
+        List<String> newName = awss3ServiceImp.uploadFile(new MultipartFile[]{multipartFile});
 
         Mockito.verify(amazonS3,
                 Mockito.times(1)).putObject(Mockito.any());

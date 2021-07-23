@@ -77,7 +77,7 @@ public class ClientController {
     }
 
     @PostMapping("/buyers/add")
-    public String saveBuyer(@ModelAttribute(value = "buyer") Buyer buyer,
+    public String saveBuyer(@ModelAttribute(value = "buyer") @Valid Buyer buyer,
                             BindingResult bindingResult,
                             @RequestPart(value = "fileName") MultipartFile multipartFile){
         if(bindingResult.hasErrors()){
