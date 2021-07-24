@@ -22,7 +22,6 @@ public class User {
     @Size(min = 2, max = 25, message = "Недопустимый логин имени")
     private String login;
 
-    @Min(value = 3, message = "Слишком короткий логин")
     private String password;
 
     private String role;

@@ -79,7 +79,7 @@ public class ObjectService {
     }
 
     public Object getObjectById(Long id){
-        return objectRepository.findById(id).get();
+        return objectRepository.findById(id).orElse(null);
     }
 
     public List<TypeMove> allTypeMove(){

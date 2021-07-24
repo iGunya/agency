@@ -63,7 +63,7 @@ public class ObjectController {
             return "add-object";
         }
         List<String> saveFileName = new ArrayList<>();
-        if (multipartFile[0].getName().equals("")) {
+        if (!multipartFile[0].getName().equals("")) {
             saveFileName = awsService.uploadFile(multipartFile);
         }else{
             saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");

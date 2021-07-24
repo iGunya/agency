@@ -38,8 +38,9 @@ public class ObjectIntegrityTest {
                 .andExpect(status().isOk())
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
                 .string("manager"))
+                //в блоке 3 объекта 1 филтр 1 полоса 1 блок
                 .andExpect(xpath("/html/body/div/div[2]/div/div/div")
-                        .nodeCount(3));
+                        .nodeCount(7));
 
     }
 
@@ -70,7 +71,15 @@ public class ObjectIntegrityTest {
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/objects/add")
                 .file(file)
-                .requestAttr("object",new InputObjectDto()))
+                .param("adress","Район Улица Дом")
+                .param("square","-1/34/5")
+                .param("countRoom","1")
+                .param("countFloor","1")
+                .param("price","1500000")
+                .param("realPrice","1300000")
+                .param("description","asdas")
+                .param("typeObject","Квартира")
+                .param("typeMove","Продажа"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
                 .andExpect(status().is3xxRedirection())

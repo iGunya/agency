@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.util.Collections;
+
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,6 +30,8 @@ public class AdministratorControllerTest {
     @Test
     @WithMockUser(username = "admin",roles = {"ADMIN"})
     public void testPageAdmin() throws Exception{
+        Mockito.when(userService.findAllUser()).thenReturn(Collections.singletonList(new User()));
+
         mockMvc.perform(MockMvcRequestBuilders.get("/only_for_admins"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())

@@ -4,16 +4,21 @@ import com.example.agency.dto.InputObjectDto;
 import com.example.agency.entities.Object;
 import com.example.agency.entities.Photo;
 import com.example.agency.repositories.*;
+import com.example.agency.repositories.specification.ObjectSpecification;
 import com.example.agency.services.ObjectService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ObjectServiceTest {
@@ -30,32 +35,54 @@ public class ObjectServiceTest {
 
     @Test
     public void testSaveObject(){
-        InputObjectDto object = new InputObjectDto();
-        object.setAdress("Где-то");
-        object.setSquare("-1/60/15/18/5");
-        object.setCountFloor(1);
-        object.setCountRoom(2);
-        object.setPrice("500000");
-        object.setRealPrice("480000");
-        object.setTypeObject("Квартира");
-        object.setTypeMove("Продажа");
+        InputObjectDto saveObject = Mockito.mock(InputObjectDto.class);
 
-        Object saveObgect =new Object();
-        saveObgect.setObjectDto(object);
-
+        Object object = Mockito.mock(Object.class);
         List<String> NAME_PHOTO= new ArrayList<>();
         NAME_PHOTO.add("5872472.jpg");
-        Photo savePhoto = new Photo();
-        savePhoto.setURL_photo(NAME_PHOTO.get(0));
-        saveObgect.getPhotos().add(savePhoto);
+        NAME_PHOTO.add("5872472.jpg");
 
-        objectService.createObject(object,NAME_PHOTO);
+        Mockito.doReturn(1L).when(saveObject).getIdObject();
+        Mockito.doReturn(Optional.of(object)).when(objectRepository).findById(Mockito.anyLong());
+
+        objectService.createObject(saveObject,NAME_PHOTO);
 
         Mockito.verify(typeObjectRepository,
-                Mockito.times(1)).findByTypeObject(object.getTypeObject());
+                Mockito.times(1)).findByTypeObject(saveObject.getTypeObject());
         Mockito.verify(typeMoveRepository,
-                Mockito.times(1)).findByTypeMove(object.getTypeMove());
+                Mockito.times(1)).findByTypeMove(saveObject.getTypeMove());
         Mockito.verify(objectRepository,
-                Mockito.times(1)).save(saveObgect);
+                Mockito.times(1)).save(object);
+    }
+
+    @Test
+    public void testSavePhoto(){
+        InputObjectDto saveObject = Mockito.mock(InputObjectDto.class);
+
+        Object object = Mockito.mock(Object.class);
+        List<String> NAME_PHOTO= new ArrayList<>();
+        NAME_PHOTO.add("5872472.jpg");
+        NAME_PHOTO.add("5872472.jpg");
+
+        Mockito.doReturn(1L).when(saveObject).getIdObject();
+        Mockito.doReturn(Optional.of(object)).when(objectRepository).findById(Mockito.anyLong());
+
+        objectService.createObject(saveObject,NAME_PHOTO);
+
+        Mockito.verify(object,
+                Mockito.times(2)).getPhotos();
+    }
+
+    @Test
+    public void testCreateFilterSearch(){
+        Integer countRoom = 2;
+        String maxPrice = null;
+        String minPrice = Integer.toString(1_000_000);
+        String typeObject = null;
+        String typeMove = null;
+
+        Specification<Object> filter = objectService.createSpecificationForObject(countRoom,maxPrice, minPrice,typeObject,typeMove);
+
+        Assert.assertNotNull(filter);
     }
 }

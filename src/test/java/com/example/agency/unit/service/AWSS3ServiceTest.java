@@ -34,6 +34,7 @@ public class AWSS3ServiceTest {
 
         Mockito.verify(amazonS3,
                 Mockito.times(1)).putObject(Mockito.any());
+        Assert.assertEquals(1,newName.size());
         Assert.assertNotNull(newName);
     }
 }

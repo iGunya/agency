@@ -19,10 +19,10 @@ public class TestConfig {
     @PostConstruct
     public void initDB() throws SQLException {
         try (Connection con = dataSource.getConnection()) {
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_users.sql"));
             ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_type_object.sql"));
             ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_type_move.sql"));
             ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_object.sql"));
+            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_users.sql"));
         }
     }
 }
