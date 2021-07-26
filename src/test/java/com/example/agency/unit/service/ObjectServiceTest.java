@@ -75,7 +75,7 @@ public class ObjectServiceTest {
 
     @Test
     public void testCreateFilterSearch(){
-        Integer countRoom = 2;
+        String countRoom = "2";
         String maxPrice = null;
         String minPrice = Integer.toString(1_000_000);
         String typeObject = null;

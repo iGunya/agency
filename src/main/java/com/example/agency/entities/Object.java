@@ -23,9 +23,9 @@ public class Object {
 
     private int countRoom;
 
-    private String price;
+    private Long price;
 
-    private String realPrice;
+    private Long realPrice;
 
     private String description;
 
@@ -50,8 +50,8 @@ public class Object {
         this.square = objectDto.getSquare();
         this.countFloor = objectDto.getCountFloor();
         this.countRoom = objectDto.getCountRoom();
-        this.price = objectDto.getPrice();
-        this.realPrice = objectDto.getRealPrice();
+        this.price = Long.parseLong(objectDto.getPrice());
+        this.realPrice = Long.parseLong(objectDto.getRealPrice());
         this.description = objectDto.getDescription();
     }
 }

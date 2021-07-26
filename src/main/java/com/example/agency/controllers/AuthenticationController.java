@@ -35,7 +35,7 @@ public class AuthenticationController {
     @PostMapping("/registration")
     public String registrarionUser(@ModelAttribute("user") User user, Model model){
         User exists = userService.findByLogin(user.getLogin());
-        if(exists!=null){
+        if(exists != null){
             model.addAttribute("login","Такой пользователь существует");
             return "registration";
         }

@@ -63,14 +63,6 @@ public class AWSS3ServiceImp implements AWSS3Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        try {
-//            bufferedImage = ImageIO.read(multipartFile.getInputStream());
-//            outputfile = new File(multipartFile.getOriginalFilename());
-//            ImageIO.write(bufferedImage, multipartFile.getContentType(), outputfile);
-//        } catch (IOException e) {
-//            LOGGER.error("Ошибка преобразования файла");
-//        }
         return outputfile;
     }
     //оздаём уникально имя и сохраняем

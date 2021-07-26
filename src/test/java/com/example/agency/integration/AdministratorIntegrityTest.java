@@ -1,6 +1,9 @@
 package com.example.agency.integration;
 
 import com.example.agency.entities.User;
+import com.example.agency.repositories.UserRepository;
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,6 +30,9 @@ public class AdministratorIntegrityTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Test
     public void testPageAdmin() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/only_for_admins"))
@@ -44,11 +50,16 @@ public class AdministratorIntegrityTest {
         mockMvc.perform(post("/only_for_admins")
                 .param("id_user","2")
                 .param("login","manager1")
-                .param("password","")
                 .param("role","ROLE_USER"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/only_for_admins"));
+
+        User user = userRepository.findByLogin("manager1");
+
+        Assertions.assertNotNull(user);
+        Assertions.assertEquals("ROLE_USER", user.getRole());
     }
 
     @Test

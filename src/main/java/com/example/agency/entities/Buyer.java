@@ -25,7 +25,7 @@ public class Buyer {
 
     private String description;
 
-    @OneToMany(mappedBy = "buyer")
+    @OneToMany(mappedBy = "buyer",fetch = FetchType.EAGER)
     private List<Contract> contracts = new ArrayList<>();
 
 }

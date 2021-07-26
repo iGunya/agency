@@ -51,14 +51,14 @@ public class ObjectService {
         objectRepository.save(object);
     }
 
-    public Specification<Object> createSpecificationForObject(Integer countRoom,
+    public Specification<Object> createSpecificationForObject(String countRoom,
                                                               String maxPrice,
                                                               String minPrice,
                                                               String typeObject,
                                                               String typeMove){
         Specification<Object> filter = Specification.where(null);
-        if(countRoom != null && !countRoom.equals(0))
-            filter = filter.and(ObjectSpecification.countRoomEq(countRoom));
+        if(countRoom != null && !countRoom.equals(""))
+            filter = filter.and(ObjectSpecification.countRoomEq(Integer.parseInt(countRoom)));
         if(maxPrice != null && !maxPrice.equals(""))
             filter = filter.and(ObjectSpecification.priceGreaterThanOrEq(maxPrice));
         if(minPrice != null && !minPrice.equals(""))

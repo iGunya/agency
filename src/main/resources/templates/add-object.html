@@ -86,7 +86,7 @@
                             <tr>
                                 <td scope="row"><p> Цена продажи </p></td>
                                 <td>
-                                    <input id="price" name="price" th:value="${object.getPrice()!=null}?${#strings.trim(object.price)}" placeholder="Цена продажи" class="form-control" type="text"/>
+                                    <input id="price" name="price" th:value="${object.getPrice()!=null}?${object.price}" placeholder="Цена продажи" class="form-control" type="text"/>
                                     <div style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
                                 </td>
                             </tr>
@@ -96,7 +96,7 @@
                             <tr>
                                 <td scope="row"><p> Цена продавца </p></td>
                                 <td>
-                                    <input id="realPrice" name="realPrice" th:value="${object.getRealPrice()!=null}?${#strings.trim(object.realPrice)}" placeholder="Цена продавца" class="form-control" type="text" />
+                                    <input id="realPrice" name="realPrice" th:value="${object.getRealPrice()!=null}?${object.realPrice}" placeholder="Цена продавца" class="form-control" type="text" />
                                     <div style="color:red" th:if="${#fields.hasErrors('realPrice')}" th:errors="*{realPrice}"></div>
                                 </td>
                             </tr>

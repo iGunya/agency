@@ -23,6 +23,9 @@ public class TestConfig {
             ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_type_move.sql"));
             ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_object.sql"));
             ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_users.sql"));
+            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_buyer.sql"));
+            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_seller.sql"));
+            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_contract.sql"));
         }
     }
 }

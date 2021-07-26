@@ -8,10 +8,15 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Collections;
 
 import static org.junit.matchers.JUnitMatchers.containsString;
 import static org.mockito.Mockito.mock;
@@ -53,8 +58,9 @@ public class AuthenticationControllerTest {
                 .andExpect(content().string(containsString("Зарегистрировать")));
     }
 
+
     @Test
-    public void testLogin() throws Exception{
+    public void testBadLogin() throws Exception{
         mockMvc.perform(formLogin().user("admin").password("100"))
                 .andDo(MockMvcResultHandlers.print())
                 //тк нет БД ошибка авторизации

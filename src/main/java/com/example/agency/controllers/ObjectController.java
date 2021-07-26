@@ -27,7 +27,7 @@ public class ObjectController {
 
     @GetMapping
     public String allObject(Model model,
-                            @RequestParam(value = "countRoom",required = false) Integer countRoom,
+                            @RequestParam(value = "countRoom",required = false) String countRoom,
                             @RequestParam(value = "maxPrice",required = false) String maxPrice,
                             @RequestParam(value = "minPrice",required = false) String minPrice,
                             @RequestParam(value = "typeObject",required = false) String typeObject,
@@ -63,7 +63,7 @@ public class ObjectController {
             return "add-object";
         }
         List<String> saveFileName = new ArrayList<>();
-        if (!multipartFile[0].getName().equals("")) {
+        if (!multipartFile[0].getOriginalFilename().equals("")) {
             saveFileName = awsService.uploadFile(multipartFile);
         }else{
             saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");

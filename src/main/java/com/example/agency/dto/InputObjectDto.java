@@ -21,6 +21,7 @@ public class InputObjectDto {
     private int countRoom;
     @Pattern(regexp = "[0-9]+",message = "Неверный формат")
     private String price;
+
     @Pattern(regexp = "[0-9]+",message = "Неверный формат")
     private String realPrice;
 
@@ -38,8 +39,8 @@ public class InputObjectDto {
         this.square = object.getSquare();
         this.countFloor = object.getCountFloor();
         this.countRoom = object.getCountRoom();
-        this.price = object.getPrice();
-        this.realPrice = object.getRealPrice();
+        this.price = object.getPrice().toString();
+        this.realPrice = object.getRealPrice().toString();
         this.description = object.getDescription();
         this.typeObject = object.getTypeObject().getTypeObject();
         this.typeMove = object.getTypeMove().getTypeMove();

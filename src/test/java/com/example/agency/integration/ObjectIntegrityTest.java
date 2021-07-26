@@ -1,7 +1,9 @@
 package com.example.agency.integration;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.example.agency.dto.InputObjectDto;
+import com.example.agency.repositories.ObjectRepository;
+import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -29,6 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ObjectIntegrityTest {
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectRepository objectRepository;
 
     @Test
     public void testPageAllObject() throws Exception{
@@ -38,10 +45,9 @@ public class ObjectIntegrityTest {
                 .andExpect(status().isOk())
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
                 .string("manager"))
-                //в блоке 3 объекта 1 филтр 1 полоса 1 блок
+                //в блоке 6 объектов инициализированно
                 .andExpect(xpath("/html/body/div/div[2]/div/div/div")
-                        .nodeCount(7));
-
+                        .nodeCount(6));
     }
 
     @Test
@@ -57,6 +63,57 @@ public class ObjectIntegrityTest {
                         .string("Дом"));
 
     }
+
+    @Test
+    public void testFilterCountRoomObject() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects")
+                .param("countRoom","2"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(authenticated())
+                .andExpect(status().isOk())
+                .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
+                        .string("manager"))
+                //значения для селектора из БД
+                .andExpect(model().attributeExists("objects"))
+                .andExpect(xpath("/html/body/div/div[2]/div/div/div")
+                        .nodeCount(3));
+
+    }
+
+    @Test
+    public void testFilterMaxMinPriceObject() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects")
+                .param("minPrice","500000")
+                .param("maxPrice","3000000"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(authenticated())
+                .andExpect(status().isOk())
+                .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
+                        .string("manager"))
+                //значения для селектора из БД
+                .andExpect(model().attributeExists("objects"))
+                .andExpect(xpath("/html/body/div/div[2]/div/div/div")
+                        .nodeCount(3));
+
+    }
+
+    @Test
+    @WithMockUser(username = "manager",roles = {"MANAGER"})
+    public void testDeleteObject() throws Exception{
+        long countObjectBeforeDelete = objectRepository.count();
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects/delete/1"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(authenticated())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/managers/objects"));
+
+        long countObjectAfterDelete = objectRepository.count();
+
+        Assertions.assertEquals(1,countObjectBeforeDelete-countObjectAfterDelete);
+    }
+
+
     @MockBean
     private AmazonS3 amazonS3;
 
@@ -68,6 +125,7 @@ public class ObjectIntegrityTest {
                 MediaType.TEXT_PLAIN_VALUE,
                 "Hello, World!".getBytes()
         );
+        long countObjectBeforeAdd = objectRepository.count();
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/objects/add")
                 .file(file)
@@ -84,5 +142,9 @@ public class ObjectIntegrityTest {
                 .andExpect(authenticated())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/managers/objects"));
+
+        long countObjectAfterAdd = objectRepository.count();
+
+        Assertions.assertEquals(1,countObjectAfterAdd-countObjectBeforeAdd);
     }
 }

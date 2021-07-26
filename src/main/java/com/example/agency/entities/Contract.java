@@ -18,15 +18,23 @@ public class Contract {
     private String dateBuyer;
     private String urlContract;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL,fetch= FetchType.LAZY)
     @JoinColumn(name="id_buyer")
     private Buyer buyer;
 
-    @ManyToMany(cascade = {
-            CascadeType.ALL
-    })
+    @ManyToMany(cascade = CascadeType.ALL,fetch= FetchType.LAZY)
     @JoinTable( name="contract_seller",
             joinColumns = @JoinColumn(name="id_contract"),
             inverseJoinColumns = @JoinColumn(name = "id_seller"))
     private List<Seller> sellers=new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id_contract=" + id_contract +
+                ", dateSeller='" + dateSeller + '\'' +
+                ", dateBuyer='" + dateBuyer + '\'' +
+                ", urlContract='" + urlContract + '\'' +
+                '}';
+    }
 }

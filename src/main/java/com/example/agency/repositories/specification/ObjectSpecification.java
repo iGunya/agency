@@ -11,10 +11,10 @@ public class ObjectSpecification {
     }
 
     public static Specification<Object> priceGreaterThanOrEq(String maxPrice){
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("price"),maxPrice);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("price"),maxPrice);
     }
     public static Specification<Object> priceLesserThanOrEq(String minPrice){
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("price"),minPrice);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("price"),minPrice);
     }
     public static Specification<Object> typeObjectEq(TypeObject typeObject){
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("typeObject"),typeObject);

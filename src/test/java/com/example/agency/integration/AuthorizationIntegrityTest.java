@@ -1,7 +1,9 @@
 package com.example.agency.integration;
 
+import com.example.agency.entities.User;
 import com.example.agency.repositories.UserRepository;
 import com.example.agency.services.UserService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,6 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AuthorizationIntegrityTest {
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void testSuccessfulLogin() throws Exception{
@@ -51,6 +55,9 @@ public class AuthorizationIntegrityTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Вы успешно зарегистрированны")));
+
+        User user = userRepository.findByLogin("user");
+        Assertions.assertNotNull(user);
 
         mockMvc.perform(formLogin().user("user").password("100"))
                 .andDo(MockMvcResultHandlers.print())

@@ -28,8 +28,8 @@
                       method="get" >
                     <div class="form-inline justify-content-around">
                         <input name="countRoom" placeholder="Количество комнат" class="col col-lg-2 form-control"  type="text"/>
-                        <input name="maxPrice" placeholder="Минимальная цена" class="col col-lg-2 form-control" type="text"/>
-                        <input name="minPrice" placeholder="Максимальная цена" class="col col-lg-2 form-control"  type="text"/>
+                        <input name="minPrice" placeholder="Минимальная цена" class="col col-lg-2 form-control" type="text"/>
+                        <input name="maxPrice" placeholder="Максимальная цена" class="col col-lg-2 form-control"  type="text"/>
                         <select id="typeObject" name="typeObject" class="col col-lg-2 form-control">
                             <option>Любой объект</option>
                             <option th:each="to : ${typeObject}"
@@ -119,8 +119,6 @@
                         </div>
                     </a>
                 </div>
-                <!-- Clearfix -->
-                <div class="clearfix"></div>
             </div>
         </div>
     </div>
