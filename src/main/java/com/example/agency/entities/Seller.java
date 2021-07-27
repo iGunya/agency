@@ -27,8 +27,7 @@ public class Seller {
 //    private List<Contract> contractsBuyer;
 
     @ManyToMany(mappedBy = "sellers",
-            cascade = {
-                    CascadeType.ALL
-            })
+                cascade = CascadeType.ALL,
+                fetch = FetchType.EAGER)
     private List<Contract> contractsSeller = new ArrayList<>();
 }

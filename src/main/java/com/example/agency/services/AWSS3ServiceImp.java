@@ -70,7 +70,7 @@ public class AWSS3ServiceImp implements AWSS3Service {
         final String uniqueFileName = LocalDateTime.now()+"_"+file.getName();
         LOGGER.info("Уникальное имя фото : "+ uniqueFileName);
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,uniqueFileName,file);
-        amazonS3.putObject(putObjectRequest);
+//        amazonS3.putObject(putObjectRequest);
         return uniqueFileName;
     }
 
