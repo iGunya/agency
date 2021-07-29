@@ -3,8 +3,7 @@ package com.example.agency.integration;
 import com.amazonaws.services.s3.AmazonS3;
 import com.example.agency.repositories.ObjectRepository;
 import org.junit.Assert;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -30,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithUserDetails("manager")
 @TestPropertySource(locations = "classpath:application-test.properties")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ContextConfiguration(classes = {TestConfig.class})
 public class ObjectIntegrityTest {
     @Autowired
@@ -38,6 +38,7 @@ public class ObjectIntegrityTest {
     private ObjectRepository objectRepository;
 
     @Test
+    @Order(1)
     public void testPageAllObject() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects"))
                 .andDo(MockMvcResultHandlers.print())
@@ -65,6 +66,7 @@ public class ObjectIntegrityTest {
     }
 
     @Test
+    @Order(2)
     public void testFilterCountRoomObject() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects")
                 .param("countRoom","2"))

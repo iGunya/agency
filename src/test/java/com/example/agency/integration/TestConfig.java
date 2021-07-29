@@ -13,19 +13,24 @@ import java.sql.SQLException;
 @TestConfiguration
 public class TestConfig {
 
+    private static boolean checkOneInit = true;
+
     @Autowired
     private DataSource dataSource;
 
     @PostConstruct
     public void initDB() throws SQLException {
-        try (Connection con = dataSource.getConnection()) {
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_type_object.sql"));
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_type_move.sql"));
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_object.sql"));
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_users.sql"));
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_buyer.sql"));
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_seller.sql"));
-            ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_contract.sql"));
+        if (checkOneInit) {
+            try (Connection con = dataSource.getConnection()) {
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_type_object.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_type_move.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_object.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_users.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_buyer.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_seller.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_contract.sql"));
+            }
+            checkOneInit = false;
         }
     }
 }

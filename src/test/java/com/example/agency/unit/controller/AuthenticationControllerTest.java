@@ -1,31 +1,31 @@
 package com.example.agency.unit.controller;
 
+import com.example.agency.configs.jwt.AuthEntryPointJwt;
+import com.example.agency.configs.jwt.JwtUtils;
+import com.example.agency.configs.security.AgencySecurityConfig;
 import com.example.agency.controllers.AuthenticationController;
 import com.example.agency.entities.User;
 import com.example.agency.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Collections;
-
 import static org.junit.matchers.JUnitMatchers.containsString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthenticationController.class)
+@WebMvcTest(value = AuthenticationController.class)
 public class AuthenticationControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -35,6 +35,12 @@ public class AuthenticationControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private AuthEntryPointJwt authEntryPointJwt;
+
+    @MockBean
+    private JwtUtils jwtUtils;
 
     @Test
     public void testPageLogin() throws Exception{

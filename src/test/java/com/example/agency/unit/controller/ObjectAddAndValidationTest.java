@@ -1,5 +1,7 @@
 package com.example.agency.unit.controller;
 
+import com.example.agency.configs.jwt.AuthEntryPointJwt;
+import com.example.agency.configs.jwt.JwtUtils;
 import com.example.agency.controllers.ObjectController;
 import com.example.agency.dto.InputObjectDto;
 import com.example.agency.services.AWSS3ServiceImp;
@@ -38,6 +40,12 @@ public class ObjectAddAndValidationTest {
     //для аунтификации
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private AuthEntryPointJwt authEntryPointJwt;
+
+    @MockBean
+    private JwtUtils jwtUtils;
 
     private static MockMultipartFile file;
 

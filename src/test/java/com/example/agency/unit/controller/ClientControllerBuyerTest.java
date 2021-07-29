@@ -1,5 +1,7 @@
 package com.example.agency.unit.controller;
 
+import com.example.agency.configs.jwt.AuthEntryPointJwt;
+import com.example.agency.configs.jwt.JwtUtils;
 import com.example.agency.controllers.ClientController;
 import com.example.agency.entities.Buyer;
 import com.example.agency.services.AWSS3ServiceImp;
@@ -37,6 +39,12 @@ public class ClientControllerBuyerTest {
     //для аунтификации
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private AuthEntryPointJwt authEntryPointJwt;
+
+    @MockBean
+    private JwtUtils jwtUtils;
 
     private static MockMultipartFile file;
     @BeforeAll

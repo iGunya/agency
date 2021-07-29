@@ -1,7 +1,8 @@
 package com.example.agency.unit.controller;
 
+import com.example.agency.configs.jwt.AuthEntryPointJwt;
+import com.example.agency.configs.jwt.JwtUtils;
 import com.example.agency.controllers.ObjectController;
-import com.example.agency.dto.InputObjectDto;
 import com.example.agency.services.AWSS3ServiceImp;
 import com.example.agency.services.ObjectService;
 import com.example.agency.services.UserService;
@@ -10,19 +11,16 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.util.Collections;
-
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ObjectController.class)
+@WebMvcTest(controllers = ObjectController.class)
 public class ObjectControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -36,6 +34,12 @@ public class ObjectControllerTest {
     //для аунтификации
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private AuthEntryPointJwt authEntryPointJwt;
+
+    @MockBean
+    private JwtUtils jwtUtils;
 
     @Test
     @WithMockUser(username = "manager",roles = {"MANAGER"})
