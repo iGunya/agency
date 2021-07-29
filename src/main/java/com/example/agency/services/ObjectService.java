@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ObjectService {
@@ -72,6 +73,16 @@ public class ObjectService {
             filter = filter.and(ObjectSpecification.typeMoveEq(dbTypeMove));
         }
         return filter;
+    }
+
+    public List<InputObjectDto> getApiObject(Specification<Object> specification){
+        return objectRepository.findAll(specification)
+                .stream().map(e->{
+                    InputObjectDto temp = new InputObjectDto();
+                    temp.setObject(e);
+                    return temp;
+                })
+                .collect(Collectors.toList());
     }
 
     public void delete(Long id){

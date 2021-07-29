@@ -1,5 +1,6 @@
 package com.example.agency.services;
 
+import com.example.agency.dto.UserDetailsImpl;
 import com.example.agency.entities.User;
 import com.example.agency.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class UserService implements UserDetailsService {
         if (user == null){
             throw new UsernameNotFoundException("Пльзователь с таким именем не найден");
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getLogin().trim(),user.getPassword().trim(), Collections.singletonList(new SimpleGrantedAuthority(user.getRole().trim())));
+        UserDetailsImpl principalUser = UserDetailsImpl.build(user);
+        return principalUser;
     }
 
     public void save(User user) {
