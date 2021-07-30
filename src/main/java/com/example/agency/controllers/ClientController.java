@@ -68,7 +68,7 @@ public class ClientController {
             return "add-seller";
         }
         String newName;
-        if (!multipartFile.getName().equals("")) {
+        if (!multipartFile.getOriginalFilename().equals("")) {
             newName = awss3Service.uploadFile(new MultipartFile[]{ multipartFile }).get(0);
         }else {
             newName = "2021-07-16T17:32:57.892523300_test.docx";
@@ -87,7 +87,7 @@ public class ClientController {
             return "add-buyer";
         }
         String newName;
-        if (!multipartFile.getName().equals("")) {
+        if (!multipartFile.getOriginalFilename().equals("")) {
             newName = awss3Service.uploadFile(new MultipartFile[]{ multipartFile }).get(0);
         }else {
             newName = "2021-07-16T17:32:57.892523300_test.docx";
