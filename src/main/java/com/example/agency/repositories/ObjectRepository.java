@@ -10,6 +10,4 @@ import java.util.List;
 
 @Repository
 public interface ObjectRepository extends PagingAndSortingRepository<Object,Long>, JpaSpecificationExecutor<Object> {
-    @Query("select o from Object o where ty  < :maxPrice")
-    List<Object> lesser(Long maxPrice);
 }

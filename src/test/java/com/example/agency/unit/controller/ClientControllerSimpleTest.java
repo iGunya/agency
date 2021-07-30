@@ -60,7 +60,7 @@ public class ClientControllerSimpleTest {
                 .andExpect(status().isOk());
 
         Mockito.verify(buyerService,
-                Mockito.times(1)).getBuyerWithPaginationAndFilter(Mockito.any());
+                Mockito.times(1)).getBuyersWithFilter(Mockito.any());
     }
 
     @Test

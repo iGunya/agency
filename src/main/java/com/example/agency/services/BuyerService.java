@@ -17,7 +17,7 @@ public class BuyerService {
     private BuyerRepository buyerRepository;
     private ContractRepository contractRepository;
 
-    public List<Buyer> getBuyerWithPaginationAndFilter(Specification<Buyer> specification){
+    public List<Buyer> getBuyersWithFilter(Specification<Buyer> specification){
         return buyerRepository.findAll(specification);
     }
 

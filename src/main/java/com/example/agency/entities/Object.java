@@ -1,6 +1,6 @@
 package com.example.agency.entities;
 
-import com.example.agency.dto.InputObjectDto;
+import com.example.agency.dto.ObjectDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -45,7 +45,7 @@ public class Object {
 
     public Object(){}
 
-    public void setObjectDto(InputObjectDto objectDto){
+    public void setObjectDto(ObjectDto objectDto){
         this.adress = objectDto.getAdress();
         this.square = objectDto.getSquare();
         this.countFloor = objectDto.getCountFloor();

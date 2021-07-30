@@ -44,7 +44,7 @@ public class ClientController {
         if (search != null)
             filter = filter.and(BuyerSpecification.fioContains(search));
 
-        List<Buyer> buyers = buyerService.getBuyerWithPaginationAndFilter(filter);
+        List<Buyer> buyers = buyerService.getBuyersWithFilter(filter);
         model.addAttribute("buyers", buyers);
         return "all-buyer";
     }
@@ -73,7 +73,7 @@ public class ClientController {
         }else {
             newName = "2021-07-16T17:32:57.892523300_test.docx";
         }
-        if(seller.getPassport() == null) seller = sellerService.findById(seller.getId_seller());
+        if(seller.getPassport() == null) seller = sellerService.getSellerById(seller.getId_seller());
         sellerService.saveContractAndSeller(seller,newName);
         return "redirect:/managers/clients/sellers";
     }
@@ -95,6 +95,15 @@ public class ClientController {
         if(buyer.getPassport() == null) buyer = buyerService.getBuyerById(buyer.getId_buyer());
         buyerService.saveContractAndBuyer(buyer,newName);
         return "redirect:/managers/clients/buyers";
+    }
+
+    @GetMapping("/sellers/{id_seller}/add")
+    public String addContractSeveralSeller(@PathVariable Long id_seller,
+                                           @RequestParam(value = "id_file") Long id_file,
+                                           Model model){
+        //валидация!!!
+        sellerService.addContractForSellerById(id_file, id_seller);
+        return "redirect:/managers/clients/sellers";
     }
 
     @Autowired

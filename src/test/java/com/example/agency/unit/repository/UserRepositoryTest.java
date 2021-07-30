@@ -34,7 +34,7 @@ public class UserRepositoryTest {
     public void testUpdateLoginAndRoleUser() {
         Long id_user=3L;
 
-        userRepository.updateRole("ROLE_MANAGER","newAdmin",id_user);
+        userRepository.updateRoleAndLogin("ROLE_MANAGER","newAdmin",id_user);
 
         User newUser = userRepository.findByLogin("newAdmin");
 

@@ -50,7 +50,7 @@ public class ObjectControllerTest {
                 .andExpect(status().isOk());
 
         Mockito.verify(objectService,
-                Mockito.times(1)).getObjectWithPaginationAndFilter(Mockito.any());
+                Mockito.times(1)).getObjectsWithFilter(Mockito.any());
     }
 
     @Test
@@ -70,9 +70,9 @@ public class ObjectControllerTest {
                 .andExpect(authenticated())
                 .andExpect(status().isOk());
         Mockito.verify(objectService,
-                Mockito.times(1)).allTypeObject();
+                Mockito.times(1)).getAllTypeObject();
         Mockito.verify(objectService,
-                Mockito.times(1)).allTypeObject();
+                Mockito.times(1)).getAllTypeMove();
     }
 
     @Test
@@ -84,6 +84,6 @@ public class ObjectControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/managers/objects"));
         Mockito.verify(objectService,
-                Mockito.times(1)).delete(Mockito.anyLong());
+                Mockito.times(1)).deleteObjectById(Mockito.anyLong());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.agency.services;
 
-import com.example.agency.dto.InputObjectDto;
+import com.example.agency.dto.ObjectDto;
 import com.example.agency.entities.Object;
 import com.example.agency.entities.Photo;
 import com.example.agency.entities.TypeMove;
@@ -11,6 +11,7 @@ import com.example.agency.repositories.TypeMoveRepository;
 import com.example.agency.repositories.TypeObjectRepository;
 import com.example.agency.repositories.specification.ObjectSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -24,15 +25,15 @@ public class ObjectService {
     TypeObjectRepository typeObjectRepository;
     PhotoRepository photoRepository;
 
-    public List<Object> getObjectWithPaginationAndFilter(Specification<Object> specification){
+    public List<Object> getObjectsWithFilter(Specification<Object> specification){
         return objectRepository.findAll(specification);
     }
 
-    public  void createObject(InputObjectDto objectDto,List<String> savePhotoName){
+    public  void createObjectAndSavePhotos(ObjectDto objectDto, List<String> savePhotoName){
         Object object;
 
         if(objectDto.getIdObject()!=null){
-            object = objectRepository.findById(objectDto.getIdObject()).get();
+            object = objectRepository.findById(objectDto.getIdObject()).orElse(null);
         }else {
             object = new Object();
         }
@@ -41,8 +42,8 @@ public class ObjectService {
         object.setTypeObject(typeObjectRepository.findByTypeObject(objectDto.getTypeObject()));
         object.setTypeMove(typeMoveRepository.findByTypeMove(objectDto.getTypeMove()));
 
-        if(savePhotoName != null) {
-            for(String namePhoto : savePhotoName) {
+        if (savePhotoName != null) {
+            for (String namePhoto : savePhotoName) {
                 Photo photo = new Photo();
                 photo.setURL_photo(namePhoto);
                 object.getPhotos().add(photo);
@@ -52,40 +53,47 @@ public class ObjectService {
         objectRepository.save(object);
     }
 
-    public Specification<Object> createSpecificationForObject(String countRoom,
+    public Specification<Object> createSpecificationForObjects(String countRoom,
                                                               String maxPrice,
                                                               String minPrice,
                                                               String typeObject,
                                                               String typeMove){
         Specification<Object> filter = Specification.where(null);
         if(countRoom != null && !countRoom.equals(""))
-            filter = filter.and(ObjectSpecification.countRoomEq(Integer.parseInt(countRoom)));
+            filter = filter.and(ObjectSpecification.countRoomEqual(Integer.parseInt(countRoom)));
         if(maxPrice != null && !maxPrice.equals(""))
-            filter = filter.and(ObjectSpecification.priceGreaterThanOrEq(maxPrice));
+            filter = filter.and(ObjectSpecification.priceGreaterThanOrEqual(maxPrice));
         if(minPrice != null && !minPrice.equals(""))
-            filter = filter.and(ObjectSpecification.priceLesserThanOrEq(minPrice));
+            filter = filter.and(ObjectSpecification.priceLesserThanOrEqual(minPrice));
         if(typeObject!=null && !typeObject.equals("Любой объект")){
             TypeObject dbTypeObject = typeObjectRepository.findByTypeObject(typeObject);
-            filter = filter.and(ObjectSpecification.typeObjectEq(dbTypeObject));
+            filter = filter.and(ObjectSpecification.typeObjectEqual(dbTypeObject));
         }
         if(typeMove!=null && !typeMove.equals("Любой тип")){
             TypeMove dbTypeMove = typeMoveRepository.findByTypeMove(typeMove);
-            filter = filter.and(ObjectSpecification.typeMoveEq(dbTypeMove));
+            filter = filter.and(ObjectSpecification.typeMoveEqual(dbTypeMove));
         }
         return filter;
     }
 
-    public List<InputObjectDto> getApiObject(Specification<Object> specification){
+    public List<ObjectDto> getForApiObjects(Specification<Object> specification){
         return objectRepository.findAll(specification)
                 .stream().map(e->{
-                    InputObjectDto temp = new InputObjectDto();
+                    ObjectDto temp = new ObjectDto();
                     temp.setObject(e);
                     return temp;
                 })
                 .collect(Collectors.toList());
     }
 
-    public void delete(Long id){
+    public ObjectDto getObjectDtoById(Long id){
+        Object object = objectRepository.findById(id).orElse(null);
+        ObjectDto objectDto = new ObjectDto();
+        objectDto.setObject(object);
+        return objectDto;
+    }
+
+    public void deleteObjectById(Long id){
         objectRepository.deleteById(id);
     }
 
@@ -93,11 +101,11 @@ public class ObjectService {
         return objectRepository.findById(id).orElse(null);
     }
 
-    public List<TypeMove> allTypeMove(){
+    public List<TypeMove> getAllTypeMove(){
         return typeMoveRepository.findAll();
     }
 
-    public List<TypeObject> allTypeObject(){
+    public List<TypeObject> getAllTypeObject(){
         return typeObjectRepository.findAll();
     }
 

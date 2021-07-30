@@ -34,12 +34,12 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     public String registrarionUser(@ModelAttribute("user") User user, Model model){
-        User exists = userService.findByLogin(user.getLogin());
-        if(exists != null){
+        User chekFreeUsername = userService.chekUserByUsername(user.getLogin());
+        if(chekFreeUsername != null){
             model.addAttribute("login","Такой пользователь существует");
             return "registration";
         }
-        userService.save(user);
+        userService.saveNewUser(user);
         model.addAttribute("error","Вы успешно зарегистрированны");
         return "login";
     }

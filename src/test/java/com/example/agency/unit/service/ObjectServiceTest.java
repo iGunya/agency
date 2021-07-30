@@ -1,17 +1,14 @@
 package com.example.agency.unit.service;
 
-import com.example.agency.dto.InputObjectDto;
+import com.example.agency.dto.ObjectDto;
 import com.example.agency.entities.Object;
-import com.example.agency.entities.Photo;
 import com.example.agency.repositories.*;
-import com.example.agency.repositories.specification.ObjectSpecification;
 import com.example.agency.services.ObjectService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,7 +32,7 @@ public class ObjectServiceTest {
 
     @Test
     public void testSaveObject(){
-        InputObjectDto saveObject = Mockito.mock(InputObjectDto.class);
+        ObjectDto saveObject = Mockito.mock(ObjectDto.class);
 
         Object object = Mockito.mock(Object.class);
         List<String> NAME_PHOTO= new ArrayList<>();
@@ -45,7 +42,7 @@ public class ObjectServiceTest {
         Mockito.doReturn(1L).when(saveObject).getIdObject();
         Mockito.doReturn(Optional.of(object)).when(objectRepository).findById(Mockito.anyLong());
 
-        objectService.createObject(saveObject,NAME_PHOTO);
+        objectService.createObjectAndSavePhotos(saveObject,NAME_PHOTO);
 
         Mockito.verify(typeObjectRepository,
                 Mockito.times(1)).findByTypeObject(saveObject.getTypeObject());
@@ -57,7 +54,7 @@ public class ObjectServiceTest {
 
     @Test
     public void testSavePhoto(){
-        InputObjectDto saveObject = Mockito.mock(InputObjectDto.class);
+        ObjectDto saveObject = Mockito.mock(ObjectDto.class);
 
         Object object = Mockito.mock(Object.class);
         List<String> NAME_PHOTO= new ArrayList<>();
@@ -67,7 +64,7 @@ public class ObjectServiceTest {
         Mockito.doReturn(1L).when(saveObject).getIdObject();
         Mockito.doReturn(Optional.of(object)).when(objectRepository).findById(Mockito.anyLong());
 
-        objectService.createObject(saveObject,NAME_PHOTO);
+        objectService.createObjectAndSavePhotos(saveObject,NAME_PHOTO);
 
         Mockito.verify(object,
                 Mockito.times(2)).getPhotos();
@@ -81,7 +78,7 @@ public class ObjectServiceTest {
         String typeObject = null;
         String typeMove = null;
 
-        Specification<Object> filter = objectService.createSpecificationForObject(countRoom,maxPrice, minPrice,typeObject,typeMove);
+        Specification<Object> filter = objectService.createSpecificationForObjects(countRoom,maxPrice, minPrice,typeObject,typeMove);
 
         Assert.assertNotNull(filter);
     }

@@ -1,5 +1,6 @@
 package com.example.agency.unit.service;
 
+import com.example.agency.entities.Contract;
 import com.example.agency.entities.User;
 import com.example.agency.repositories.UserRepository;
 import com.example.agency.services.UserService;
@@ -29,9 +30,10 @@ public class UserServiceTest {
     public void testSaveUser(){
         User user = new User();
 
-        userService.save(user);
+        userService.saveNewUser(user);
 
         Assert.assertEquals("ROLE_USER", user.getRole());
+        Mockito.verify(userRepository,Mockito.times(1)).save(Mockito.any(User.class));
     }
 
     @Test
@@ -52,10 +54,7 @@ public class UserServiceTest {
     public void testNullLoadUser(){
         String findNullLogin="user";
 
-        User user = new User();
-        user.setLogin(findNullLogin);
-
-        userService.loadUserByUsername(user.getLogin());
+        userService.loadUserByUsername(findNullLogin);
 
         Mockito.when(userRepository.findByLogin(findNullLogin)).thenReturn(null);
     }

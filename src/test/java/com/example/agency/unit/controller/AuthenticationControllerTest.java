@@ -85,7 +85,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void testNotUniqueUserPostRegistration() throws Exception{
-        when(userService.findByLogin(Mockito.any())).thenReturn(new User());
+        when(userService.chekUserByUsername(Mockito.any())).thenReturn(new User());
 
         mockMvc.perform(post("/registration")
                 .param("username","user")

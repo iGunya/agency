@@ -70,13 +70,13 @@ public class SellerIntegrityTest {
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
                         .string("manager"))
                 //инициализированно 6 контрактов
-                .andExpect(xpath("//*[@class=\"card-body\"]")
+                .andExpect(xpath("//*[@class=\"contract\"]")
                         .nodeCount(6));
     }
 
     @Test
     public void testOneContractForTwoSellers() throws Exception {
-        final String FIND_NAME_FILE = "2021-07-16T17:07:00.933521800_da.txt";
+        final String FIND_NAME_FILE = "3. 2021-07-16T17:07:00.933521800_da.txt";
 
         mockMvc.perform(MockMvcRequestBuilders.get("/managers/clients/sellers"))
                 .andDo(MockMvcResultHandlers.print())
@@ -85,9 +85,9 @@ public class SellerIntegrityTest {
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
                         .string("manager"))
                 //инициализированно 6 контрактов
-                .andExpect(xpath("//*[@id=\"collapse1\"]/div/a")
+                .andExpect(xpath("//*[@id=\"collapse1\"]/div[@class]/a")
                         .string(FIND_NAME_FILE))
-                .andExpect(xpath("//*[@id=\"collapse2\"]/div/a")
+                .andExpect(xpath("//*[@id=\"collapse2\"]/div[@class]/a")
                         .string(FIND_NAME_FILE));
     }
 

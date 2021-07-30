@@ -17,7 +17,7 @@ public class AdimistratorController {
 
     @GetMapping
     public String getAllUser(Model model){
-        model.addAttribute("users",userService.findAllUser());
+        model.addAttribute("users",userService.getAllUser());
         model.addAttribute("userReturn",new User());
         return "admin-user";
     }
@@ -25,13 +25,13 @@ public class AdimistratorController {
     @PostMapping
     public String grandAccessUser(@ModelAttribute("user") User user,
                                         Model model){
-        User check = userService.findByLogin(user.getLogin());
-        if(check==null || check.getId_user().equals(user.getId_user())){
-            userService.updateRole(user);
+        User checkFreeUsername = userService.chekUserByUsername(user.getLogin());
+        if(checkFreeUsername==null || checkFreeUsername.getId_user().equals(user.getId_user())){
+            userService.updateRoleAndLogin(user);
             return "redirect:/only_for_admins";
         }else
             model.addAttribute("error","Пользователь с таким именем существет");
-        model.addAttribute("users",userService.findAllUser());
+        model.addAttribute("users",userService.getAllUser());
         model.addAttribute("userReturn",new User());
         return "admin-user";
     }

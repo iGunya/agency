@@ -33,8 +33,8 @@ public class AWSS3ServiceImp implements AWSS3Service {
     @Override
     @Async
     public List<String> uploadFile(MultipartFile[] multipartFileArr) {
-        List<String> newName= new ArrayList<>();
-        for(MultipartFile multipartFile:multipartFileArr) {
+        List<String> newNames = new ArrayList<>();
+        for(MultipartFile multipartFile : multipartFileArr) {
             LOGGER.info("Файл в процессе загрузки");
             String saveFileName = null;
             try {
@@ -46,16 +46,16 @@ public class AWSS3ServiceImp implements AWSS3Service {
                 LOGGER.info("Неудалось загрузить файл");
                 LOGGER.error(e.getErrorMessage());
             }
-            newName.add(saveFileName);
+            newNames.add(saveFileName);
         }
-        return newName;
+        return newNames;
     }
     //переводим в изображение
     private File convertMultiPartFile(final MultipartFile multipartFile){
         File outputfile = new File(multipartFile.getOriginalFilename());
 
         try {
-            FileOutputStream outputStream= new FileOutputStream(outputfile);
+            FileOutputStream outputStream = new FileOutputStream(outputfile);
             BufferedOutputStream stream =
                     new BufferedOutputStream(outputStream);
             stream.write(multipartFile.getBytes());
@@ -65,12 +65,12 @@ public class AWSS3ServiceImp implements AWSS3Service {
         }
         return outputfile;
     }
-    //оздаём уникально имя и сохраняем
+    //оздаём уникально имя и отправляем
     private String uploadFileToS3Bucket(String bucketName,File file){
         final String uniqueFileName = LocalDateTime.now()+"_"+file.getName();
         LOGGER.info("Уникальное имя фото : "+ uniqueFileName);
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName,uniqueFileName,file);
-//        amazonS3.putObject(putObjectRequest);
+        amazonS3.putObject(putObjectRequest);
         return uniqueFileName;
     }
 

@@ -3,7 +3,7 @@ package com.example.agency.unit.controller;
 import com.example.agency.configs.jwt.AuthEntryPointJwt;
 import com.example.agency.configs.jwt.JwtUtils;
 import com.example.agency.controllers.ObjectController;
-import com.example.agency.dto.InputObjectDto;
+import com.example.agency.dto.ObjectDto;
 import com.example.agency.services.AWSS3ServiceImp;
 import com.example.agency.services.ObjectService;
 import com.example.agency.services.UserService;
@@ -86,7 +86,7 @@ public class ObjectAddAndValidationTest {
         Mockito.verify(awsService,
                 Mockito.times(1)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(objectService,
-                Mockito.times(1)).createObject(Mockito.any(),Mockito.any());
+                Mockito.times(1)).createObjectAndSavePhotos(Mockito.any(),Mockito.any());
     }
 
     @Test
@@ -94,7 +94,7 @@ public class ObjectAddAndValidationTest {
     public void testValidationInputEmptyObject() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/objects/add")
                 .file(file)
-                .requestAttr("object",new InputObjectDto()))
+                .requestAttr("object",new ObjectDto()))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
@@ -102,7 +102,7 @@ public class ObjectAddAndValidationTest {
         Mockito.verify(awsService,
                 Mockito.times(0)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(objectService,
-                Mockito.times(0)).createObject(Mockito.any(),Mockito.any());
+                Mockito.times(0)).createObjectAndSavePhotos(Mockito.any(),Mockito.any());
     }
 
     @Test
@@ -127,6 +127,6 @@ public class ObjectAddAndValidationTest {
         Mockito.verify(awsService,
                 Mockito.times(0)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(objectService,
-                Mockito.times(0)).createObject(Mockito.any(),Mockito.any());
+                Mockito.times(0)).createObjectAndSavePhotos(Mockito.any(),Mockito.any());
     }
 }

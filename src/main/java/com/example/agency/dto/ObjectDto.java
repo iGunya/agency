@@ -8,7 +8,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 
 @Data
-public class InputObjectDto {
+public class ObjectDto {
     private Long idObject;
 
     @NotNull(message = "Поле не должно быть пустым")
@@ -35,8 +35,8 @@ public class InputObjectDto {
 
     public void setObject(Object object){
         this.idObject = object.getIdObject();
-        this.adress = object.getAdress();
-        this.square = object.getSquare();
+        this.adress = object.getAdress().trim();
+        this.square = object.getSquare().trim();
         this.countFloor = object.getCountFloor();
         this.countRoom = object.getCountRoom();
         this.price = object.getPrice().toString();

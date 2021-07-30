@@ -53,7 +53,7 @@ public class AdministratorControllerTest {
     @Test
     @WithMockUser(username = "admin",roles = {"ADMIN"})
     public void testPageAdmin() throws Exception{
-        Mockito.when(userService.findAllUser()).thenReturn(Collections.singletonList(new User()));
+        Mockito.when(userService.getAllUser()).thenReturn(Collections.singletonList(new User()));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/only_for_admins"))
                 .andDo(MockMvcResultHandlers.print())
@@ -62,7 +62,7 @@ public class AdministratorControllerTest {
         .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3").string("admin"));
 
         Mockito.verify(userService,
-                Mockito.times(1)).findAllUser();
+                Mockito.times(1)).getAllUser();
     }
 
     @Test
@@ -87,6 +87,6 @@ public class AdministratorControllerTest {
         .andExpect(redirectedUrl("/only_for_admins"));
 
         Mockito.verify(userService,
-                Mockito.times(1)).updateRole(user);
+                Mockito.times(1)).updateRoleAndLogin(user);
     }
 }

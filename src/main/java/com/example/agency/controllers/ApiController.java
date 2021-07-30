@@ -1,15 +1,18 @@
 package com.example.agency.controllers;
 
 import com.example.agency.configs.jwt.JwtUtils;
-import com.example.agency.dto.InputObjectDto;
+import com.example.agency.dto.ObjectDto;
 import com.example.agency.dto.JwtResponse;
 import com.example.agency.dto.LoginRequest;
 import com.example.agency.dto.UserDetailsImpl;
 import com.example.agency.entities.Object;
-import com.example.agency.repositories.ObjectRepository;
+import com.example.agency.entities.Photo;
+import com.example.agency.entities.User;
 import com.example.agency.services.ObjectService;
+import com.example.agency.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +30,8 @@ import java.util.stream.Collectors;
 public class ApiController {
     @Autowired
     private ObjectService objectService;
+    @Autowired
+    private UserService userService;
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
@@ -55,22 +60,42 @@ public class ApiController {
                 roles.get(0)));
     }
 
-    @GetMapping
-    public List<InputObjectDto> allObject(){
-        Specification<Object> filter = Specification.where(null);
+    @GetMapping("/objects")
+    public List<ObjectDto> allObject(@RequestParam(value = "countRoom",required = false) String countRoom,
+                                     @RequestParam(value = "maxPrice",required = false) String maxPrice,
+                                     @RequestParam(value = "minPrice",required = false) String minPrice,
+                                     @RequestParam(value = "typeObject",required = false) String typeObject,
+                                     @RequestParam(value = "typeMove",required = false) String typeMove){
 
-        return objectService.getApiObject(filter);
+        Specification<Object> filter = objectService.createSpecificationForObjects(
+                countRoom, maxPrice, minPrice, typeObject, typeMove
+        );
+
+        return objectService.getForApiObjects(filter);
     }
-    @GetMapping("/{id}")
-    public void getObgect(){
-
+    @GetMapping("/objects/{id}")
+    public ObjectDto getObgect(@PathVariable Long id){
+        return objectService.getObjectDtoById(id);
     }
-    @GetMapping("/{id}/photos")
-    public void getObgectPhoto(){
 
+    @GetMapping("/objects/{id}/photos")
+    public List<Photo> getObgectPhoto(@PathVariable Long id){
+        return objectService.getObjectById(id).getPhotos();
     }
-    @GetMapping("/like/{id_user}}")
-    public void getLikeObgect(){
 
+    @GetMapping("/like")
+    public List<ObjectDto> getLikeObject(Principal principal){
+        String username = principal.getName();
+        return userService.getLikeObjectDtoByUsername(username);
+    }
+
+    @GetMapping("/like/add/{id_object}")
+    public ResponseEntity<String> addLikeObject(@PathVariable Long id_object,
+                                                Principal principal){
+        String username = principal.getName();
+        if (userService.addLikeObject(id_object,username))
+            return ResponseEntity.status(HttpStatus.OK).body("Запись добавленна");
+        else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не найден объект");
     }
 }

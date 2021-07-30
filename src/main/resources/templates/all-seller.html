@@ -62,9 +62,15 @@
                                 </div>
                             </div>
                             <div th:id="'collapse'+${iterator.index}" class="collapse" th:aria-labelledby="'heading'+${iterator.index}" data-parent="#accordionExample">
-                                <div class="card-body" th:each="document : ${seller.contractsSeller}">
+                                <div>
+                                    <form class="form-inline row justify-content-between" th:action="@{'/managers/clients/sellers/'+${seller.getId_seller()}+'/add'}" method="get">
+                                        <input class="col-4" name="id_file" placeholder="Номер контракта" />
+                                        <button class="btn btn-primary col-4" type="submit">Добавить</button>
+                                    </form>
+                                </div>
+                                <div class="contract" th:each="document : ${seller.contractsSeller}">
                                     <a th:href="'https://storage.yandexcloud.net/okm3agency/'+${document.urlContract}"
-                                    th:text="${document.urlContract}"/>
+                                          th:text="${document.id_contract}+'. '+${document.urlContract}"/>
                                 </div>
                             </div>
                         </div>

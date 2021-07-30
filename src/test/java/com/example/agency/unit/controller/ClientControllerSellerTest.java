@@ -76,7 +76,7 @@ public class ClientControllerSellerTest {
         Mockito.verify(awss3Service,
                 Mockito.times(1)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(sellerService,
-                Mockito.times(0)).findById(Mockito.anyLong());
+                Mockito.times(0)).getSellerById(Mockito.anyLong());
         Mockito.verify(sellerService,
                 Mockito.times(1)).saveContractAndSeller(Mockito.any(Seller.class),Mockito.anyString());
     }
@@ -85,7 +85,7 @@ public class ClientControllerSellerTest {
     @WithMockUser(username = "manager",roles = {"MANAGER"})
     public void testPageUpdatePostSeller() throws Exception {
         Mockito.when(awss3Service.uploadFile(Mockito.any())).thenReturn(Collections.singletonList("Имя файла"));
-        Mockito.when(sellerService.findById(Mockito.anyLong())).thenReturn(new Seller());
+        Mockito.when(sellerService.getSellerById(Mockito.anyLong())).thenReturn(new Seller());
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/clients/sellers/add")
                 .file(file)
@@ -99,7 +99,7 @@ public class ClientControllerSellerTest {
         Mockito.verify(awss3Service,
                 Mockito.times(1)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(sellerService,
-                Mockito.times(1)).findById(Mockito.anyLong());
+                Mockito.times(1)).getSellerById(Mockito.anyLong());
         Mockito.verify(sellerService,
                 Mockito.times(1)).saveContractAndSeller(Mockito.any(Seller.class),Mockito.anyString());
     }
@@ -122,7 +122,7 @@ public class ClientControllerSellerTest {
         Mockito.verify(awss3Service,
                 Mockito.times(0)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(sellerService,
-                Mockito.times(0)).findById(Mockito.anyLong());
+                Mockito.times(0)).getSellerById(Mockito.anyLong());
         Mockito.verify(sellerService,
                 Mockito.times(0)).saveContractAndSeller(Mockito.any(Seller.class),Mockito.anyString());
     }

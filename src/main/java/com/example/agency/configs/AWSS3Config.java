@@ -19,13 +19,13 @@ public class AWSS3Config {
     private String region;
 
     @Bean
-    public AmazonS3 getAmazonS3Cient() {
+    public AmazonS3 getAmazonS3Client() {
         final BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(accessKeyId, secretAccessKey);
         return AmazonS3ClientBuilder
                 .standard()
                 .withEndpointConfiguration(
                         new AmazonS3ClientBuilder.EndpointConfiguration(
-                                "storage.yandexcloud.net","ru-central1"
+                                "storage.yandexcloud.net",region
                         )
                 )
                 .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
