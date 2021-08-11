@@ -32,7 +32,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testUpdateLoginAndRoleUser() {
-        Long id_user=3L;
+        Long id_user=4L;
 
         userRepository.updateRoleAndLogin("ROLE_MANAGER","newAdmin",id_user);
 

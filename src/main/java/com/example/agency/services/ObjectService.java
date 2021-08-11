@@ -89,7 +89,9 @@ public class ObjectService {
     public ObjectDto getObjectDtoById(Long id){
         Object object = objectRepository.findById(id).orElse(null);
         ObjectDto objectDto = new ObjectDto();
-        objectDto.setObject(object);
+        if (object != null) {
+            objectDto.setObject(object);
+        }
         return objectDto;
     }
 

@@ -74,12 +74,12 @@ public class ApiController {
         return objectService.getForApiObjects(filter);
     }
     @GetMapping("/objects/{id}")
-    public ObjectDto getObgect(@PathVariable Long id){
+    public ObjectDto getObject(@PathVariable Long id){
         return objectService.getObjectDtoById(id);
     }
 
     @GetMapping("/objects/{id}/photos")
-    public List<Photo> getObgectPhoto(@PathVariable Long id){
+    public List<Photo> getObjectPhoto(@PathVariable Long id){
         return objectService.getObjectById(id).getPhotos();
     }
 

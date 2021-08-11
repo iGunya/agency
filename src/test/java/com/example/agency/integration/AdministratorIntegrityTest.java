@@ -45,7 +45,8 @@ public class AdministratorIntegrityTest {
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
                         .string("admin"))
                 .andExpect(xpath("/html/body/div/div[2]/div/div/div/table/tbody/tr")
-                        .nodeCount(2));
+                        //3 пользователя в БД
+                        .nodeCount(3));
     }
 
     @Test
@@ -79,7 +80,8 @@ public class AdministratorIntegrityTest {
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
                         .string("admin"))
                 .andExpect(xpath("/html/body/div/div[2]/div/div/div/table/tbody/tr")
-                        .nodeCount(2));
+                        //3 пользователя в БД
+                        .nodeCount(3));
     }
 
 }

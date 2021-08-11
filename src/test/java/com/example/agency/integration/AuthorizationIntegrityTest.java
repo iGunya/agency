@@ -43,7 +43,7 @@ public class AuthorizationIntegrityTest {
 
     @Test
     public void testBadLogin() throws Exception{
-        mockMvc.perform(formLogin().user("user").password("100"))
+        mockMvc.perform(formLogin().user("user1").password("100"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?error=true"));
@@ -52,7 +52,7 @@ public class AuthorizationIntegrityTest {
     @Test
     public void testRegistration() throws Exception{
         mockMvc.perform(post("/registration")
-                .param("login","user")
+                .param("login","user1")
                 .param("password","100"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
