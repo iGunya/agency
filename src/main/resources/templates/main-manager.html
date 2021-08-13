@@ -59,7 +59,7 @@
                                     <div th:id="'sliderBigImages'+${it.index}" class="carousel slide" data-ride="carousel" style="width: 270px">
                                         <div class="carousel-inner">
                                             <div th:each="photo, iterator : ${obgect.getPhotos()}" th:class="'carousel-item '+ (${iterator.index!=0}? '' :'active')">
-                                                <img th:src="'https://storage.yandexcloud.net/okm3agency/'+${photo.getURL_photo()}" class="d-block w-100" alt="Природа">
+                                                <img th:src="'https://storage.yandexcloud.net/okm3agency/'+${photo.getURL_photo()}" class="d-block w-100" alt="Природа"/>
                                             </div>
                                         </div>
                                         <a class="carousel-control-prev" th:href="'#sliderBigImages'+${it.index}" role="button" data-slide="prev">
@@ -88,9 +88,8 @@
                                         <!--                                <p th:text="${obgect.}">Тип</p>-->
                                     </div>
                                 </div>
-                                <div class="desc">
-<!--                                th:text="${obgect.description}">-->
-                                    очнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много
+                                <div class="desc"
+                                     th:text="${obgect.description}+'очнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много'">
                                 </div>
                             </div>
                         </div>

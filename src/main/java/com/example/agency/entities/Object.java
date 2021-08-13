@@ -2,10 +2,14 @@ package com.example.agency.entities;
 
 import com.example.agency.dto.ObjectDto;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -37,9 +41,13 @@ public class Object {
     @JoinColumn(name="id_type_move")
     private TypeMove typeMove;
 
-    @OneToMany(fetch= FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinColumn(name = "id_object")
     private List<Photo> photos = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "objects",fetch = FetchType.EAGER)
+    private Set<User> users = new HashSet<>();
 
     private Integer idContract;
 

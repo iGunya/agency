@@ -1,17 +1,11 @@
 package com.example.agency.services;
 
 import com.example.agency.dto.ObjectDto;
+import com.example.agency.entities.*;
 import com.example.agency.entities.Object;
-import com.example.agency.entities.Photo;
-import com.example.agency.entities.TypeMove;
-import com.example.agency.entities.TypeObject;
-import com.example.agency.repositories.ObjectRepository;
-import com.example.agency.repositories.PhotoRepository;
-import com.example.agency.repositories.TypeMoveRepository;
-import com.example.agency.repositories.TypeObjectRepository;
+import com.example.agency.repositories.*;
 import com.example.agency.repositories.specification.ObjectSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +18,7 @@ public class ObjectService {
     TypeMoveRepository typeMoveRepository;
     TypeObjectRepository typeObjectRepository;
     PhotoRepository photoRepository;
+    UserRepository userRepository;
 
     public List<Object> getObjectsWithFilter(Specification<Object> specification){
         return objectRepository.findAll(specification);
@@ -96,6 +91,12 @@ public class ObjectService {
     }
 
     public void deleteObjectById(Long id){
+        List<User> users = userRepository.findUserByObjects_IdObject(id);
+        Object object = objectRepository.findById(id).orElse(null);
+        for (User user:users){
+            user.removeObject(object);
+        }
+
         objectRepository.deleteById(id);
     }
 
@@ -115,10 +116,12 @@ public class ObjectService {
     public ObjectService(ObjectRepository objectRepository,
                          TypeMoveRepository typeMoveRepository,
                          TypeObjectRepository typeObjectRepository,
-                         PhotoRepository photoRepository) {
+                         PhotoRepository photoRepository,
+                         UserRepository userRepository) {
         this.objectRepository = objectRepository;
         this.typeMoveRepository = typeMoveRepository;
         this.typeObjectRepository = typeObjectRepository;
         this.photoRepository = photoRepository;
+        this.userRepository = userRepository;
     }
 }

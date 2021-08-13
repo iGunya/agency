@@ -116,9 +116,6 @@ public class ObjectIntegrityTest {
     }
 
 
-    @MockBean
-    private AmazonS3 amazonS3;
-
     @Test
     public void testPageAddObjectPostRequest() throws Exception{
         MockMultipartFile file = new MockMultipartFile(

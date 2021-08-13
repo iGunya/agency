@@ -9,13 +9,18 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @Sql(scripts = "/init_users.sql")
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class UserRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
@@ -25,6 +30,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindByLoginUser() {
+        List<User> userList = userRepository.findAll();
         User user = userRepository.findByLogin("manager");
 
         assertThat(user.getLogin()).isEqualTo("manager");

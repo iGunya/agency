@@ -28,6 +28,8 @@ public class TestConfig {
                 ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_users.sql"));
                 ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_buyer.sql"));
                 ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_seller.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_photo.sql"));
+                ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_like.sql"));
                 ScriptUtils.executeSqlScript(con, new ClassPathResource("/init_contract.sql"));
             }
             checkOneInit = false;

@@ -59,12 +59,21 @@ public class UserService implements UserDetailsService {
         if (object == null){
             return false;
         }
-        user.getObjects().add(object);
+        user.addObject(object);
         userRepository.save(user);
         return true;
     }
 
     public List<ObjectDto> getLikeObjectDtoByUsername(String username){
+//        List<Object> objects = userRepository.findObjectEagerly(username);
+//
+//        return objects.stream().map(object -> {
+//                    ObjectDto objectDto = new ObjectDto();
+//                    objectDto.setObject(object);
+//                    return objectDto;
+//                })
+//                .collect(Collectors.toList());
+
         User user = userRepository.findByLogin(username);
         return user.getObjects().stream().map(object -> {
                     ObjectDto objectDto = new ObjectDto();
