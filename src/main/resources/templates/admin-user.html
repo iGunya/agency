@@ -15,8 +15,8 @@
     <link th:href="@{/css/style-304.css}" rel="stylesheet"/>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <style>
         /* Style to reverse the caret icon from pointing downwards to upwards */
         .caret.caret-up {
@@ -75,20 +75,30 @@
                                 <input type="hidden" name="id_user" value="" th:value="${user.id_user}"/>
                                 <td> <input class="td row" name="login" th:value="${#strings.trim(user.login)}"/></td>
                                 <td>
-                                    <select class="row form-control" id="role" name="role"
+                                    <select class="row form-control" id="role1" name="role"
                                             th:with="str=${#strings.trim(user.role)}">
                                         <option  th:value="'ROLE_ADMIN'" th:selected="${str eq 'ROLE_ADMIN'}">ROLE_ADMIN</option>
                                         <option  th:value="'ROLE_MANAGER'" th:selected="${str eq 'ROLE_MANAGER'}">ROLE_MANAGER</option>
                                         <option  th:value="'ROLE_USER'" th:selected="${str eq 'ROLE_USER'}">ROLE_USER</option>
                                     </select>
                                 </td>
-                                <td><button type="submit" class="btn btn-primary">Подтвердить</button></td>
+                                <td><button type="button" class="btn btn-primary">Подтвердить</button></td>
                             </form>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
+<!--            <form action="#" class="form-horizontal test" method="POST">-->
+<!--                <input type="hidden" name="id_user" value="2"/>-->
+<!--                <input class="row" name="login" value="admi"/>-->
+<!--                <select class="row form-control" id="role" name="role">-->
+<!--                    <option  value="ROLE_ADMIN" selected>ROLE_ADMIN</option>-->
+<!--                    <option  value="ROLE_MANAGER">ROLE_MANAGER</option>-->
+<!--                    <option  value="ROLE_USER">ROLE_USER</option>-->
+<!--                </select>-->
+<!--                <button type="button" class="test1">Подтвердить</button>-->
+<!--            </form>-->
         </div>
     </div>
     <!-- Clearfix -->
@@ -99,5 +109,6 @@
 <!-- Javascript files -->
 <!-- jQuery -->
 
+<script th:src="@{/js/admin.js}"></script>
 </body>
 </html>

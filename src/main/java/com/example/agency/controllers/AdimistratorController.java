@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -22,19 +20,19 @@ public class AdimistratorController {
         return "admin-user";
     }
 
-    @PostMapping
-    public String grandAccessUser(@ModelAttribute("user") User user,
-                                        Model model){
-        User checkFreeUsername = userService.chekUserByUsername(user.getLogin());
-        if(checkFreeUsername==null || checkFreeUsername.getId_user().equals(user.getId_user())){
-            userService.updateRoleAndLogin(user);
-            return "redirect:/only_for_admins";
-        }else
-            model.addAttribute("error","Пользователь с таким именем существет");
-        model.addAttribute("users",userService.getAllUser());
-        model.addAttribute("userReturn",new User());
-        return "admin-user";
-    }
+//    @PostMapping
+//    public String grandAccessUser(@ModelAttribute("user") User user,
+//                                        Model model){
+//        User checkFreeUsername = userService.chekUserByUsername(user.getLogin());
+//        if(checkFreeUsername==null || checkFreeUsername.getId_user().equals(user.getId_user())){
+//            userService.updateRoleAndLogin(user);
+//            return "redirect:/only_for_admins";
+//        }else
+//            model.addAttribute("error","Пользователь с таким именем существет");
+//        model.addAttribute("users",userService.getAllUser());
+//        model.addAttribute("userReturn",new User());
+//        return "admin-user";
+//    }
 
     @Autowired
     public AdimistratorController(UserService userService) {
