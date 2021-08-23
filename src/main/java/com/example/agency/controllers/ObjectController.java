@@ -38,27 +38,6 @@ public class ObjectController {
         return "add-object";
     }
 
-//    @PostMapping("/add")
-//    public String saveObject(@ModelAttribute(value = "object") @Valid ObjectDto object,
-//                             BindingResult bindingResult,
-//                             @RequestPart(value= "fileName") final MultipartFile[] multipartFile,
-//                             Model model){
-//        if(bindingResult.hasErrors()) {
-//            getTypes(model);
-//            model.addAttribute("type", object.getIdObject() == null ? "Добавление" : "Обновление");
-//            return "add-object";
-//        }
-//        List<String> saveFileName = new ArrayList<>();
-//        if (!multipartFile[0].getOriginalFilename().equals("")) {
-//            saveFileName = awsService.uploadFile(multipartFile);
-//        }else{
-//            saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");
-//            saveFileName.add("2021-07-23T10:41:23.659260200_test.jpg");
-//        }
-//        objectService.createObjectAndSavePhotos(object,saveFileName);
-//        return "redirect:/managers/objects";
-//    }
-
     @GetMapping("/update/{id}")
     public String addObject(@PathVariable Long id,
                             Model model){
@@ -69,12 +48,6 @@ public class ObjectController {
         getTypes(model);
         model.addAttribute("type", "Обновление");
         return "add-object";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteObject(@PathVariable Long id){
-        objectService.deleteObjectById(id);
-        return "redirect:/managers/objects";
     }
 
     private void getTypes(Model model){

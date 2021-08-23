@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>
-                                    <a href="/managers/objects/delete/${json.idObject}" onclick="return confirm('Вы действительно хотите удалить объект?')">
+                                    <a href="/managers/objects/delete/${json.idObject}" >
                                         <img src="/image/delete.png" class="close" alt="удоли"/>
                                     </a>
                                 </div>
@@ -88,7 +88,9 @@ window.addEventListener('DOMContentLoaded', () => {
             .then(json => {for (let object in json) {
                 // console.log(json[object]);
                 viewObject(json[object]);
+                addListenerRemove(nowContent);
             }
+
             });
     }
 
@@ -117,4 +119,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
     listFilters.forEach(fild => addListener(fild));
 
+    //удаление объекта
+
+    const addListenerRemove = (listNode) => {
+        listNode.forEach(node => node.addEventListener("click", e => {
+            if (e.target.className === 'close'){
+                e.preventDefault();
+                const verify = confirm('Вы действительно хотите удалить объект?');
+                if (verify) {
+                    fetch(e.target.parentElement.getAttribute("href"))
+                        .then(response => node.remove())
+                }
+            }
+        }));
+    };
+
 });
+
+// onclick="return confirm('Вы действительно хотите удалить объект?')"

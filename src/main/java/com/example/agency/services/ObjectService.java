@@ -97,7 +97,7 @@ public class ObjectService {
             user.removeObject(object);
         }
 
-        objectRepository.deleteById(id);
+//        objectRepository.deleteById(id);
     }
 
     public Object getObjectById(Long id){

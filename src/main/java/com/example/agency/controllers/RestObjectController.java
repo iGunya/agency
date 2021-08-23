@@ -48,13 +48,14 @@ public class RestObjectController {
     public ResponseEntity<?> saveObject(
                                         @Valid @RequestPart ("object") ObjectDto object,
                                         BindingResult bindingResult,
-                                        @RequestPart(value = "fileName[]") final MultipartFile[] multipartFile
+                                        @RequestPart(value = "fileName[]", required = false) final MultipartFile[] multipartFile
     ){
         if(bindingResult.hasErrors()) {
             return ResponseEntity.status(HttpStatus.OK).body(bindingResult.getFieldErrors());
         }
         List<String> saveFileName = new ArrayList<>();
-        if (!multipartFile[0].getOriginalFilename().equals("")) {
+//        if (!multipartFile[0].getOriginalFilename().equals("")) {
+        if (multipartFile != null){
             saveFileName = awsService.uploadFile(multipartFile);
         }else{
             saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");
@@ -62,5 +63,11 @@ public class RestObjectController {
         }
         objectService.createObjectAndSavePhotos(object,saveFileName);
         return ResponseEntity.status(HttpStatus.OK).body("Объект добавлен");
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteObject(@PathVariable Long id){
+//        objectService.deleteObjectById(id);
+        return "Ок";
     }
 }
