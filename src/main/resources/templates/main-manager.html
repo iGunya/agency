@@ -49,56 +49,14 @@
                     </div>
                 </form>
                 <h3></h3>
-                <a href="/managers/objects/add" class="btn btn-lg btn-primary btn-block" role="button" aria-pressed="true">Добавить объект</a>
-                <!-- Контент -->
-                <div th:each="obgect,it : ${objects}">
-                    <a th:href="'/managers/objects/update/'+ ${obgect.getIdObject()}">
-                        <div class = "row my_card" >
-                            <div class="col-4">
-                                <div class="row">
-                                    <div th:id="'sliderBigImages'+${it.index}" class="carousel slide" data-ride="carousel" style="width: 270px">
-                                        <div class="carousel-inner">
-                                            <div th:each="photo, iterator : ${obgect.getPhotos()}" th:class="'carousel-item '+ (${iterator.index!=0}? '' :'active')">
-                                                <img th:src="'https://storage.yandexcloud.net/okm3agency/'+${photo.getURL_photo()}" class="d-block w-100" alt="Природа"/>
-                                            </div>
-                                        </div>
-                                        <a class="carousel-control-prev" th:href="'#sliderBigImages'+${it.index}" role="button" data-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next" th:href="'#sliderBigImages'+${it.index}" role="button" data-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </div>
-                                    <a th:href="'/managers/objects/delete/'+ ${obgect.getIdObject()}" onclick="return confirm('Вы действительно хотите удалить объект?')">
-                                        <img src="/image/delete.png" class="close" alt="удоли"/>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class = "col-8">
-                                <div class="row">
-                                    <div class="col-4 price">
-                                        <h4 th:text="${obgect.price}">ЦЕНА</h4>
-                                    </div>
-                                    <div class="col-8 info">
-                                        <h6 th:text="${obgect.countRoom}+' к, '+ ${obgect.square} + ' м2'"></h6>
-                                        <p th:text="${obgect.getCountFloor()}+' этаж'">Этаж</p>
-                                        <p th:text="${obgect.adress}">Адрес</p>
-                                        <!--                                <p th:text="${obgect.}">Тип</p>-->
-                                    </div>
-                                </div>
-                                <div class="desc"
-                                     th:text="${obgect.description}+'очнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много'">
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                <a href="/managers/objects/add" class="btn btn-lg btn-primary btn-block" role="button" id="add-object" aria-pressed="true">Добавить объект</a>
+<!--                 Контент -->
+
             </div>
         </div>
     </div>
 </div>
 <script th:src="@{/js/clear.js}"></script>
+<script th:src="@{/js/object.js}"></script>
 </body>
 </html>

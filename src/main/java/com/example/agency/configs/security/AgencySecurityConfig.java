@@ -34,6 +34,7 @@ public class AgencySecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").not().fullyAuthenticated()
                 .antMatchers("/only_for_admins/**").hasRole("ADMIN")
                 .antMatchers("/managers/**").hasRole("MANAGER")
+//                .antMatchers("/managers/**").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()

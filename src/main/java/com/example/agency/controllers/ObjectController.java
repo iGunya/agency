@@ -25,52 +25,39 @@ public class ObjectController {
     AWSS3ServiceImp awsService;
 
     @GetMapping
-    public String allObject(Model model,
-                            @RequestParam(value = "countRoom",required = false) String countRoom,
-                            @RequestParam(value = "maxPrice",required = false) String maxPrice,
-                            @RequestParam(value = "minPrice",required = false) String minPrice,
-                            @RequestParam(value = "typeObject",required = false) String typeObject,
-                            @RequestParam(value = "typeMove",required = false) String typeMove){
-        Specification<Object> filter = objectService.createSpecificationForObjects(
-                countRoom, maxPrice, minPrice, typeObject, typeMove
-        );
-        List<Object> filterObject=objectService.getObjectsWithFilter(filter);
-        model.addAttribute("objects",filterObject);
-        model.addAttribute("typeObject", objectService.getAllTypeObject());
-        model.addAttribute("typeMove", objectService.getAllTypeMove());
+    public String allObject(Model model){
+        getTypes(model);
         return "main-manager";
     }
 
     @GetMapping("/add")
     public String addObject(Model model){
         model.addAttribute("object",new ObjectDto());
-        model.addAttribute("typeObject", objectService.getAllTypeObject());
-        model.addAttribute("typeMove", objectService.getAllTypeMove());
+        getTypes(model);
         model.addAttribute("type", "Добавление");
         return "add-object";
     }
 
-    @PostMapping("/add")
-    public String saveObject(@ModelAttribute(value = "object") @Valid ObjectDto object,
-                             BindingResult bindingResult,
-                             @RequestPart(value= "fileName") final MultipartFile[] multipartFile,
-                             Model model){
-        if(bindingResult.hasErrors()) {
-            model.addAttribute("typeObject", objectService.getAllTypeObject());
-            model.addAttribute("typeMove", objectService.getAllTypeMove());
-            model.addAttribute("type", object.getIdObject() == null ? "Добавление" : "Обновление");
-            return "add-object";
-        }
-        List<String> saveFileName = new ArrayList<>();
-        if (!multipartFile[0].getOriginalFilename().equals("")) {
-            saveFileName = awsService.uploadFile(multipartFile);
-        }else{
-            saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");
-            saveFileName.add("2021-07-23T10:41:23.659260200_test.jpg");
-        }
-        objectService.createObjectAndSavePhotos(object,saveFileName);
-        return "redirect:/managers/objects";
-    }
+//    @PostMapping("/add")
+//    public String saveObject(@ModelAttribute(value = "object") @Valid ObjectDto object,
+//                             BindingResult bindingResult,
+//                             @RequestPart(value= "fileName") final MultipartFile[] multipartFile,
+//                             Model model){
+//        if(bindingResult.hasErrors()) {
+//            getTypes(model);
+//            model.addAttribute("type", object.getIdObject() == null ? "Добавление" : "Обновление");
+//            return "add-object";
+//        }
+//        List<String> saveFileName = new ArrayList<>();
+//        if (!multipartFile[0].getOriginalFilename().equals("")) {
+//            saveFileName = awsService.uploadFile(multipartFile);
+//        }else{
+//            saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");
+//            saveFileName.add("2021-07-23T10:41:23.659260200_test.jpg");
+//        }
+//        objectService.createObjectAndSavePhotos(object,saveFileName);
+//        return "redirect:/managers/objects";
+//    }
 
     @GetMapping("/update/{id}")
     public String addObject(@PathVariable Long id,
@@ -79,8 +66,7 @@ public class ObjectController {
         object.setObject(objectService.getObjectById(id));
 
         model.addAttribute("object",object);
-        model.addAttribute("typeObject", objectService.getAllTypeObject());
-        model.addAttribute("typeMove", objectService.getAllTypeMove());
+        getTypes(model);
         model.addAttribute("type", "Обновление");
         return "add-object";
     }
@@ -89,5 +75,10 @@ public class ObjectController {
     public String deleteObject(@PathVariable Long id){
         objectService.deleteObjectById(id);
         return "redirect:/managers/objects";
+    }
+
+    private void getTypes(Model model){
+        model.addAttribute("typeObject", objectService.getAllTypeObject());
+        model.addAttribute("typeMove", objectService.getAllTypeMove());
     }
 }
