@@ -3,10 +3,12 @@ package com.example.agency.unit.controller;
 import com.example.agency.configs.jwt.AuthEntryPointJwt;
 import com.example.agency.configs.jwt.JwtUtils;
 import com.example.agency.controllers.ObjectController;
+import com.example.agency.controllers.RestObjectController;
 import com.example.agency.dto.ObjectDto;
 import com.example.agency.services.AWSS3ServiceImp;
 import com.example.agency.services.ObjectService;
 import com.example.agency.services.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,10 +28,13 @@ import java.util.Collections;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(ObjectController.class)
-public class ObjectAddAndValidationTest {
+@WebMvcTest(RestObjectController.class)
+public class RestObjectAddAndValidationTest {
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private AWSS3ServiceImp awsService;
@@ -52,7 +57,7 @@ public class ObjectAddAndValidationTest {
     @BeforeAll
     public static void init(){
         file = new MockMultipartFile(
-                "fileName",
+                "fileName[]",
                 "hello.txt",
                 MediaType.TEXT_PLAIN_VALUE,
                 "Hello, World!".getBytes()
@@ -67,24 +72,28 @@ public class ObjectAddAndValidationTest {
     @Test
     @WithMockUser(username = "manager",roles = {"MANAGER"})
     public void testPageAddPostCorrectObject() throws Exception{
+        ObjectDto objectDto = new ObjectDto();
+        objectDto.setAdress("Район Улица Дом");
+        objectDto.setSquare("-1/34/5");
+        objectDto.setCountRoom(1);
+        objectDto.setCountFloor(1);
+        objectDto.setPrice("1500000");
+        objectDto.setRealPrice("1300000");
+        objectDto.setTypeObject("Квартира");
+        objectDto.setTypeMove("Продажа");
+
+        MockMultipartFile jsonFile = new MockMultipartFile("object", "",
+                "application/json", objectMapper.writeValueAsBytes(objectDto));
         mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/objects/add")
                 .file(file)
-                .param("adress","Район Улица Дом")
-                .param("square","-1/34/5")
-                .param("countRoom","1")
-                .param("countFloor","1")
-                .param("price","1500000")
-                .param("realPrice","1300000")
-                .param("description","asdas")
-                .param("typeObject","Квартира")
-                .param("typeMove","Продажа"))
+                .file(jsonFile))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/managers/objects"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value("Объект добавлен"));
 
         Mockito.verify(awsService,
-                Mockito.times(1)).uploadFile(new MockMultipartFile[]{file});
+                Mockito.times(1)).uploadFile(Mockito.any());
         Mockito.verify(objectService,
                 Mockito.times(1)).createObjectAndSavePhotos(Mockito.any(),Mockito.any());
     }
@@ -92,13 +101,22 @@ public class ObjectAddAndValidationTest {
     @Test
     @WithMockUser(username = "manager",roles = {"MANAGER"})
     public void testValidationInputEmptyObject() throws Exception{
+        ObjectDto objectDto = new ObjectDto();
+        objectDto.setAdress("");
+        objectDto.setPrice("");
+        objectDto.setRealPrice("");
+
+        MockMultipartFile jsonFile = new MockMultipartFile("object", "",
+                "application/json", objectMapper.writeValueAsBytes(objectDto));
+
         mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/objects/add")
-                .file(file)
-                .requestAttr("object",new ObjectDto()))
+                    .file(file)
+                    .file(jsonFile))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
-                .andExpect(view().name("add-object"));
+                .andExpect(jsonPath("$.length()").value(5));
+
         Mockito.verify(awsService,
                 Mockito.times(0)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(objectService,
@@ -108,22 +126,25 @@ public class ObjectAddAndValidationTest {
     @Test
     @WithMockUser(username = "manager",roles = {"MANAGER"})
     public void testValidationInputBadFieldObject() throws Exception{
+        ObjectDto objectDto = new ObjectDto();
+        objectDto.setAdress("Район Улица Дом");
+        objectDto.setSquare("-1/3b/5");
+        objectDto.setCountRoom(-1);
+        objectDto.setCountFloor(1);
+        objectDto.setPrice("150dfdfdf00");
+        objectDto.setRealPrice("1300000");
+
+        MockMultipartFile jsonFile = new MockMultipartFile("object", "",
+                "application/json", objectMapper.writeValueAsBytes(objectDto));
+
         mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/objects/add")
                 .file(file)
                 //ошибки формата ввода
-                .param("adress","Район Улица Дом")
-                .param("square","-1/3b/5")
-                .param("countRoom","-1")
-                .param("countFloor","1")
-                .param("price","150dfdfdf00")
-                .param("realPrice","1300000")
-                .param("description","asdas")
-                .param("typeObject","Квартира")
-                .param("typeMove","Продажа"))
+                .file(jsonFile))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
-                .andExpect(view().name("add-object"));
+                .andExpect(jsonPath("$.length()").value(3));
         Mockito.verify(awsService,
                 Mockito.times(0)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(objectService,

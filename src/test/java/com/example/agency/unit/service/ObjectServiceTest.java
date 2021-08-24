@@ -29,6 +29,8 @@ public class ObjectServiceTest {
     private PhotoRepository photoRepository;
     @Mock
     private ObjectRepository objectRepository;
+    @Mock
+    private UserRepository userRepository;
 
     @Test
     public void testSaveObject(){
@@ -81,5 +83,17 @@ public class ObjectServiceTest {
         Specification<Object> filter = objectService.createSpecificationForObjects(countRoom,maxPrice, minPrice,typeObject,typeMove);
 
         Assert.assertNotNull(filter);
+    }
+
+    @Test
+    public void testDeleteObject(){
+        objectService.deleteObjectById(1L);
+
+        Mockito.verify(userRepository,
+                Mockito.times(1)).findUserByObjects_IdObject(Mockito.anyLong());
+        Mockito.verify(objectRepository,
+                Mockito.times(1)).findById(Mockito.anyLong());
+        Mockito.verify(objectRepository,
+                Mockito.times(1)).deleteById(Mockito.anyLong());
     }
 }

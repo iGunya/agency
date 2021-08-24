@@ -67,7 +67,7 @@ public class RestObjectController {
 
     @GetMapping("/delete/{id}")
     public String deleteObject(@PathVariable Long id){
-//        objectService.deleteObjectById(id);
+        objectService.deleteObjectById(id);
         return "Ок";
     }
 }

@@ -1,17 +1,17 @@
 package com.example.agency.integration;
 
+import com.example.agency.entities.Object;
 import com.example.agency.entities.User;
+import com.example.agency.repositories.ObjectRepository;
 import com.example.agency.repositories.UserRepository;
-import org.junit.Assert;
-import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.Ordered;
-import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,35 +19,44 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.matchers.JUnitMatchers.containsString;
+import java.util.List;
+
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@WithUserDetails("admin")
 @TestPropertySource(locations = "classpath:application-test.properties")
 @ContextConfiguration(classes = {TestConfig.class})
+@WithUserDetails("manager")
 @Transactional
-public class AdministratorIntegrityTest {
+public class TestCascadeDeleteObject {
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ObjectRepository objectRepository;
 
     @Test
-    public void testPageAdmin() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/only_for_admins"))
+    @WithMockUser(username = "manager",roles = {"MANAGER"})
+    public void testDeleteObjectFromLikeUser() throws Exception{
+        final long ID_DELETE_OBJECT = 1L;
+
+        List<User> UsersWithLikeDeleteObject = userRepository
+                .findUserByObjects_IdObject(ID_DELETE_OBJECT);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects/delete/1"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
-                .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
-                        .string("admin"))
-                .andExpect(xpath("/html/body/div/div[2]/div/div/div/table/tbody/tr")
-                        //3 пользователя в БД
-                        .nodeCount(3));
-    }
+                .andExpect(jsonPath("$").value("Ок"));
 
+        List<User> UsersWithLikeDeleteObjectAfterDelete = userRepository
+                .findUserByObjects_IdObject(ID_DELETE_OBJECT);
+
+        Assertions.assertEquals(2,UsersWithLikeDeleteObject.size());
+        Assertions.assertEquals(0,UsersWithLikeDeleteObjectAfterDelete.size());
+    }
 }

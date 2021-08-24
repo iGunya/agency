@@ -1,6 +1,7 @@
 package com.example.agency.entities;
 
 import com.example.agency.dto.ObjectDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -47,6 +48,7 @@ public class Object {
     private List<Photo> photos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "objects",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
     private Integer idContract;

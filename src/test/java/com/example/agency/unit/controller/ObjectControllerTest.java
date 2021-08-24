@@ -42,18 +42,6 @@ public class ObjectControllerTest {
     private JwtUtils jwtUtils;
 
     @Test
-    @WithMockUser(username = "manager",roles = {"MANAGER"})
-    public void testPageAllObject() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(authenticated())
-                .andExpect(status().isOk());
-
-        Mockito.verify(objectService,
-                Mockito.times(1)).getObjectsWithFilter(Mockito.any());
-    }
-
-    @Test
     @WithMockUser(username = "admin",roles = {"ADMIN"})
     public void testForbiddenPageAllObject() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects"))
@@ -77,13 +65,16 @@ public class ObjectControllerTest {
 
     @Test
     @WithMockUser(username = "manager",roles = {"MANAGER"})
-    public void testDeleteObject() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects/delete/1"))
+    public void testPageAllObject() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/managers/objects"));
+                .andExpect(status().isOk());
+
         Mockito.verify(objectService,
-                Mockito.times(1)).deleteObjectById(Mockito.anyLong());
+                Mockito.times(1)).getAllTypeObject();
+        Mockito.verify(objectService,
+                Mockito.times(1)).getAllTypeMove();
     }
+
 }

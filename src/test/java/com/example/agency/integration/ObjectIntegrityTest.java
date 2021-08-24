@@ -45,10 +45,7 @@ public class ObjectIntegrityTest {
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
                 .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
-                .string("manager"))
-                //в блоке 6 объектов инициализированно
-                .andExpect(xpath("/html/body/div/div[2]/div/div/div")
-                        .nodeCount(6));
+                .string("manager"));
     }
 
     @Test
@@ -63,87 +60,5 @@ public class ObjectIntegrityTest {
                 .andExpect(xpath("//*[@id=\"typeObject\"]/option[1]")
                         .string("Дом"));
 
-    }
-
-    @Test
-    @Order(2)
-    public void testFilterCountRoomObject() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects")
-                .param("countRoom","2"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(authenticated())
-                .andExpect(status().isOk())
-                .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
-                        .string("manager"))
-                //значения для селектора из БД
-                .andExpect(model().attributeExists("objects"))
-                .andExpect(xpath("/html/body/div/div[2]/div/div/div")
-                        .nodeCount(3));
-
-    }
-
-    @Test
-    public void testFilterMaxMinPriceObject() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects")
-                .param("minPrice","500000")
-                .param("maxPrice","3000000"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(authenticated())
-                .andExpect(status().isOk())
-                .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
-                        .string("manager"))
-                //значения для селектора из БД
-                .andExpect(model().attributeExists("objects"))
-                .andExpect(xpath("/html/body/div/div[2]/div/div/div")
-                        .nodeCount(3));
-
-    }
-
-    @Test
-    @WithMockUser(username = "manager",roles = {"MANAGER"})
-    public void testDeleteObject() throws Exception{
-        long countObjectBeforeDelete = objectRepository.count();
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects/delete/1"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(authenticated())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/managers/objects"));
-
-        long countObjectAfterDelete = objectRepository.count();
-
-        Assertions.assertEquals(1,countObjectBeforeDelete-countObjectAfterDelete);
-    }
-
-
-    @Test
-    public void testPageAddObjectPostRequest() throws Exception{
-        MockMultipartFile file = new MockMultipartFile(
-                "fileName",
-                "hello.txt",
-                MediaType.TEXT_PLAIN_VALUE,
-                "Hello, World!".getBytes()
-        );
-        long countObjectBeforeAdd = objectRepository.count();
-
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/managers/objects/add")
-                .file(file)
-                .param("adress","Район Улица Дом")
-                .param("square","-1/34/5")
-                .param("countRoom","1")
-                .param("countFloor","1")
-                .param("price","1500000")
-                .param("realPrice","1300000")
-                .param("description","asdas")
-                .param("typeObject","Квартира")
-                .param("typeMove","Продажа"))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(authenticated())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/managers/objects"));
-
-        long countObjectAfterAdd = objectRepository.count();
-
-        Assertions.assertEquals(1,countObjectAfterAdd-countObjectBeforeAdd);
     }
 }

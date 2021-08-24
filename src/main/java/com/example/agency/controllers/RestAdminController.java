@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/only_for_admins",
         produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class RestAdminController {
     UserService userService;
 
