@@ -2,6 +2,7 @@ package com.example.agency.unit.service;
 
 import com.example.agency.entities.Buyer;
 import com.example.agency.entities.Contract;
+import com.example.agency.repositories.BuyerRepository;
 import com.example.agency.repositories.ContractRepository;
 import com.example.agency.services.BuyerService;
 import org.junit.Assert;
@@ -13,19 +14,41 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Optional;
+
 @RunWith(MockitoJUnitRunner.class)
 public class BuyerServiseTest {
     @InjectMocks
     private BuyerService buyerService;
     @Mock
     private ContractRepository contractRepository;
+    @Mock
+    private BuyerRepository buyerRepository;
 
     @Test
-    public void testSaveBuyer(){
+    public void testSaveNewBuyer(){
         Buyer buyer = Mockito.mock(Buyer.class);
+        String NAME_SAVE_FILE = "name file";
 
-        buyerService.saveContractAndBuyer(buyer,Mockito.anyString());
+        Mockito.when(buyer.getId_buyer()).thenReturn(null);
 
-        Mockito.verify(contractRepository,Mockito.times(1)).save(Mockito.any(Contract.class));
+        buyerService.saveContractAndBuyer(buyer, NAME_SAVE_FILE);
+
+        Mockito.verify(buyerRepository,Mockito.times(1)).save(Mockito.any());
+        Mockito.verify(buyerRepository,Mockito.times(0)).findById(Mockito.anyLong());
+    }
+
+    @Test
+    public void testUpdateBuyer(){
+        Buyer buyer = Mockito.mock(Buyer.class);
+        String NAME_SAVE_FILE = "name file";
+
+        Mockito.when(buyer.getId_buyer()).thenReturn(1L);
+        Mockito.doReturn(Optional.of(buyer)).when(buyerRepository).findById(Mockito.anyLong());
+
+        buyerService.saveContractAndBuyer(buyer, NAME_SAVE_FILE);
+
+        Mockito.verify(buyerRepository,Mockito.times(1)).save(Mockito.any());
+        Mockito.verify(buyerRepository,Mockito.times(1)).findById(Mockito.anyLong());
     }
 }

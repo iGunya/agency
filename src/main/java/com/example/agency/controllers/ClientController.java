@@ -1,5 +1,6 @@
 package com.example.agency.controllers;
 
+import com.example.agency.dto.ObjectDto;
 import com.example.agency.entities.Buyer;
 import com.example.agency.entities.Seller;
 import com.example.agency.repositories.specification.BuyerSpecification;
@@ -52,12 +53,14 @@ public class ClientController {
     @GetMapping("/sellers/add")
     public String addFormSeller(Model model){
         model.addAttribute("seller",new Seller());
+        model.addAttribute("type", "Добавление");
         return "add-seller";
     }
 
     @GetMapping("/buyers/add")
     public String addFormBayer(Model model){
         model.addAttribute("buyer",new Buyer());
+        model.addAttribute("type", "Добавление");
         return "add-buyer";
     }
     @PostMapping("/sellers/add")
@@ -73,7 +76,6 @@ public class ClientController {
         }else {
             newName = "2021-07-16T17:32:57.892523300_test.docx";
         }
-        if(seller.getPassport() == null) seller = sellerService.getSellerById(seller.getId_seller());
         sellerService.saveContractAndSeller(seller,newName);
         return "redirect:/managers/clients/sellers";
     }
@@ -92,7 +94,6 @@ public class ClientController {
         }else {
             newName = "2021-07-16T17:32:57.892523300_test.docx";
         }
-        if(buyer.getPassport() == null) buyer = buyerService.getBuyerById(buyer.getId_buyer());
         buyerService.saveContractAndBuyer(buyer,newName);
         return "redirect:/managers/clients/buyers";
     }
@@ -106,8 +107,27 @@ public class ClientController {
         return "redirect:/managers/clients/sellers";
     }
 
-    @Autowired
+    @GetMapping("/buyer/update/{id}")
+    public String updateBuyer(@PathVariable Long id,
+                               Model model){
+        Buyer buyer = buyerService.getBuyerById(id);
 
+        model.addAttribute("buyer", buyer);
+        model.addAttribute("type", "Обновление");
+        return "add-buyer";
+    }
+
+    @GetMapping("/seller/update/{id}")
+    public String updateSeller(@PathVariable Long id,
+                              Model model){
+        Seller seller = sellerService.getSellerById(id);
+
+        model.addAttribute("seller", seller);
+        model.addAttribute("type", "Обновление");
+        return "add-seller";
+    }
+
+    @Autowired
     public ClientController(SellerService sellerService,
                             BuyerService buyerService,
                             AWSS3ServiceImp awss3Service) {

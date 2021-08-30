@@ -71,7 +71,7 @@ public class ClientControllerSimpleTest {
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
                 .andExpect(view().name("add-seller"))
-                .andExpect(model().size(1));
+                .andExpect(model().size(2));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class ClientControllerSimpleTest {
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
                 .andExpect(view().name("add-buyer"))
-                .andExpect(model().size(1));
+                .andExpect(model().size(2));
     }
 
     @Test

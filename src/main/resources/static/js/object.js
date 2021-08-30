@@ -34,9 +34,11 @@ window.addEventListener('DOMContentLoaded', () => {
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>
-                                    <a href="/managers/objects/delete/${json.idObject}" >
-                                        <img src="/image/delete.png" class="close" alt="удоли"/>
-                                    </a>
+                                    <div class="move">
+                                        <a href="/managers/objects/delete/${json.idObject}" >
+                                            <img src="/image/delete.png" class="close" alt="удоли"/>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
         `

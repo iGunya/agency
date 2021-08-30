@@ -26,9 +26,16 @@ public class BuyerService {
         contract.setUrlContract(nameFile);
         contract.setDateBuyer(getCurrentDate());
 
-        contract.setBuyer(buyer);
+        Buyer buyerDB;
+        if (buyer.getId_buyer() != null) {
+            buyerDB = buyerRepository.findById(buyer.getId_buyer()).orElse(null);
+        } else{
+            buyerDB = new Buyer();
+        }
 
-        contractRepository.save(contract);
+        buyerDB.setBuyer(buyer);
+        buyerDB.addContract(contract);
+        buyerRepository.save(buyerDB);
     }
 
     public Buyer getBuyerById(Long id){

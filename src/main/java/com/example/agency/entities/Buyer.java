@@ -25,7 +25,18 @@ public class Buyer {
 
     private String description;
 
-    @OneToMany(mappedBy = "buyer",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buyer",fetch = FetchType.EAGER)
     private List<Contract> contracts = new ArrayList<>();
 
+    public void addContract(Contract contract) {
+        contracts.add(contract);
+        contract.setBuyer(this);
+    }
+
+    public void setBuyer(Buyer buyer){
+        this.fio = buyer.fio;
+        this.passport = buyer.passport;
+        this.phone = buyer.phone;
+        this.description = buyer.description;
+    }
 }

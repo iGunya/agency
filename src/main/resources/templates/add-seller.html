@@ -21,7 +21,7 @@
     <!-- Main -->
     <div class="main-block bg-white">
         <div class="objective">
-            <h3>Добавление продавца</h3>
+            <h3 th:text="${type} + ' продавца'"></h3>
             <div class="objective-content">
                 <!-- Контент -->
                 <div>
@@ -38,7 +38,7 @@
                             <tr>
                                 <td scope="row"><p> ФИО </p></td>
                                 <td>
-                                    <input id="fio" name="fio" th:value="${seller.getFio()!=null}?${#strings.trim(seller.getPhone())}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" />
+                                    <input id="fio" name="fio" th:value="${seller.getFio()!=null}?${#strings.trim(seller.getFio())}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" />
                                     <div style="color:red" th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}"></div>
                                 </td>
                             </tr>
@@ -49,6 +49,9 @@
                                     <div style="color:red" th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"></div>
                                 </td>
                             </tr>
+                            <th:block th:if="${seller.id_seller!=null}">
+                                <input type="hidden" id="id_seller" name="id_seller" th:field="*{id_seller}"/>
+                            </th:block>
                             <tr>
                                 <td scope="row"><p> Телефон </p></td>
                                 <td>
@@ -60,7 +63,6 @@
                                 <td><p>Добавить документы</p></td>
                                 <td>
                                     <div class="mb-3">
-                                        <label class="form-label">Добавить документы</label>
                                         <input class="form-control" type="file" name="fileName" multiple="multiple"/>
                                     </div>
                                 </td>

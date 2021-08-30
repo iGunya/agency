@@ -21,7 +21,7 @@
     <!-- Main -->
     <div class="main-block bg-white">
         <div class="objective">
-            <h3>Добавление покупателя</h3>
+            <h3 th:text="${type}+' покупателя'"></h3>
             <div class="objective-content">
                 <!-- Контент -->
                 <div>
@@ -38,10 +38,13 @@
                             <tr>
                                 <td scope="row"><p> ФИО </p></td>
                                 <td>
-                                    <input id="fio" name="fio" th:value="${buyer.getFio()!=null}?${#strings.trim(buyer.getPhone())}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" />
+                                    <input id="fio" name="fio" th:value="${buyer.getFio()!=null}?${#strings.trim(buyer.getFio())}" placeholder="Фамилия Имя Отчество" class="form-control" type="text" />
                                     <div style="color:red" th:if="${#fields.hasErrors('fio')}" th:errors="*{fio}"></div>
                                 </td>
                             </tr>
+                            <th:block th:if="${buyer.id_buyer!=null}">
+                                <input type="hidden" id="id_buyer" name="id_buyer" th:field="*{id_buyer}"/>
+                            </th:block>
                             <tr>
                                 <td scope="row"><p> Номер и серия паспорта </p></td>
                                 <td>
@@ -60,7 +63,6 @@
                                 <td><p>Добавить документы</p></td>
                                 <td>
                                     <div class="mb-3">
-                                        <label class="form-label">Добавить документы</label>
                                         <input class="form-control" type="file" name="fileName" multiple="multiple"/>
                                     </div>
                                 </td>

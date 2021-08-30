@@ -98,8 +98,6 @@ public class ClientControllerBuyerTest {
         Mockito.verify(awss3Service,
                 Mockito.times(1)).uploadFile(new MockMultipartFile[]{file});
         Mockito.verify(buyerService,
-                Mockito.times(1)).getBuyerById(Mockito.anyLong());
-        Mockito.verify(buyerService,
                 Mockito.times(1)).saveContractAndBuyer(Mockito.any(Buyer.class),Mockito.anyString());
     }
 

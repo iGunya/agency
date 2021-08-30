@@ -1,5 +1,6 @@
 package com.example.agency.services;
 
+import com.example.agency.entities.Buyer;
 import com.example.agency.entities.Contract;
 import com.example.agency.entities.Object;
 import com.example.agency.entities.Seller;
@@ -22,14 +23,22 @@ public class SellerService {
         return sellerRepository.findAll(specification);
     }
 
-    public void saveContractAndSeller(Seller seller,String nameFile){
+    public void saveContractAndSeller(Seller seller, String nameFile){
         Contract contract = new Contract();
         contract.setUrlContract(nameFile);
         contract.setDateSeller(getCurrentDate());
 
-        contract.getSellers().add(seller);
+        Seller sellerDB;
+        if (seller.getId_seller() != null) {
+            sellerDB = sellerRepository.findById(seller.getId_seller()).orElse(null);
+        } else{
+            sellerDB = new Seller();
+        }
 
-        contractRepository.save(contract);
+        sellerDB.setSeller(seller);
+        sellerDB.addContract(contract);
+
+        sellerRepository.save(sellerDB);
     }
 
     public Seller getSellerById(Long id){

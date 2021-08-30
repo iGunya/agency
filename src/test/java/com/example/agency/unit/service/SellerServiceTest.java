@@ -1,5 +1,6 @@
 package com.example.agency.unit.service;
 
+import com.example.agency.entities.Buyer;
 import com.example.agency.entities. Seller;
 import com.example.agency.entities.Contract;
 import com.example.agency.repositories.ContractRepository;
@@ -26,11 +27,29 @@ public class SellerServiceTest {
 
     @Test
     public void testSaveSellerAndContract(){
-         Seller Seller = Mockito.mock(Seller.class);
+        Seller seller = Mockito.mock(Seller.class);
+        String NAME_SAVE_FILE = "name file";
 
-         sellerService.saveContractAndSeller( Seller,Mockito.anyString());
+        Mockito.when(seller.getId_seller()).thenReturn(null);
 
-        Mockito.verify(contractRepository,Mockito.times(1)).save(Mockito.any(Contract.class));
+        sellerService.saveContractAndSeller(seller, NAME_SAVE_FILE);
+
+        Mockito.verify(sellerRepository,Mockito.times(1)).save(Mockito.any());
+        Mockito.verify(sellerRepository,Mockito.times(0)).findById(Mockito.anyLong());
+    }
+
+    @Test
+    public void testUpdateSeller(){
+        Seller seller = Mockito.mock(Seller.class);
+        String NAME_SAVE_FILE = "name file";
+
+        Mockito.when(seller.getId_seller()).thenReturn(1L);
+        Mockito.doReturn(Optional.of(seller)).when(sellerRepository).findById(Mockito.anyLong());
+
+        sellerService.saveContractAndSeller(seller, NAME_SAVE_FILE);
+
+        Mockito.verify(sellerRepository,Mockito.times(1)).save(Mockito.any());
+        Mockito.verify(sellerRepository,Mockito.times(1)).findById(Mockito.anyLong());
     }
 
     @Test

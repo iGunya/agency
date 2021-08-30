@@ -30,4 +30,15 @@ public class Seller {
                 cascade = CascadeType.ALL,
                 fetch = FetchType.EAGER)
     private List<Contract> contractsSeller = new ArrayList<>();
+
+    public void addContract(Contract contract) {
+        contractsSeller.add(contract);
+        contract.getSellers().add(this);
+    }
+
+    public void setSeller(Seller seller){
+        this.fio = seller.fio;
+        this.passport = seller.passport;
+        this.phone = seller.phone;
+    }
 }

@@ -45,6 +45,7 @@
                                     <button type="button" class="btn btn-link col-7 col col-lg-6" th:text="${buyer.getFio()}"
                                             data-toggle="collapse" th:data-target="'#collapse'+${iterator.index}">
                                     </button>
+                                    <div class="row">
                                         <form th:action="@{/managers/clients/buyers/add}" class="form-inline col"
                                               th:object="${buyer}" method="post" enctype="multipart/form-data">
                                             <div class="row">
@@ -53,6 +54,12 @@
                                             <button class="btn btn-primary col col-lg-4" type="submit">Сохранить</button>
                                             </div>
                                         </form>
+                                        <div class="move">
+                                            <a th:href="'/managers/clients/buyer/update/'+ ${buyer.id_buyer}" >
+                                                <img src="/image/modify.png" class="modify" alt="изменить"/>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div th:id="'collapse'+${iterator.index}" class="collapse" th:aria-labelledby="'heading'+${iterator.index}" data-parent="#accordionExample">
@@ -75,5 +82,6 @@
     <!-- Javascript files -->
     <!-- jQuery -->
     <script th:src="@{/js/clear.js}"></script>
+    <script th:src="@{/js/buer-seller.js}"></script>
 </body>
 </html>

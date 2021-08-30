@@ -1,20 +1,14 @@
 package com.example.agency.controllers;
 
 import com.example.agency.dto.ObjectDto;
-import com.example.agency.entities.Object;
 import com.example.agency.services.AWSS3ServiceImp;
 import com.example.agency.services.ObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/managers/objects")
@@ -39,7 +33,7 @@ public class ObjectController {
     }
 
     @GetMapping("/update/{id}")
-    public String addObject(@PathVariable Long id,
+    public String updateObject(@PathVariable Long id,
                             Model model){
         ObjectDto object = new ObjectDto();
         object.setObject(objectService.getObjectById(id));

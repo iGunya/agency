@@ -51,14 +51,21 @@
                                     <button type="button" class="btn btn-link col-7 col col-lg-6" th:text="${seller.getFio()}"
                                             data-toggle="collapse" th:data-target="'#collapse'+${iterator.index}">
                                     </button>
-                                    <form th:action="@{/managers/clients/sellers/add}" class="form-inline col"
-                                          th:object="${seller}" method="post" enctype="multipart/form-data">
-                                        <div class="row">
-                                            <input class="form-control col" type="file" name="fileName" multiple="multiple"/>
-                                            <input type="hidden" name="id_buyer" value="" th:value="${seller.getId_seller()}"/>
-                                            <button class="btn btn-primary col col-lg-4" type="submit">Сохранить</button>
+                                    <div class="row">
+                                        <form th:action="@{/managers/clients/sellers/add}" class="form-inline col"
+                                              th:object="${seller}" method="post" enctype="multipart/form-data">
+                                            <div class="row">
+                                                <input class="form-control col" type="file" name="fileName" multiple="multiple"/>
+                                                <input type="hidden" name="id_buyer" value="" th:value="${seller.getId_seller()}"/>
+                                                <button class="btn btn-primary col col-lg-4" type="submit">Сохранить</button>
+                                            </div>
+                                        </form>
+                                        <div class="move">
+                                            <a th:href="'/managers/clients/seller/update/'+ ${seller.id_seller}" >
+                                                <img src="/image/modify.png" class="modify" alt="изменить"/>
+                                            </a>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                             <div th:id="'collapse'+${iterator.index}" class="collapse" th:aria-labelledby="'heading'+${iterator.index}" data-parent="#accordionExample">
@@ -87,5 +94,6 @@
     <!-- Javascript files -->
     <!-- jQuery -->
     <script th:src="@{/js/clear.js}"></script>
+    <script th:src="@{/js/buer-seller.js}"></script>
 </body>
 </html>
