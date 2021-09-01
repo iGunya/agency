@@ -66,7 +66,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         const formData = createBodyRequest();
 
-        postData("http://localhost:8080/managers/objects/add", formData)
+        postData("http://localhost:2203/managers/objects/add", formData)
             .then(responce =>responce.text())
             .then( (body) => {
                 if (body === "Объект добавлен"){

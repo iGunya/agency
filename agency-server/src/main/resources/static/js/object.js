@@ -82,7 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     const getData = function (filters = {}) {
-        const url = new URL('http://localhost:8080/managers/objects/filter');
+        const url = new URL('http://localhost:2203/managers/objects/filter');
         url.search = new URLSearchParams(filters).toString();
 
         return  fetch(url)

@@ -42,7 +42,7 @@ window.addEventListener('DOMContentLoaded', () => {
             btnSubmit.parentElement.append(statusMessage);
             // forms.append(statusMessage);
 
-            postData("http://localhost:8080/only_for_admins/grand", json)
+            postData("http://localhost:2203/only_for_admins/grand", json)
                 .then( (data) => {
                     console.log(data);
                     if(data.status === 200) {
