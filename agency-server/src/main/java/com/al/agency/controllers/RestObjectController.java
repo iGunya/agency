@@ -78,6 +78,7 @@ public class RestObjectController {
         return "Ок";
     }
 
+    @Autowired
     public RestObjectController(ObjectService objectService,
                                 AWSS3ServiceImp awsService,
                                 KafkaTemplate<String, KafkaMessage> kafkaTemplate) {

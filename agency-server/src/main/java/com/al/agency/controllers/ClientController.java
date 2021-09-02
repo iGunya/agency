@@ -144,8 +144,23 @@ public class ClientController {
         return "add-seller";
     }
 
-    @Autowired
+    @GetMapping("/seller/delete/{id}")
+    public String deleteSeller(@PathVariable Long id,
+                               Principal principal){
+        sellerService.deleteSellerById(id);
+        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), Action.DELETE, ObjectAction.SELLER, id));
+        return "redirect:/managers/clients/sellers";
+    }
 
+    @GetMapping("/buyer/delete/{id}")
+    public String deleteBuyer(@PathVariable Long id,
+                               Principal principal){
+        buyerService.deleteBuyerById(id);
+        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), Action.DELETE, ObjectAction.BUYER, id));
+        return "redirect:/managers/clients/buyers";
+    }
+
+    @Autowired
     public ClientController(SellerService sellerService,
                             BuyerService buyerService,
                             AWSS3ServiceImp awss3Service,

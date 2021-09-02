@@ -54,6 +54,14 @@ public class SellerService {
         return true;
     }
 
+    public void deleteSellerById(Long id){
+        sellerRepository.deleteById(id);
+    }
+
+    public boolean checkPassport(String passport){
+        return sellerRepository.countByPassport(passport) != 0;
+    }
+
     private String getCurrentDate(){
         return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }

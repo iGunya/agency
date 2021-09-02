@@ -616,7 +616,7 @@ hr {
 .resume .main-block .objective-content .move img{
     width: 48px;
     height:48px;
-    display: none;
+    opacity: 0;
 }
 
 

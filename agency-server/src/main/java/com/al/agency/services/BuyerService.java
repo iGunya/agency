@@ -42,6 +42,14 @@ public class BuyerService {
         return buyerRepository.findById(id).orElse(null);
     }
 
+    public void deleteBuyerById(Long id){
+        buyerRepository.deleteById(id);
+    }
+
+    public boolean checkPassport(String passport){
+        return buyerRepository.countByPassport(passport) != 0;
+    }
+
     private String getCurrentDate(){
         return new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     }

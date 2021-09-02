@@ -48,11 +48,11 @@
                         <div class="card" th:each="seller,iterator : ${sellers}" th:with="backet='okm3agency'">
                             <div class="card-header" th:id="'heading'+${iterator.index}">
                                 <div class="row justify-content-md-center">
-                                    <button type="button" class="btn btn-link col-7 col col-lg-6" th:text="${seller.getFio()}"
+                                    <button type="button" class="btn btn-link col-6 col-md-4" th:text="${seller.getFio()}"
                                             data-toggle="collapse" th:data-target="'#collapse'+${iterator.index}">
                                     </button>
                                     <div class="row">
-                                        <form th:action="@{/managers/clients/sellers/add}" class="form-inline col"
+                                        <form th:action="@{/managers/clients/sellers/add}" class="form-inline col-md-auto"
                                               th:object="${seller}" method="post" enctype="multipart/form-data">
                                             <div class="row">
                                                 <input class="form-control col" type="file" name="fileName" multiple="multiple"/>
@@ -60,10 +60,16 @@
                                                 <button class="btn btn-primary col col-lg-4" type="submit">Сохранить</button>
                                             </div>
                                         </form>
-                                        <div class="move">
-                                            <a th:href="'/managers/clients/seller/update/'+ ${seller.id_seller}" >
-                                                <img src="/image/modify.png" class="modify" alt="изменить"/>
-                                            </a>
+                                        <div class="row justify-content-end">
+                                            <div class="move col-md-auto">
+                                                <a th:href="'/managers/clients/seller/delete/'+ ${seller.id_seller}" >
+                                                    <img src="/image/delete.png" class="close" alt="удоли"/>
+                                                </a>
+                                                <div class="w-100"></div>
+                                                <a th:href="'/managers/clients/seller/update/'+ ${seller.id_seller}" >
+                                                    <img src="/image/modify.png" class="modify" alt="изменить"/>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -94,6 +100,6 @@
     <!-- Javascript files -->
     <!-- jQuery -->
     <script th:src="@{/js/clear.js}"></script>
-    <script th:src="@{/js/buer-seller.js}"></script>
+    <script th:src="@{/js/buyer-seller.js}"></script>
 </body>
 </html>

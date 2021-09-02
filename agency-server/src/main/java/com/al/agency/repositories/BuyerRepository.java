@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BuyerRepository extends PagingAndSortingRepository<Buyer,Long>, JpaSpecificationExecutor<Buyer> {
+    Long countByPassport(String passport);
 }
