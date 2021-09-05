@@ -34,11 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                             <span class="sr-only">Next</span>
                                         </a>
                                     </div>
-                                    <div class="move">
-                                        <a href="/managers/objects/delete/${json.idObject}" >
-                                            <img src="/image/delete.png" class="close" alt="удоли"/>
-                                        </a>
-                                    </div>
+                              
                                 </div>
                             </div>
         `
@@ -52,14 +48,21 @@ window.addEventListener('DOMContentLoaded', () => {
                                     <div class="col-4 price">
                                         <h4 >${json.price}</h4>
                                     </div>
-                                    <div class="col-8 info">
-                                        <h6>${json.countRoom} к, ${json.square} м2</h6>
-                                        <p>${json.countFloor} этаж</p>
-                                        <p>${json.adress}</p>
+                                    <div class="col-8 info row justify-content-between">
+                                        <div>
+                                            <h6>${json.countRoom} к, ${json.square} м2</h6>
+                                            <p>${json.countFloor} этаж</p>
+                                            <p>${json.adress}</p>
+                                        </div>
+                                        <div class="move">
+                                            <a href="/managers/objects/delete/${json.idObject}" >
+                                                <img src="/image/delete.png" class="close" alt="удоли"/>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="desc">
-                                     ${json.description} шаблон описания очнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много
+                                    <div class="desc">
+                                         ${json.description} шаблон описания очнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочнень много буквочне
+                                    </div>
                                 </div>
                             </div>
 `
@@ -70,9 +73,13 @@ window.addEventListener('DOMContentLoaded', () => {
          const object = document.createElement('div');
         const html = `
                     <a href="/managers/objects/update/${json.idObject}">
-                        <div class = "row my_card">
+                    <div class="container">
+                        <div class = "card">
+                        <div class="row">
          ${viewSliderImg(json)}
  ${viewInfoObject(json)}
+                        </div>
+                        </div>
                         </div>
                     </a>
         `;
@@ -123,7 +130,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //удаление объекта
 
+    const addListenerModify = (node) => {
+        const btnClose = node.querySelector(".close");
+
+        node.addEventListener("mouseover", e => {
+            btnClose.style.opacity = "1";
+        });
+
+        node.addEventListener("mouseout", e => {
+            btnClose.style.opacity = "0";
+        });
+    };
+
     const addListenerRemove = (listNode) => {
+        listNode.forEach(node => addListenerModify(node));
         listNode.forEach(node => node.addEventListener("click", e => {
             if (e.target.className === 'close'){
                 e.preventDefault();
@@ -136,6 +156,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }));
     };
 
-});
 
-// onclick="return confirm('Вы действительно хотите удалить объект?')"
+
+
+});

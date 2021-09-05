@@ -2,8 +2,9 @@ package com.al.agency.unit.controller;
 
 import com.al.agency.configs.jwt.AuthEntryPointJwt;
 import com.al.agency.configs.jwt.JwtUtils;
+import com.al.agency.configs.transport.Transport;
 import com.al.agency.controllers.ClientController;
-import com.al.agency.dto.kafka.KafkaMessage;
+import com.al.agency.dto.kafka.TransportMessage;
 import com.al.agency.services.AWSS3ServiceImp;
 import com.al.agency.services.BuyerService;
 import com.al.agency.services.SellerService;
@@ -41,7 +42,7 @@ public class ClientControllerSimpleTest {
     private JwtUtils jwtUtils;
 
     @MockBean
-    private KafkaTemplate<String, KafkaMessage> kafkaTemplate;
+    private Transport transportSend;
 
     @Test
     @WithMockUser(username = "manager",roles = {"MANAGER"})

@@ -2,19 +2,21 @@ package com.al.agency.unit.controller;
 
 import com.al.agency.configs.jwt.AuthEntryPointJwt;
 import com.al.agency.configs.jwt.JwtUtils;
-import com.al.agency.dto.kafka.KafkaMessage;
-import com.al.agency.entities.Object;
+import com.al.agency.configs.transport.Transport;
 import com.al.agency.controllers.RestObjectController;
+import com.al.agency.dto.kafka.TransportMessage;
+import com.al.agency.entities.Object;
 import com.al.agency.services.AWSS3ServiceImp;
 import com.al.agency.services.ObjectService;
 import com.al.agency.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -23,7 +25,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import java.util.Collections;
 
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RestObjectController.class)
 public class RestObjectControllerTest {
@@ -42,9 +45,8 @@ public class RestObjectControllerTest {
     private AuthEntryPointJwt authEntryPointJwt;
     @MockBean
     private JwtUtils jwtUtils;
-
     @MockBean
-    private KafkaTemplate<String, KafkaMessage> kafkaTemplate;
+    private Transport transportSend;
 
     @Test
     @WithMockUser(username = "manager",roles = {"MANAGER"})

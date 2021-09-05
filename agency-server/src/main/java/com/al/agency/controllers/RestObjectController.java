@@ -1,14 +1,16 @@
 package com.al.agency.controllers;
 
+import com.al.agency.configs.transport.Transport;
 import com.al.agency.dto.ObjectDto;
 import com.al.agency.dto.kafka.Action;
-import com.al.agency.dto.kafka.KafkaMessage;
+import com.al.agency.dto.kafka.TransportMessage;
 import com.al.agency.dto.kafka.ObjectAction;
 import com.al.agency.entities.Object;
 import com.al.agency.services.AWSS3ServiceImp;
 import com.al.agency.services.ObjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,10 +30,7 @@ import java.util.List;
 public class RestObjectController {
     ObjectService objectService;
     AWSS3ServiceImp awsService;
-
-    @Value("${kafka.topic}")
-    private String TOPIC;
-    private KafkaTemplate<String, KafkaMessage> kafkaTemplate;
+    Transport transportSend;
 
     @GetMapping("/filter")
     public List<Object> allObject(
@@ -66,7 +65,7 @@ public class RestObjectController {
         }
         Action action = object.getIdObject() == null ? Action.ADD : Action.UPDATE;
         Object objectDB = objectService.createObjectAndSavePhotos(object,saveFileName);
-        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), action, ObjectAction.OBJECT, objectDB.getIdObject()));
+        transportSend.send(new TransportMessage(principal.getName(), action, ObjectAction.OBJECT, objectDB.getIdObject()));
         return ResponseEntity.status(HttpStatus.OK).body("Объект добавлен");
     }
 
@@ -74,16 +73,16 @@ public class RestObjectController {
     public String deleteObject(@PathVariable Long id,
                                Principal principal) {
         objectService.deleteObjectById(id);
-        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), Action.DELETE, ObjectAction.OBJECT, id));
+        transportSend.send(new TransportMessage(principal.getName(), Action.DELETE, ObjectAction.OBJECT, id));
         return "Ок";
     }
 
     @Autowired
     public RestObjectController(ObjectService objectService,
                                 AWSS3ServiceImp awsService,
-                                KafkaTemplate<String, KafkaMessage> kafkaTemplate) {
+                                Transport transportSend) {
         this.objectService = objectService;
         this.awsService = awsService;
-        this.kafkaTemplate = kafkaTemplate;
+        this.transportSend = transportSend;
     }
 }

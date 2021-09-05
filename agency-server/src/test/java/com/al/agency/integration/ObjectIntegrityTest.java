@@ -1,5 +1,7 @@
 package com.al.agency.integration;
 
+import com.al.agency.configs.transport.Transport;
+import com.al.agency.dto.kafka.TransportMessage;
 import com.amazonaws.services.s3.AmazonS3;
 import com.al.agency.repositories.ObjectRepository;
 import org.junit.Assert;
@@ -7,6 +9,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,6 +33,7 @@ public class ObjectIntegrityTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectRepository objectRepository;
+
 
     @Test
     @Order(1)

@@ -1,7 +1,8 @@
 package com.al.agency.controllers;
 
+import com.al.agency.configs.transport.Transport;
 import com.al.agency.dto.kafka.Action;
-import com.al.agency.dto.kafka.KafkaMessage;
+import com.al.agency.dto.kafka.TransportMessage;
 import com.al.agency.dto.kafka.ObjectAction;
 import com.al.agency.entities.Buyer;
 import com.al.agency.entities.Seller;
@@ -12,6 +13,7 @@ import com.al.agency.services.BuyerService;
 import com.al.agency.services.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
@@ -31,10 +33,11 @@ public class ClientController {
     private SellerService sellerService;
     private BuyerService buyerService;
     private AWSS3ServiceImp awss3Service;
+    Transport transportSend;
 
-    @Value("${kafka.topic}")
-    private String TOPIC;
-    private KafkaTemplate<String, KafkaMessage> kafkaTemplate;
+    @Value("${app.transport}")
+    private String nameBean;
+
 
     @GetMapping("/sellers")
     public String getAllSellers(Model model,
@@ -90,7 +93,7 @@ public class ClientController {
         }
         Action action = seller.getId_seller() == null ? Action.ADD : Action.UPDATE;
         seller = sellerService.saveContractAndSeller(seller,newName);
-        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), action, ObjectAction.SELLER, seller.getId_seller()));
+        transportSend.send(new TransportMessage(principal.getName(), action, ObjectAction.SELLER, seller.getId_seller()));
         return "redirect:/managers/clients/sellers";
     }
 
@@ -111,7 +114,7 @@ public class ClientController {
         }
         Action action = buyer.getId_buyer() == null ? Action.ADD : Action.UPDATE;
         buyer = buyerService.saveContractAndBuyer(buyer,newName);
-        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), action, ObjectAction.BUYER, buyer.getId_buyer()));
+        transportSend.send(new TransportMessage(principal.getName(), action, ObjectAction.BUYER, buyer.getId_buyer()));
         return "redirect:/managers/clients/buyers";
     }
 
@@ -148,7 +151,7 @@ public class ClientController {
     public String deleteSeller(@PathVariable Long id,
                                Principal principal){
         sellerService.deleteSellerById(id);
-        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), Action.DELETE, ObjectAction.SELLER, id));
+        transportSend.send(new TransportMessage(principal.getName(), Action.DELETE, ObjectAction.SELLER, id));
         return "redirect:/managers/clients/sellers";
     }
 
@@ -156,7 +159,7 @@ public class ClientController {
     public String deleteBuyer(@PathVariable Long id,
                                Principal principal){
         buyerService.deleteBuyerById(id);
-        kafkaTemplate.send(TOPIC, new KafkaMessage(principal.getName(), Action.DELETE, ObjectAction.BUYER, id));
+        transportSend.send(new TransportMessage(principal.getName(), Action.DELETE, ObjectAction.BUYER, id));
         return "redirect:/managers/clients/buyers";
     }
 
@@ -164,10 +167,10 @@ public class ClientController {
     public ClientController(SellerService sellerService,
                             BuyerService buyerService,
                             AWSS3ServiceImp awss3Service,
-                            KafkaTemplate<String, KafkaMessage> kafkaTemplate) {
+                            Transport transportSend) {
         this.sellerService = sellerService;
         this.buyerService = buyerService;
         this.awss3Service = awss3Service;
-        this.kafkaTemplate = kafkaTemplate;
+        this.transportSend = transportSend;
     }
 }

@@ -2,7 +2,6 @@ package com.al.agency.service;
 
 import com.al.agency.entites.LogAction;
 import com.al.agency.repository.LogActionRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,19 +12,22 @@ import java.util.stream.Collectors;
 
 @Service
 public class ListenerKafkaConsumer {
+
     @Autowired
     private LogActionRepository logActionRepository;
 
-    @KafkaListener(topics = "${kafka.topic}", groupId = "${kafka.group-id}",
-    containerFactory = "logKafkaListenerFactory")
-    public void listenerTopic(ConsumerRecord<String, LogAction> record) throws JsonProcessingException {
+
+    @KafkaListener(topics = "${kafka.topic-save}", groupId = "${kafka.group-id}",
+            containerFactory = "logKafkaListenerFactory")
+    public void listenerTopic(ConsumerRecord<String, LogAction> record) {
         LogAction message = record.value();
 
         System.out.println("Принято сообщение: топик - " + record.topic() +
-            ", партиция - " + record.partition() +
-            ", сообщение - " + messageToString(message));
+                ", партиция - " + record.partition() +
+                ", сообщение - " + messageToString(message));
 
         logActionRepository.save(message);
+        System.out.println("Сообщение схраннено");
     }
 
     public List<String> getLog(){
@@ -42,8 +44,3 @@ public class ListenerKafkaConsumer {
     }
 
 }
-
-//        System.out.println("Принято сообщение: топик - " + record.topic() +
-//                ", партиция - " + record.partition() +
-//                ", сообщение - 'Пользователь " + message.getUsername() +
-//                " " + message.getAction() + " " + message.getObjectAction() + "c id 56'");

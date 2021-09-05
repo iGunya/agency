@@ -1,6 +1,6 @@
-package com.al.agency.configs.kafka;
+package com.al.config;
 
-import com.al.agency.dto.kafka.KafkaMessage;
+import com.al.LogAction;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +20,7 @@ public class KafkaProducerConfig {
     private String PORT;
 
     @Bean
-    public ProducerFactory<String, KafkaMessage> producerFactory() {
+    public ProducerFactory<String, LogAction> producerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, PORT);
@@ -31,7 +31,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, KafkaMessage> kafkaTemplate() {
-        return new KafkaTemplate<String, KafkaMessage>(producerFactory());
+    public KafkaTemplate<String, LogAction> kafkaTemplate() {
+        return new KafkaTemplate<String, LogAction>(producerFactory());
     }
 }

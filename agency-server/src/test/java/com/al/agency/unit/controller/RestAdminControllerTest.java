@@ -2,7 +2,8 @@ package com.al.agency.unit.controller;
 
 import com.al.agency.configs.jwt.AuthEntryPointJwt;
 import com.al.agency.configs.jwt.JwtUtils;
-import com.al.agency.dto.kafka.KafkaMessage;
+import com.al.agency.configs.transport.Transport;
+import com.al.agency.dto.kafka.TransportMessage;
 import com.al.agency.entities.User;
 import com.al.agency.controllers.RestAdminController;
 import com.al.agency.services.UserService;
@@ -38,7 +39,7 @@ public class RestAdminControllerTest {
     private JwtUtils jwtUtils;
 
     @MockBean
-    private KafkaTemplate<String, KafkaMessage> kafkaTemplate;
+    private Transport transportSend;
 
     @Test
     @WithMockUser(username = "admin",roles = {"ADMIN"})

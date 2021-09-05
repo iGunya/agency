@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class KafkaMessage {
+public class TransportMessage {
     private String username;
     private Action action;
     private ObjectAction objectAction;

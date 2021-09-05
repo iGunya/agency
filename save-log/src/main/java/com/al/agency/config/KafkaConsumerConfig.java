@@ -1,6 +1,6 @@
 package com.al.agency.config;
 
-import com.al.agency.LogAction;
+import com.al.agency.entites.LogAction;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
