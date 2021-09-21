@@ -1,0 +1,111 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:13.4-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=agency
+      - POSTGRES_PASSWORD=2203
+    volumes:
+      - "db-data://D/data-docker"
+    profiles: ["kafka","jms"]
+
+  kafka:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - 29092:9092
+    depends_on:
+      - postgres
+    profiles: ["kafka","jms"]
+
+  jms:
+    image: vromero/activemq-artemis:latest
+    environment:
+      ENABLE_JMX_EXPORTER: "true"
+      ARTEMIS_MIN_MEMORY: "1512M"
+      ARTEMIS_MAX_MEMORY: "2000M"
+      ARTEMIS_USERNAME: "admin"
+      ARTEMIS_PASSWORD: "admin"
+    ports:
+      - "8162:8161"
+      - "61617:61616"
+    profiles: ["jms"]
+
+  app1:
+    build:
+      context: agency-server
+      dockerfile: Dockerfile
+    ports:
+    - 2203:2203
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/agency
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=2203
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - KAFKA_PORT_KAFKA=kafka:9092
+      - APP_TRANSPORT=${TRANSPORT}
+      - SPRING_ARTEMIS_BROKER_URL=tcp://jms:61616
+    depends_on:
+      - postgres
+      - topic2
+    profiles: ["kafka","jms"]
+
+
+  app2:
+    build:
+      context: kafka-consumer
+      dockerfile: Dockerfile
+    environment:
+      - KAFKA_PORT_KAFKA=kafka:9092
+    depends_on:
+      - topic1
+      - topic2
+    profiles: ["kafka"]
+
+  app3:
+    build:
+      context: save-log
+      dockerfile: Dockerfile
+    ports:
+      - 2206:2206
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/agency
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=2203
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - KAFKA_PORT_KAFKA=kafka:9092
+    depends_on:
+      - postgres
+      - topic2
+    profiles: ["kafka","jms"]
+
+  app4:
+    build:
+      context: artemis-consumer
+      dockerfile: Dockerfile
+    links:
+      - jms
+    environment:
+      - JMS_ARTEMIS_BROKER_URL=tcp://jms:61616
+      - KAFKA_PORT_KAFKA=kafka:9092
+    profiles: ["jms"]
+
+  topic1:
+    build: .
+    command: bash -c "sleep 5 && bin/kafka-topics.sh --create --zookeeper kafka:2181 --replication-factor 1 --partitions 2 --topic MoveUsers"
+    depends_on:
+      - kafka
+    profiles: ["kafka"]
+
+  topic2:
+    build: .
+    command: bash -c "sleep 5 && bin/kafka-topics.sh --create --zookeeper kafka:2181 --replication-factor 1 --partitions 1 --topic SaveLog "
+    depends_on:
+      - kafka
+    profiles: ["kafka","jms"]
+volumes:
+  db-data:

@@ -87,7 +87,7 @@ public class ClientController {
         }
         String newName;
         if (!multipartFile.getOriginalFilename().equals("")) {
-            //закончился пробный период aws
+            //закончился aws
             newName = "2021-07-16T17:32:57.892523300_test.docx";
 //            newName = awss3Service.uploadFile(new MultipartFile[]{ multipartFile }).get(0);
         }else {

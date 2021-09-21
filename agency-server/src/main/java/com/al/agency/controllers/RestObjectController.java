@@ -58,7 +58,7 @@ public class RestObjectController {
         List<String> saveFileName = new ArrayList<>();
 //        if (!multipartFile[0].getOriginalFilename().equals("")) {
         if (multipartFile != null){
-            //закончился пробный период aws
+            //закончился  aws
             saveFileName.add("2021-07-23T10:41:22.725073500_city.jpg");
             saveFileName.add("2021-07-23T10:41:23.659260200_test.jpg");
 //            saveFileName = awsService.uploadFile(multipartFile);

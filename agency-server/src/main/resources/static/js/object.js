@@ -9,7 +9,7 @@ window.addEventListener('DOMContentLoaded', () => {
         photos.forEach((item,i) =>{
             html +=
 `                                    <div class="carousel-item ${i===0?'active':''}">
-                                        <img src="https://storage.yandexcloud.net/okm3agency/${item.url_photo}" class="d-block w-100" alt="да"/>
+                                        <img src="/image/city.jpg" class="d-block w-100" alt="да"/>
                                     </div>
 `
 
