@@ -15,6 +15,7 @@ services:
 
   kafka:
     build:
+      context: .
       dockerfile: Dockerfile
     ports:
       - 29092:9092

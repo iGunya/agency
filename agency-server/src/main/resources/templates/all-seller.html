@@ -56,7 +56,7 @@
                                               th:object="${seller}" method="post" enctype="multipart/form-data">
                                             <div class="row">
                                                 <input class="form-control col" type="file" name="fileName" multiple="multiple"/>
-                                                <input type="hidden" name="id_buyer" value="" th:value="${seller.getId_seller()}"/>
+                                                <input type="hidden" name="id_seller" value="" th:value="${seller.getId_seller()}"/>
                                                 <button class="btn btn-primary col col-lg-4" type="submit">Сохранить</button>
                                             </div>
                                         </form>

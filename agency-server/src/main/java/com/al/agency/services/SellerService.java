@@ -33,7 +33,9 @@ public class SellerService {
             sellerDB = new Seller();
         }
 
-        sellerDB.setSeller(seller);
+        if(seller.getPassport() != null)
+            sellerDB.setSeller(seller);
+
         sellerDB.addContract(contract);
 
         return sellerRepository.save(sellerDB);

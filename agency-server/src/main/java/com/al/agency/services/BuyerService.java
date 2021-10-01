@@ -33,7 +33,9 @@ public class BuyerService {
             buyerDB = new Buyer();
         }
 
-        buyerDB.setBuyer(buyer);
+        if(buyer.getPassport() != null)
+            buyerDB.setBuyer(buyer);
+
         buyerDB.addContract(contract);
         return buyerRepository.save(buyerDB);
     }

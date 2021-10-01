@@ -1,6 +1,6 @@
 FROM openjdk:latest
 
-RUN cd /opt && curl -OL https://downloads.apache.org/kafka/2.8.0/kafka_2.13-2.8.0.tgz && tar -zxvf kafka_2.13-2.8.0.tgz && rm kafka_2.13-2.8.0.tgz
+RUN cd /opt && curl -OL https://archive.apache.org/dist/kafka/2.8.0/kafka_2.13-2.8.0.tgz && tar -zxvf kafka_2.13-2.8.0.tgz && rm kafka_2.13-2.8.0.tgz
 
 WORKDIR /opt/kafka_2.13-2.8.0/
 

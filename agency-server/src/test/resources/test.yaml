@@ -1,3 +1,6 @@
+server:
+  port: 2203
+
 spring:
   h2:
     console:
