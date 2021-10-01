@@ -2,13 +2,11 @@ package com.al.agency.integration;
 
 import com.al.agency.configs.transport.Transport;
 import com.al.agency.dto.kafka.TransportMessage;
-import com.al.agency.entities.User;
+import com.amazonaws.services.s3.AmazonS3;
 import com.al.agency.repositories.ObjectRepository;
-import com.al.agency.repositories.UserRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,46 +18,45 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
-@ContextConfiguration(classes = {TestConfig.class})
 @WithUserDetails("manager")
-@Transactional
-public class CascadeDeleteObject {
+@TestPropertySource(locations = "classpath:application-test.properties")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ContextConfiguration(classes = {TestConfig.class})
+public class ObjectIT {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private ObjectRepository objectRepository;
 
+
     @Test
-    @WithMockUser(username = "manager",roles = {"MANAGER"})
-    public void testDeleteObjectFromLikeUser() throws Exception{
-        final long ID_DELETE_OBJECT = 1L;
-
-        List<User> UsersWithLikeDeleteObject = userRepository
-                .findUserByObjects_IdObject(ID_DELETE_OBJECT);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects/delete/1"))
+    @Order(1)
+    public void testPageAllObject() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(authenticated())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").value("Ок"));
+                .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
+                .string("manager"));
+    }
 
-        List<User> UsersWithLikeDeleteObjectAfterDelete = userRepository
-                .findUserByObjects_IdObject(ID_DELETE_OBJECT);
+    @Test
+    public void testPageAddObject() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get("/managers/objects/add"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(authenticated())
+                .andExpect(status().isOk())
+                .andExpect(xpath("/html/body/div/div[1]/div/div[1]/h3")
+                        .string("manager"));
+                //значения для селектора из БД
+//                .andExpect(xpath("//*[@id=\"typeObject\"]/option[1]")
+//                        .string("Дом"));
 
-        Assertions.assertEquals(2,UsersWithLikeDeleteObject.size());
-        Assertions.assertEquals(0,UsersWithLikeDeleteObjectAfterDelete.size());
     }
 }

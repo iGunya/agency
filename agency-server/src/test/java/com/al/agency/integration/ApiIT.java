@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:application-test.properties")
 @WithUserDetails("user")
 @Transactional
-public class ApiI {
+public class ApiIT {
     @Autowired
     private MockMvc mockMvc;
 

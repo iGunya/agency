@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:application-test.properties")
 @ContextConfiguration(classes = {TestConfig.class})
 @Transactional
-public class Administrator {
+public class AdministratorIT {
     @Autowired
     private MockMvc mockMvc;
 

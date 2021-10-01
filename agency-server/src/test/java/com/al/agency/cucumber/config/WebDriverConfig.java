@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class WebDriverConfig {
     @Bean
     public WebDriver getDriver(){
-        System.setProperty("webdriver.chrome.driver", "D:\\javaProject\\agency\\agency-server\\src\\test\\resources\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
 
         driver.manage().window().maximize();

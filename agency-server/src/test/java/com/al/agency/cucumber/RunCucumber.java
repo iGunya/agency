@@ -10,5 +10,5 @@ import org.junit.runner.RunWith;
         plugin = "pretty",
         glue = {"com.al.agency.cucumber"}
 )
-public class RunCucumberIT {
+public class RunCucumber {
 }

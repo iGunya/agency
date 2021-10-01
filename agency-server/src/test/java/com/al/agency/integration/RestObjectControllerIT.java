@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:application-test.properties")
 @ContextConfiguration(classes = {TestConfig.class})
 @Transactional
-public class RestObjectController {
+public class RestObjectControllerIT {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
